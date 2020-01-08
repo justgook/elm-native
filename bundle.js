@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aT.ai === region.a3.ai)
+	if (region.a4._ === region.bf._)
 	{
-		return 'on line ' + region.aT.ai;
+		return 'on line ' + region.a4._;
 	}
-	return 'on lines ' + region.aT.ai + ' through ' + region.a3.ai;
+	return 'on lines ' + region.a4._ + ' through ' + region.bf._;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aC,
-		impl.az,
+		impl.bn,
+		impl.cg,
+		impl.bX,
 		function() { return function() {} }
 	);
 });
@@ -2659,9 +2659,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		Q: func(record.Q),
-		aU: record.aU,
-		aP: record.aP
+		K: func(record.K),
+		a6: record.a6,
+		a0: record.a0
 	}
 });
 
@@ -2929,11 +2929,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.Q;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aU;
+		var message = !tag ? value : tag < 3 ? value.a : value.K;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.a6;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.aP) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.a0) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3883,11 +3883,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aC,
-		impl.az,
+		impl.bn,
+		impl.cg,
+		impl.bX,
 		function(sendToApp, initialModel) {
-			var view = impl.aX;
+			var view = impl.ch;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3919,12 +3919,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aC,
-		impl.az,
+		impl.bn,
+		impl.cg,
+		impl.bX,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.aS && impl.aS(sendToApp)
-			var view = impl.aX;
+			var divertHrefToApp = impl.a3 && impl.a3(sendToApp)
+			var view = impl.ch;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3932,12 +3932,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aG);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ba);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aV) && (_VirtualDom_doc.title = title = doc.aV);
+				(title !== doc.b_) && (_VirtualDom_doc.title = title = doc.b_);
 			});
 		}
 	);
@@ -3993,12 +3993,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.b6;
-	var onUrlRequest = impl.b7;
+	var onUrlChange = impl.cL;
+	var onUrlRequest = impl.cM;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		aS: function(sendToApp)
+		a3: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4014,9 +4014,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.by === next.by
-							&& curr.a7 === next.a7
-							&& curr.bv.a === next.bv.a
+							&& curr.bP === next.bP
+							&& curr.bl === next.bl
+							&& curr.bM.a === next.bM.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4024,13 +4024,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		ax: function(flags)
+		bn: function(flags)
 		{
-			return A3(impl.ax, flags, _Browser_getUrl(), key);
+			return A3(impl.bn, flags, _Browser_getUrl(), key);
 		},
-		aX: impl.aX,
-		aC: impl.aC,
-		az: impl.az
+		ch: impl.ch,
+		cg: impl.cg,
+		bX: impl.bX
 	});
 }
 
@@ -4096,17 +4096,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { bV: 'hidden', bN: 'visibilitychange' }
+		? { cA: 'hidden', cl: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { bV: 'mozHidden', bN: 'mozvisibilitychange' }
+		? { cA: 'mozHidden', cl: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { bV: 'msHidden', bN: 'msvisibilitychange' }
+		? { cA: 'msHidden', cl: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { bV: 'webkitHidden', bN: 'webkitvisibilitychange' }
-		: { bV: 'hidden', bN: 'visibilitychange' };
+		? { cA: 'webkitHidden', cl: 'webkitvisibilitychange' }
+		: { cA: 'hidden', cl: 'visibilitychange' };
 }
 
 
@@ -4187,12 +4187,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		ca: _Browser_getScene(),
-		cl: {
-			a: _Browser_window.pageXOffset,
-			b: _Browser_window.pageYOffset,
-			aZ: _Browser_doc.documentElement.clientWidth,
-			aI: _Browser_doc.documentElement.clientHeight
+		cP: _Browser_getScene(),
+		c2: {
+			f: _Browser_window.pageXOffset,
+			g: _Browser_window.pageYOffset,
+			a7: _Browser_doc.documentElement.clientWidth,
+			aW: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4202,8 +4202,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aZ: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		aI: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		a7: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		aW: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4226,15 +4226,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			ca: {
-				aZ: node.scrollWidth,
-				aI: node.scrollHeight
+			cP: {
+				a7: node.scrollWidth,
+				aW: node.scrollHeight
 			},
-			cl: {
-				a: node.scrollLeft,
-				b: node.scrollTop,
-				aZ: node.clientWidth,
-				aI: node.clientHeight
+			c2: {
+				f: node.scrollLeft,
+				g: node.scrollTop,
+				a7: node.clientWidth,
+				aW: node.clientHeight
 			}
 		};
 	});
@@ -4264,18 +4264,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			ca: _Browser_getScene(),
-			cl: {
-				a: x,
-				b: y,
-				aZ: _Browser_doc.documentElement.clientWidth,
-				aI: _Browser_doc.documentElement.clientHeight
+			cP: _Browser_getScene(),
+			c2: {
+				f: x,
+				g: y,
+				a7: _Browser_doc.documentElement.clientWidth,
+				aW: _Browser_doc.documentElement.clientHeight
 			},
-			bR: {
-				a: x + rect.left,
-				b: y + rect.top,
-				aZ: rect.width,
-				aI: rect.height
+			cq: {
+				f: x + rect.left,
+				g: y + rect.top,
+				a7: rect.width,
+				aW: rect.height
 			}
 		};
 	});
@@ -4345,7 +4345,7 @@ var _Texture_load = F6(function (magnify, mininify, horizontalWrap, verticalWrap
       if (isSizeValid) {
         callback(_Scheduler_succeed({
           $: 0,
-          bQ: createTexture,
+          cp: createTexture,
           a: width,
           b: height
         }));
@@ -4424,11 +4424,11 @@ var _MJS_v2setY = F2(function(y, a) {
 });
 
 var _MJS_v2toRecord = function(a) {
-    return { a: a[0], b: a[1] };
+    return { f: a[0], g: a[1] };
 };
 
 var _MJS_v2fromRecord = function(r) {
-    return new Float64Array([r.a, r.b]);
+    return new Float64Array([r.f, r.g]);
 };
 
 var _MJS_v2add = F2(function(a, b) {
@@ -4537,11 +4537,11 @@ var _MJS_v3setZ = F2(function(z, a) {
 });
 
 var _MJS_v3toRecord = function(a) {
-    return { a: a[0], b: a[1], cn: a[2] };
+    return { f: a[0], g: a[1], c4: a[2] };
 };
 
 var _MJS_v3fromRecord = function(r) {
-    return new Float64Array([r.a, r.b, r.cn]);
+    return new Float64Array([r.f, r.g, r.c4]);
 };
 
 var _MJS_v3add = F2(function(a, b) {
@@ -4697,11 +4697,11 @@ var _MJS_v4setW = F2(function(w, a) {
 });
 
 var _MJS_v4toRecord = function(a) {
-    return { a: a[0], b: a[1], cn: a[2], aF: a[3] };
+    return { f: a[0], g: a[1], c4: a[2], aA: a[3] };
 };
 
 var _MJS_v4fromRecord = function(r) {
-    return new Float64Array([r.a, r.b, r.cn, r.aF]);
+    return new Float64Array([r.f, r.g, r.c4, r.aA]);
 };
 
 var _MJS_v4add = F2(function(a, b) {
@@ -4807,31 +4807,31 @@ var _MJS_m4x4identity = new Float64Array([
 
 var _MJS_m4x4fromRecord = function(r) {
     var m = new Float64Array(16);
-    m[0] = r.ba;
-    m[1] = r.be;
-    m[2] = r.bi;
-    m[3] = r.bm;
-    m[4] = r.bb;
-    m[5] = r.bf;
-    m[6] = r.bj;
-    m[7] = r.bn;
-    m[8] = r.bc;
-    m[9] = r.bg;
-    m[10] = r.bk;
-    m[11] = r.bo;
-    m[12] = r.bd;
-    m[13] = r.bh;
-    m[14] = r.bl;
-    m[15] = r.bp;
+    m[0] = r.br;
+    m[1] = r.bv;
+    m[2] = r.bz;
+    m[3] = r.bD;
+    m[4] = r.bs;
+    m[5] = r.bw;
+    m[6] = r.bA;
+    m[7] = r.bE;
+    m[8] = r.bt;
+    m[9] = r.bx;
+    m[10] = r.bB;
+    m[11] = r.bF;
+    m[12] = r.bu;
+    m[13] = r.by;
+    m[14] = r.bC;
+    m[15] = r.bG;
     return m;
 };
 
 var _MJS_m4x4toRecord = function(m) {
     return {
-        ba: m[0], be: m[1], bi: m[2], bm: m[3],
-        bb: m[4], bf: m[5], bj: m[6], bn: m[7],
-        bc: m[8], bg: m[9], bk: m[10], bo: m[11],
-        bd: m[12], bh: m[13], bl: m[14], bp: m[15]
+        br: m[0], bv: m[1], bz: m[2], bD: m[3],
+        bs: m[4], bw: m[5], bA: m[6], bE: m[7],
+        bt: m[8], bx: m[9], bB: m[10], bF: m[11],
+        bu: m[12], by: m[13], bC: m[14], bG: m[15]
     };
 };
 
@@ -5600,7 +5600,7 @@ function _WebGL_doBindAttribute(gl, attribute, mesh, attributes) {
   // The length of the number of vertices that
   // complete one 'thing' based on the drawing mode.
   // ie, 2 for Lines, 3 for Triangles, etc.
-  var elemSize = mesh.a.a2;
+  var elemSize = mesh.a.be;
 
   var idxKeys = [];
   for (var i = 0; i < elemSize; i++) {
@@ -5663,10 +5663,10 @@ function _WebGL_doBindAttribute(gl, attribute, mesh, attributes) {
  *  @return {Object} buffer.buffers - will be used to buffer attributes
  */
 function _WebGL_doBindSetup(gl, mesh) {
-  if (mesh.a.a8 > 0) {
+  if (mesh.a.bm > 0) {
     _WebGL_log('Created index buffer');
     var indexBuffer = gl.createBuffer();
-    var indices = _WebGL_makeIndexedBuffer(mesh.c, mesh.a.a8);
+    var indices = _WebGL_makeIndexedBuffer(mesh.c, mesh.a.bm);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
     return {
@@ -5676,7 +5676,7 @@ function _WebGL_doBindSetup(gl, mesh) {
     };
   } else {
     return {
-      numIndices: mesh.a.a2 * _WebGL_listLength(mesh.b),
+      numIndices: mesh.a.be * _WebGL_listLength(mesh.b),
       indexBuffer: null,
       buffers: {}
     };
@@ -5822,9 +5822,9 @@ var _WebGL_drawGL = F2(function (model, domNode) {
 
     if (buffer.indexBuffer) {
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer.indexBuffer);
-      gl.drawElements(entity.d.a.bq, buffer.numIndices, gl.UNSIGNED_SHORT, 0);
+      gl.drawElements(entity.d.a.bH, buffer.numIndices, gl.UNSIGNED_SHORT, 0);
     } else {
-      gl.drawArrays(entity.d.a.bq, 0, buffer.numIndices);
+      gl.drawArrays(entity.d.a.bH, 0, buffer.numIndices);
     }
 
     _WebGL_listEach($elm_explorations$webgl$WebGL$Internal$disableSetting(model.f), entity.a);
@@ -5871,7 +5871,7 @@ function _WebGL_createUniformSetters(gl, model, program, uniformsMap) {
           var tex = model.f.textures.get(texture);
           if (!tex) {
             _WebGL_log('Created texture');
-            tex = texture.bQ(gl);
+            tex = texture.cp(gl);
             model.f.textures.set(texture, tex);
           }
           gl.bindTexture(gl.TEXTURE_2D, tex);
@@ -6027,44 +6027,7 @@ function _WebGL_diff(oldModel, newModel) {
   newModel.f = oldModel.f;
   return _WebGL_drawGL(newModel);
 }
-
-
-
-var _Bitwise_and = F2(function(a, b)
-{
-	return a & b;
-});
-
-var _Bitwise_or = F2(function(a, b)
-{
-	return a | b;
-});
-
-var _Bitwise_xor = F2(function(a, b)
-{
-	return a ^ b;
-});
-
-function _Bitwise_complement(a)
-{
-	return ~a;
-};
-
-var _Bitwise_shiftLeftBy = F2(function(offset, a)
-{
-	return a << offset;
-});
-
-var _Bitwise_shiftRightBy = F2(function(offset, a)
-{
-	return a >> offset;
-});
-
-var _Bitwise_shiftRightZfBy = F2(function(offset, a)
-{
-	return a >>> offset;
-});
-var $author$project$Shmup$Init = {$: 0};
+var $author$project$Extra$Jump$Init = {$: 0};
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$LT = 0;
@@ -6474,22 +6437,22 @@ var $elm$core$Array$builderToArray = F2(
 		if (!builder.h) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.l),
+				$elm$core$Elm$JsArray$length(builder.k),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.l);
+				builder.k);
 		} else {
 			var treeLen = builder.h * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.m) : builder.m;
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.l) : builder.l;
 			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.h);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.l) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.k) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.l);
+				builder.k);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -6502,7 +6465,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{m: nodeList, h: (len / $elm$core$Array$branchFactor) | 0, l: tail});
+					{l: nodeList, h: (len / $elm$core$Array$branchFactor) | 0, k: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -6569,7 +6532,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {a5: fragment, a7: host, bt: path, bv: port_, by: protocol, bz: query};
+		return {bh: fragment, bl: host, bK: path, bM: port_, bP: protocol, bQ: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -6858,230 +6821,16 @@ var $author$project$Playground$Internal$VisibilityChanged = function (a) {
 var $elm$browser$Browser$Events$Visible = 0;
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
-var $author$project$Playground$Internal$KeyChanged = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
+var $author$project$Playground$Internal$Mouse = F4(
+	function (x, y, down, click) {
+		return {cm: click, aD: down, f: x, g: y};
 	});
-var $author$project$Playground$Internal$MouseButton = function (a) {
-	return {$: 7, a: a};
-};
-var $author$project$Playground$Internal$MouseClick = {$: 6};
-var $author$project$Playground$Internal$MouseMove = F2(
-	function (a, b) {
-		return {$: 5, a: a, b: b};
-	});
-var $author$project$Playground$Internal$Tick = function (a) {
+var $author$project$Playground$Internal$Time = $elm$core$Basics$identity;
+var $elm$core$Set$Set_elm_builtin = $elm$core$Basics$identity;
+var $elm$core$Set$empty = $elm$core$Dict$empty;
+var $author$project$Playground$Internal$emptyKeyboard = {ck: false, aD: false, cr: false, cE: $elm$core$Set$empty, aY: false, a2: false, cQ: false, cS: false, cf: false};
+var $author$project$Playground$Internal$Success = function (a) {
 	return {$: 1, a: a};
-};
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$float = _Json_decodeFloat;
-var $elm$core$Basics$compare = _Utils_compare;
-var $elm$core$Dict$get = F2(
-	function (targetKey, dict) {
-		get:
-		while (true) {
-			if (dict.$ === -2) {
-				return $elm$core$Maybe$Nothing;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
-				switch (_v1) {
-					case 0:
-						var $temp$targetKey = targetKey,
-							$temp$dict = left;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-					case 1:
-						return $elm$core$Maybe$Just(value);
-					default:
-						var $temp$targetKey = targetKey,
-							$temp$dict = right;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-				}
-			}
-		}
-	});
-var $elm$core$Dict$member = F2(
-	function (key, dict) {
-		var _v0 = A2($elm$core$Dict$get, key, dict);
-		if (!_v0.$) {
-			return true;
-		} else {
-			return false;
-		}
-	});
-var $elm$core$Set$member = F2(
-	function (key, _v0) {
-		var dict = _v0;
-		return A2($elm$core$Dict$member, key, dict);
-	});
-var $elm$browser$Browser$AnimationManager$Time = function (a) {
-	return {$: 0, a: a};
-};
-var $elm$browser$Browser$AnimationManager$State = F3(
-	function (subs, request, oldTime) {
-		return {aO: oldTime, bB: request, bE: subs};
-	});
-var $elm$browser$Browser$AnimationManager$init = $elm$core$Task$succeed(
-	A3($elm$browser$Browser$AnimationManager$State, _List_Nil, $elm$core$Maybe$Nothing, 0));
-var $elm$core$Process$kill = _Scheduler_kill;
-var $elm$browser$Browser$AnimationManager$now = _Browser_now(0);
-var $elm$browser$Browser$AnimationManager$rAF = _Browser_rAF(0);
-var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
-var $elm$core$Process$spawn = _Scheduler_spawn;
-var $elm$browser$Browser$AnimationManager$onEffects = F3(
-	function (router, subs, _v0) {
-		var request = _v0.bB;
-		var oldTime = _v0.aO;
-		var _v1 = _Utils_Tuple2(request, subs);
-		if (_v1.a.$ === 1) {
-			if (!_v1.b.b) {
-				var _v2 = _v1.a;
-				return $elm$browser$Browser$AnimationManager$init;
-			} else {
-				var _v4 = _v1.a;
-				return A2(
-					$elm$core$Task$andThen,
-					function (pid) {
-						return A2(
-							$elm$core$Task$andThen,
-							function (time) {
-								return $elm$core$Task$succeed(
-									A3(
-										$elm$browser$Browser$AnimationManager$State,
-										subs,
-										$elm$core$Maybe$Just(pid),
-										time));
-							},
-							$elm$browser$Browser$AnimationManager$now);
-					},
-					$elm$core$Process$spawn(
-						A2(
-							$elm$core$Task$andThen,
-							$elm$core$Platform$sendToSelf(router),
-							$elm$browser$Browser$AnimationManager$rAF)));
-			}
-		} else {
-			if (!_v1.b.b) {
-				var pid = _v1.a.a;
-				return A2(
-					$elm$core$Task$andThen,
-					function (_v3) {
-						return $elm$browser$Browser$AnimationManager$init;
-					},
-					$elm$core$Process$kill(pid));
-			} else {
-				return $elm$core$Task$succeed(
-					A3($elm$browser$Browser$AnimationManager$State, subs, request, oldTime));
-			}
-		}
-	});
-var $elm$time$Time$Posix = $elm$core$Basics$identity;
-var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
-var $elm$browser$Browser$AnimationManager$onSelfMsg = F3(
-	function (router, newTime, _v0) {
-		var subs = _v0.bE;
-		var oldTime = _v0.aO;
-		var send = function (sub) {
-			if (!sub.$) {
-				var tagger = sub.a;
-				return A2(
-					$elm$core$Platform$sendToApp,
-					router,
-					tagger(
-						$elm$time$Time$millisToPosix(newTime)));
-			} else {
-				var tagger = sub.a;
-				return A2(
-					$elm$core$Platform$sendToApp,
-					router,
-					tagger(newTime - oldTime));
-			}
-		};
-		return A2(
-			$elm$core$Task$andThen,
-			function (pid) {
-				return A2(
-					$elm$core$Task$andThen,
-					function (_v1) {
-						return $elm$core$Task$succeed(
-							A3(
-								$elm$browser$Browser$AnimationManager$State,
-								subs,
-								$elm$core$Maybe$Just(pid),
-								newTime));
-					},
-					$elm$core$Task$sequence(
-						A2($elm$core$List$map, send, subs)));
-			},
-			$elm$core$Process$spawn(
-				A2(
-					$elm$core$Task$andThen,
-					$elm$core$Platform$sendToSelf(router),
-					$elm$browser$Browser$AnimationManager$rAF)));
-	});
-var $elm$browser$Browser$AnimationManager$Delta = function (a) {
-	return {$: 1, a: a};
-};
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $elm$browser$Browser$AnimationManager$subMap = F2(
-	function (func, sub) {
-		if (!sub.$) {
-			var tagger = sub.a;
-			return $elm$browser$Browser$AnimationManager$Time(
-				A2($elm$core$Basics$composeL, func, tagger));
-		} else {
-			var tagger = sub.a;
-			return $elm$browser$Browser$AnimationManager$Delta(
-				A2($elm$core$Basics$composeL, func, tagger));
-		}
-	});
-_Platform_effectManagers['Browser.AnimationManager'] = _Platform_createManager($elm$browser$Browser$AnimationManager$init, $elm$browser$Browser$AnimationManager$onEffects, $elm$browser$Browser$AnimationManager$onSelfMsg, 0, $elm$browser$Browser$AnimationManager$subMap);
-var $elm$browser$Browser$AnimationManager$subscription = _Platform_leaf('Browser.AnimationManager');
-var $elm$browser$Browser$AnimationManager$onAnimationFrame = function (tagger) {
-	return $elm$browser$Browser$AnimationManager$subscription(
-		$elm$browser$Browser$AnimationManager$Time(tagger));
-};
-var $elm$browser$Browser$Events$onAnimationFrame = $elm$browser$Browser$AnimationManager$onAnimationFrame;
-var $elm$browser$Browser$Events$Document = 0;
-var $elm$browser$Browser$Events$MySub = F3(
-	function (a, b, c) {
-		return {$: 0, a: a, b: b, c: c};
-	});
-var $elm$browser$Browser$Events$State = F2(
-	function (subs, pids) {
-		return {bu: pids, bE: subs};
-	});
-var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
-	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
-var $elm$browser$Browser$Events$nodeToKey = function (node) {
-	if (!node) {
-		return 'd_';
-	} else {
-		return 'w_';
-	}
-};
-var $elm$browser$Browser$Events$addKey = function (sub) {
-	var node = sub.a;
-	var name = sub.b;
-	return _Utils_Tuple2(
-		_Utils_ap(
-			$elm$browser$Browser$Events$nodeToKey(node),
-			name),
-		sub);
 };
 var $elm$core$Dict$Black = 1;
 var $elm$core$Dict$RBNode_elm_builtin = F5(
@@ -7143,6 +6892,7 @@ var $elm$core$Dict$balance = F5(
 			}
 		}
 	});
+var $elm$core$Basics$compare = _Utils_compare;
 var $elm$core$Dict$insertHelp = F3(
 	function (key, value, dict) {
 		if (dict.$ === -2) {
@@ -7191,372 +6941,6 @@ var $elm$core$Dict$insert = F3(
 			return x;
 		}
 	});
-var $elm$core$Dict$fromList = function (assocs) {
-	return A3(
-		$elm$core$List$foldl,
-		F2(
-			function (_v0, dict) {
-				var key = _v0.a;
-				var value = _v0.b;
-				return A3($elm$core$Dict$insert, key, value, dict);
-			}),
-		$elm$core$Dict$empty,
-		assocs);
-};
-var $elm$core$Dict$foldl = F3(
-	function (func, acc, dict) {
-		foldl:
-		while (true) {
-			if (dict.$ === -2) {
-				return acc;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var $temp$func = func,
-					$temp$acc = A3(
-					func,
-					key,
-					value,
-					A3($elm$core$Dict$foldl, func, acc, left)),
-					$temp$dict = right;
-				func = $temp$func;
-				acc = $temp$acc;
-				dict = $temp$dict;
-				continue foldl;
-			}
-		}
-	});
-var $elm$core$Dict$merge = F6(
-	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
-		var stepState = F3(
-			function (rKey, rValue, _v0) {
-				stepState:
-				while (true) {
-					var list = _v0.a;
-					var result = _v0.b;
-					if (!list.b) {
-						return _Utils_Tuple2(
-							list,
-							A3(rightStep, rKey, rValue, result));
-					} else {
-						var _v2 = list.a;
-						var lKey = _v2.a;
-						var lValue = _v2.b;
-						var rest = list.b;
-						if (_Utils_cmp(lKey, rKey) < 0) {
-							var $temp$rKey = rKey,
-								$temp$rValue = rValue,
-								$temp$_v0 = _Utils_Tuple2(
-								rest,
-								A3(leftStep, lKey, lValue, result));
-							rKey = $temp$rKey;
-							rValue = $temp$rValue;
-							_v0 = $temp$_v0;
-							continue stepState;
-						} else {
-							if (_Utils_cmp(lKey, rKey) > 0) {
-								return _Utils_Tuple2(
-									list,
-									A3(rightStep, rKey, rValue, result));
-							} else {
-								return _Utils_Tuple2(
-									rest,
-									A4(bothStep, lKey, lValue, rValue, result));
-							}
-						}
-					}
-				}
-			});
-		var _v3 = A3(
-			$elm$core$Dict$foldl,
-			stepState,
-			_Utils_Tuple2(
-				$elm$core$Dict$toList(leftDict),
-				initialResult),
-			rightDict);
-		var leftovers = _v3.a;
-		var intermediateResult = _v3.b;
-		return A3(
-			$elm$core$List$foldl,
-			F2(
-				function (_v4, result) {
-					var k = _v4.a;
-					var v = _v4.b;
-					return A3(leftStep, k, v, result);
-				}),
-			intermediateResult,
-			leftovers);
-	});
-var $elm$browser$Browser$Events$Event = F2(
-	function (key, event) {
-		return {a4: event, a9: key};
-	});
-var $elm$browser$Browser$Events$spawn = F3(
-	function (router, key, _v0) {
-		var node = _v0.a;
-		var name = _v0.b;
-		var actualNode = function () {
-			if (!node) {
-				return _Browser_doc;
-			} else {
-				return _Browser_window;
-			}
-		}();
-		return A2(
-			$elm$core$Task$map,
-			function (value) {
-				return _Utils_Tuple2(key, value);
-			},
-			A3(
-				_Browser_on,
-				actualNode,
-				name,
-				function (event) {
-					return A2(
-						$elm$core$Platform$sendToSelf,
-						router,
-						A2($elm$browser$Browser$Events$Event, key, event));
-				}));
-	});
-var $elm$core$Dict$union = F2(
-	function (t1, t2) {
-		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
-	});
-var $elm$browser$Browser$Events$onEffects = F3(
-	function (router, subs, state) {
-		var stepRight = F3(
-			function (key, sub, _v6) {
-				var deads = _v6.a;
-				var lives = _v6.b;
-				var news = _v6.c;
-				return _Utils_Tuple3(
-					deads,
-					lives,
-					A2(
-						$elm$core$List$cons,
-						A3($elm$browser$Browser$Events$spawn, router, key, sub),
-						news));
-			});
-		var stepLeft = F3(
-			function (_v4, pid, _v5) {
-				var deads = _v5.a;
-				var lives = _v5.b;
-				var news = _v5.c;
-				return _Utils_Tuple3(
-					A2($elm$core$List$cons, pid, deads),
-					lives,
-					news);
-			});
-		var stepBoth = F4(
-			function (key, pid, _v2, _v3) {
-				var deads = _v3.a;
-				var lives = _v3.b;
-				var news = _v3.c;
-				return _Utils_Tuple3(
-					deads,
-					A3($elm$core$Dict$insert, key, pid, lives),
-					news);
-			});
-		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
-		var _v0 = A6(
-			$elm$core$Dict$merge,
-			stepLeft,
-			stepBoth,
-			stepRight,
-			state.bu,
-			$elm$core$Dict$fromList(newSubs),
-			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
-		var deadPids = _v0.a;
-		var livePids = _v0.b;
-		var makeNewPids = _v0.c;
-		return A2(
-			$elm$core$Task$andThen,
-			function (pids) {
-				return $elm$core$Task$succeed(
-					A2(
-						$elm$browser$Browser$Events$State,
-						newSubs,
-						A2(
-							$elm$core$Dict$union,
-							livePids,
-							$elm$core$Dict$fromList(pids))));
-			},
-			A2(
-				$elm$core$Task$andThen,
-				function (_v1) {
-					return $elm$core$Task$sequence(makeNewPids);
-				},
-				$elm$core$Task$sequence(
-					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
-	});
-var $elm$core$List$maybeCons = F3(
-	function (f, mx, xs) {
-		var _v0 = f(mx);
-		if (!_v0.$) {
-			var x = _v0.a;
-			return A2($elm$core$List$cons, x, xs);
-		} else {
-			return xs;
-		}
-	});
-var $elm$core$List$filterMap = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			$elm$core$List$maybeCons(f),
-			_List_Nil,
-			xs);
-	});
-var $elm$browser$Browser$Events$onSelfMsg = F3(
-	function (router, _v0, state) {
-		var key = _v0.a9;
-		var event = _v0.a4;
-		var toMessage = function (_v2) {
-			var subKey = _v2.a;
-			var _v3 = _v2.b;
-			var node = _v3.a;
-			var name = _v3.b;
-			var decoder = _v3.c;
-			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
-		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.bE);
-		return A2(
-			$elm$core$Task$andThen,
-			function (_v1) {
-				return $elm$core$Task$succeed(state);
-			},
-			$elm$core$Task$sequence(
-				A2(
-					$elm$core$List$map,
-					$elm$core$Platform$sendToApp(router),
-					messages)));
-	});
-var $elm$browser$Browser$Events$subMap = F2(
-	function (func, _v0) {
-		var node = _v0.a;
-		var name = _v0.b;
-		var decoder = _v0.c;
-		return A3(
-			$elm$browser$Browser$Events$MySub,
-			node,
-			name,
-			A2($elm$json$Json$Decode$map, func, decoder));
-	});
-_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
-var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
-var $elm$browser$Browser$Events$on = F3(
-	function (node, name, decoder) {
-		return $elm$browser$Browser$Events$subscription(
-			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
-	});
-var $elm$browser$Browser$Events$onClick = A2($elm$browser$Browser$Events$on, 0, 'click');
-var $elm$browser$Browser$Events$onKeyDown = A2($elm$browser$Browser$Events$on, 0, 'keydown');
-var $elm$browser$Browser$Events$onKeyUp = A2($elm$browser$Browser$Events$on, 0, 'keyup');
-var $elm$browser$Browser$Events$onMouseDown = A2($elm$browser$Browser$Events$on, 0, 'mousedown');
-var $elm$browser$Browser$Events$onMouseMove = A2($elm$browser$Browser$Events$on, 0, 'mousemove');
-var $elm$browser$Browser$Events$onMouseUp = A2($elm$browser$Browser$Events$on, 0, 'mouseup');
-var $elm$browser$Browser$Events$Window = 1;
-var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $elm$browser$Browser$Events$onResize = function (func) {
-	return A3(
-		$elm$browser$Browser$Events$on,
-		1,
-		'resize',
-		A2(
-			$elm$json$Json$Decode$field,
-			'target',
-			A3(
-				$elm$json$Json$Decode$map2,
-				func,
-				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
-				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
-};
-var $elm$json$Json$Decode$bool = _Json_decodeBool;
-var $elm$browser$Browser$Events$Hidden = 1;
-var $elm$browser$Browser$Events$withHidden = F2(
-	function (func, isHidden) {
-		return func(
-			isHidden ? 1 : 0);
-	});
-var $elm$browser$Browser$Events$onVisibilityChange = function (func) {
-	var info = _Browser_visibilityInfo(0);
-	return A3(
-		$elm$browser$Browser$Events$on,
-		0,
-		info.bN,
-		A2(
-			$elm$json$Json$Decode$map,
-			$elm$browser$Browser$Events$withHidden(func),
-			A2(
-				$elm$json$Json$Decode$field,
-				'target',
-				A2($elm$json$Json$Decode$field, info.bV, $elm$json$Json$Decode$bool))));
-};
-var $elm$json$Json$Decode$string = _Json_decodeString;
-var $author$project$Playground$Internal$Resized = function (a) {
-	return {$: 3, a: a};
-};
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $author$project$Playground$Internal$toScreen = F2(
-	function (width, height) {
-		return {bM: (-height) / 2, aI: height, aL: (-width) / 2, aR: width / 2, ch: height / 2, aZ: width};
-	});
-var $author$project$Playground$Internal$toResized = F2(
-	function (w, h) {
-		return $author$project$Playground$Internal$Resized(
-			A2($author$project$Playground$Internal$toScreen, w, h));
-	});
-var $author$project$Playground$Internal$gameSubscriptions = function (computer) {
-	return $elm$core$Platform$Sub$batch(
-		_List_fromArray(
-			[
-				$elm$browser$Browser$Events$onResize($author$project$Playground$Internal$toResized),
-				$elm$browser$Browser$Events$onKeyUp(
-				A2(
-					$elm$json$Json$Decode$map,
-					$author$project$Playground$Internal$KeyChanged(false),
-					A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string))),
-				$elm$browser$Browser$Events$onKeyDown(
-				A2(
-					$elm$json$Json$Decode$andThen,
-					function (k) {
-						return A2($elm$core$Set$member, k, computer.bZ.b_) ? $elm$json$Json$Decode$fail('') : $elm$json$Json$Decode$succeed(
-							A2($author$project$Playground$Internal$KeyChanged, true, k));
-					},
-					A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string))),
-				$elm$browser$Browser$Events$onAnimationFrame($author$project$Playground$Internal$Tick),
-				$elm$browser$Browser$Events$onVisibilityChange($author$project$Playground$Internal$VisibilityChanged),
-				$elm$browser$Browser$Events$onClick(
-				$elm$json$Json$Decode$succeed($author$project$Playground$Internal$MouseClick)),
-				$elm$browser$Browser$Events$onMouseDown(
-				$elm$json$Json$Decode$succeed(
-					$author$project$Playground$Internal$MouseButton(true))),
-				$elm$browser$Browser$Events$onMouseUp(
-				$elm$json$Json$Decode$succeed(
-					$author$project$Playground$Internal$MouseButton(false))),
-				$elm$browser$Browser$Events$onMouseMove(
-				A3(
-					$elm$json$Json$Decode$map2,
-					$author$project$Playground$Internal$MouseMove,
-					A2($elm$json$Json$Decode$field, 'pageX', $elm$json$Json$Decode$float),
-					A2($elm$json$Json$Decode$field, 'pageY', $elm$json$Json$Decode$float)))
-			]));
-};
-var $author$project$Playground$Internal$Mouse = F4(
-	function (x, y, down, click) {
-		return {bO: click, aH: down, a: x, b: y};
-	});
-var $author$project$Playground$Internal$Time = $elm$core$Basics$identity;
-var $elm$core$Set$Set_elm_builtin = $elm$core$Basics$identity;
-var $elm$core$Set$empty = $elm$core$Dict$empty;
-var $author$project$Playground$Internal$emptyKeyboard = {bL: false, aH: false, bS: false, b_: $elm$core$Set$empty, aL: false, aR: false, cb: false, cd: false, bI: false};
-var $author$project$Playground$Internal$Success = function (a) {
-	return {$: 1, a: a};
-};
 var $elm_explorations$webgl$WebGL$Texture$LoadError = {$: 0};
 var $elm_explorations$webgl$WebGL$Texture$SizeError = F2(
 	function (a, b) {
@@ -7578,13 +6962,13 @@ var $author$project$Playground$Internal$gotTextures = F2(
 						name,
 						$author$project$Playground$Internal$Success(
 							{
-								cc: function (_v2) {
+								cR: function (_v2) {
 									var w = _v2.a;
 									var h = _v2.b;
 									return A2($elm_explorations$linear_algebra$Math$Vector2$vec2, w, h);
 								}(
 									$elm_explorations$webgl$WebGL$Texture$size(t)),
-								bG: t
+								bZ: t
 							}));
 				},
 				textures,
@@ -7605,23 +6989,23 @@ var $author$project$Playground$Internal$mouseClick = F2(
 	function (bool, mouse) {
 		return _Utils_update(
 			mouse,
-			{bO: bool});
+			{cm: bool});
 	});
 var $author$project$Playground$Internal$mouseDown = F2(
 	function (bool, mouse) {
 		return _Utils_update(
 			mouse,
-			{aH: bool});
+			{aD: bool});
 	});
 var $author$project$Playground$Internal$mouseMove = F3(
 	function (x, y, mouse) {
 		return _Utils_update(
 			mouse,
-			{a: x, b: y});
+			{f: x, g: y});
 	});
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Playground$Transformation$identity = {q: 1, r: 0, B: 0, s: 0, t: 1, C: 0};
+var $author$project$Playground$Transformation$identity = {s: 1, t: 0, A: 0, u: 0, v: 1, B: 0};
 var $elm$core$Tuple$mapSecond = F2(
 	function (func, _v0) {
 		var x = _v0.a;
@@ -7632,56 +7016,104 @@ var $elm$core$Tuple$mapSecond = F2(
 	});
 var $author$project$Playground$Transformation$apply = F2(
 	function (a, b) {
-		return {q: (a.q * b.q) + (a.r * b.s), r: (a.q * b.r) + (a.r * b.t), B: ((a.q * b.B) + (a.r * b.C)) + a.B, s: (a.s * b.q) + (a.t * b.s), t: (a.s * b.r) + (a.t * b.t), C: ((a.s * b.B) + (a.t * b.C)) + a.C};
+		return {s: (a.s * b.s) + (a.t * b.u), t: (a.s * b.t) + (a.t * b.v), A: ((a.s * b.A) + (a.t * b.B)) + a.A, u: (a.u * b.s) + (a.v * b.u), v: (a.u * b.t) + (a.v * b.v), B: ((a.u * b.A) + (a.v * b.B)) + a.B};
+	});
+var $elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === -2) {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
+				switch (_v1) {
+					case 0:
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 1:
+						return $elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
+		}
 	});
 var $elm$core$Set$insert = F2(
 	function (key, _v0) {
 		var dict = _v0;
 		return A3($elm$core$Dict$insert, key, 0, dict);
 	});
+var $elm$core$Dict$member = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$get, key, dict);
+		if (!_v0.$) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+var $elm$core$Set$member = F2(
+	function (key, _v0) {
+		var dict = _v0;
+		return A2($elm$core$Dict$member, key, dict);
+	});
 var $author$project$Playground$Transformation$scale = F3(
 	function (sx, sy, b) {
-		return {q: sx * b.q, r: sx * b.r, B: sx * b.B, s: sy * b.s, t: sy * b.t, C: sy * b.C};
+		return {s: sx * b.s, t: sx * b.t, A: sx * b.A, u: sy * b.u, v: sy * b.v, B: sy * b.B};
 	});
 var $elm_explorations$linear_algebra$Math$Vector2$fromRecord = _MJS_v2fromRecord;
 var $elm_explorations$linear_algebra$Math$Vector4$fromRecord = _MJS_v4fromRecord;
 var $author$project$Playground$Transformation$toGL = function (_v0) {
-	var a11 = _v0.q;
-	var a12 = _v0.r;
-	var a13 = _v0.B;
-	var a21 = _v0.s;
-	var a22 = _v0.t;
-	var a23 = _v0.C;
+	var a11 = _v0.s;
+	var a12 = _v0.t;
+	var a13 = _v0.A;
+	var a21 = _v0.u;
+	var a22 = _v0.v;
+	var a23 = _v0.B;
 	return _Utils_Tuple2(
 		$elm_explorations$linear_algebra$Math$Vector4$fromRecord(
-			{aF: a22, a: a11, b: a12, cn: a21}),
+			{aA: a22, f: a11, g: a12, c4: a21}),
 		$elm_explorations$linear_algebra$Math$Vector2$fromRecord(
-			{a: a13, b: a23}));
+			{f: a13, g: a23}));
 };
 var $elm$core$Basics$cos = _Basics_cos;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $elm$core$Basics$sin = _Basics_sin;
 var $author$project$Playground$Transformation$transform = F5(
 	function (tx, ty, sx, sy, angle) {
 		return {
-			q: $elm$core$Basics$cos(angle) * sx,
-			r: $elm$core$Basics$sin(angle) * (-sy),
-			B: tx,
-			s: $elm$core$Basics$sin(angle) * sx,
-			t: $elm$core$Basics$cos(angle) * sy,
-			C: ty
+			s: $elm$core$Basics$cos(angle) * sx,
+			t: $elm$core$Basics$sin(angle) * (-sy),
+			A: tx,
+			u: $elm$core$Basics$sin(angle) * sx,
+			v: $elm$core$Basics$cos(angle) * sy,
+			B: ty
 		};
 	});
 var $author$project$Playground$Internal$renderShape = F6(
 	function (screen, textures, parent, parentOpacity, _v0, acc) {
 		renderShape:
 		while (true) {
-			var x = _v0.a;
-			var y = _v0.b;
-			var a = _v0.d;
-			var sx = _v0.e;
-			var sy = _v0.f;
-			var o = _v0.c;
-			var form = _v0.g;
+			var x = _v0.f;
+			var y = _v0.g;
+			var a = _v0.b;
+			var sx = _v0.c;
+			var sy = _v0.d;
+			var o = _v0.a;
+			var form = _v0.e;
 			var entities = acc.a;
 			var missing = acc.b;
 			var opacity = o * parentOpacity;
@@ -7700,8 +7132,8 @@ var $author$project$Playground$Internal$renderShape = F6(
 					var _v2 = $author$project$Playground$Transformation$toGL(
 						A3(
 							$author$project$Playground$Transformation$scale,
-							1 / screen.aZ,
-							1 / screen.aI,
+							1 / screen.a7,
+							1 / screen.aW,
 							A5(createTrans, x * 2, y * 2, width * sx, height * sy, a)));
 					var t1 = _v2.a;
 					var t2 = _v2.b;
@@ -7721,8 +7153,8 @@ var $author$project$Playground$Internal$renderShape = F6(
 					while (true) {
 						if (!_v3.b.$) {
 							if (_v3.b.a.$ === 1) {
-								var texture = _v3.b.a.a.bG;
-								var size = _v3.b.a.a.cc;
+								var texture = _v3.b.a.a.bZ;
+								var size = _v3.b.a.a.cR;
 								var $temp$screen = screen,
 									$temp$textures = textures,
 									$temp$parent = A5(createTrans, x * 2, y * 2, sx, sy, a),
@@ -7781,6 +7213,11 @@ var $author$project$Playground$Internal$GotTexture = function (a) {
 	return {$: 8, a: a};
 };
 var $author$project$Playground$Internal$Loading = {$: 0};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Task$onError = _Scheduler_onError;
 var $elm$core$Task$attempt = F2(
 	function (resultToMessage, task) {
@@ -7806,11 +7243,11 @@ var $elm$core$Basics$composeR = F3(
 	});
 var $elm_explorations$webgl$WebGL$Texture$loadWith = F2(
 	function (_v0, url) {
-		var magnify = _v0.b0;
-		var minify = _v0.b2;
-		var horizontalWrap = _v0.aw;
-		var verticalWrap = _v0.aD;
-		var flipY = _v0.au;
+		var magnify = _v0.cG;
+		var minify = _v0.cH;
+		var horizontalWrap = _v0.as;
+		var verticalWrap = _v0.ay;
+		var flipY = _v0.ao;
 		var expand = F4(
 			function (_v1, _v2, _v3, _v4) {
 				var mag = _v1;
@@ -7830,10 +7267,10 @@ var $elm_explorations$webgl$WebGL$Texture$linear = 9729;
 var $elm_explorations$webgl$WebGL$Texture$Wrap = $elm$core$Basics$identity;
 var $elm_explorations$webgl$WebGL$Texture$clampToEdge = 33071;
 var $elm_explorations$webgl$WebGL$Texture$nearest = 9728;
-var $elm_explorations$webgl$WebGL$Texture$nonPowerOfTwoOptions = {au: true, aw: $elm_explorations$webgl$WebGL$Texture$clampToEdge, b0: $elm_explorations$webgl$WebGL$Texture$linear, b2: $elm_explorations$webgl$WebGL$Texture$nearest, aD: $elm_explorations$webgl$WebGL$Texture$clampToEdge};
+var $elm_explorations$webgl$WebGL$Texture$nonPowerOfTwoOptions = {ao: true, as: $elm_explorations$webgl$WebGL$Texture$clampToEdge, cG: $elm_explorations$webgl$WebGL$Texture$linear, cH: $elm_explorations$webgl$WebGL$Texture$nearest, ay: $elm_explorations$webgl$WebGL$Texture$clampToEdge};
 var $author$project$Playground$Internal$textureOption = _Utils_update(
 	$elm_explorations$webgl$WebGL$Texture$nonPowerOfTwoOptions,
-	{b0: $elm_explorations$webgl$WebGL$Texture$linear, b2: $elm_explorations$webgl$WebGL$Texture$linear});
+	{cG: $elm_explorations$webgl$WebGL$Texture$linear, cH: $elm_explorations$webgl$WebGL$Texture$linear});
 var $author$project$Playground$Internal$requestTexture = F2(
 	function (missing, textures) {
 		return A2(
@@ -7860,6 +7297,10 @@ var $author$project$Playground$Internal$requestTexture = F2(
 					}),
 				_Utils_Tuple2(textures, _List_Nil),
 				missing));
+	});
+var $author$project$Playground$Internal$toScreen = F2(
+	function (width, height) {
+		return {bb: (-height) / 2, aW: height, aY: (-width) / 2, a2: width / 2, b$: height / 2, a7: width};
 	});
 var $elm$core$Dict$getMin = function (dict) {
 	getMin:
@@ -8230,81 +7671,81 @@ var $elm$core$Set$remove = F2(
 	});
 var $author$project$Playground$Internal$updateKeyboard = F3(
 	function (isDown, key, keyboard) {
-		var keys = isDown ? A2($elm$core$Set$insert, key, keyboard.b_) : A2($elm$core$Set$remove, key, keyboard.b_);
+		var keys = isDown ? A2($elm$core$Set$insert, key, keyboard.cE) : A2($elm$core$Set$remove, key, keyboard.cE);
 		switch (key) {
 			case ' ':
 				return _Utils_update(
 					keyboard,
-					{b_: keys, cd: isDown});
+					{cE: keys, cS: isDown});
 			case 'Enter':
 				return _Utils_update(
 					keyboard,
-					{bS: isDown, b_: keys});
+					{cr: isDown, cE: keys});
 			case 'Shift':
 				return _Utils_update(
 					keyboard,
-					{b_: keys, cb: isDown});
+					{cE: keys, cQ: isDown});
 			case 'Backspace':
 				return _Utils_update(
 					keyboard,
-					{bL: isDown, b_: keys});
+					{ck: isDown, cE: keys});
 			case 'ArrowUp':
 				return _Utils_update(
 					keyboard,
-					{b_: keys, bI: isDown});
+					{cE: keys, cf: isDown});
 			case 'ArrowDown':
 				return _Utils_update(
 					keyboard,
-					{aH: isDown, b_: keys});
+					{aD: isDown, cE: keys});
 			case 'ArrowLeft':
 				return _Utils_update(
 					keyboard,
-					{b_: keys, aL: isDown});
+					{cE: keys, aY: isDown});
 			case 'ArrowRight':
 				return _Utils_update(
 					keyboard,
-					{b_: keys, aR: isDown});
+					{cE: keys, a2: isDown});
 			default:
 				return _Utils_update(
 					keyboard,
-					{b_: keys});
+					{cE: keys});
 		}
 	});
 var $author$project$Playground$Internal$gameUpdate = F4(
 	function (viewMemory, updateMemory, msg, _v0) {
 		var model = _v0;
-		var visibility = model.aE;
-		var memory = model.b1;
-		var textures = model.cf;
-		var computer = model.bP;
+		var visibility = model.az;
+		var memory = model.at;
+		var textures = model.ac;
+		var computer = model.co;
 		switch (msg.$) {
 			case 1:
 				var time = msg.a;
 				var newModel = _Utils_update(
 					model,
 					{
-						bP: computer.b3.bO ? _Utils_update(
+						co: computer.cI.cm ? _Utils_update(
 							computer,
 							{
-								b3: A2($author$project$Playground$Internal$mouseClick, false, computer.b3),
-								cg: time
+								cI: A2($author$project$Playground$Internal$mouseClick, false, computer.cI),
+								cU: time
 							}) : _Utils_update(
 							computer,
-							{cg: time}),
-						b1: A2(updateMemory, computer, memory)
+							{cU: time}),
+						at: A2(updateMemory, computer, memory)
 					});
 				var _v2 = A3(
 					$author$project$Playground$Internal$render,
-					computer.bC,
+					computer.bU,
 					textures,
-					A2(viewMemory, newModel.bP, newModel.b1));
+					A2(viewMemory, newModel.co, newModel.at));
 				var entities = _v2.a;
 				var missing = _v2.b;
 				if (!missing.b) {
 					return _Utils_Tuple2(
 						_Utils_update(
 							newModel,
-							{bT: entities}),
+							{cs: entities}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return A2(
@@ -8312,20 +7753,20 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 						function (loadingTextures) {
 							return _Utils_update(
 								newModel,
-								{bT: entities, cf: loadingTextures});
+								{cs: entities, ac: loadingTextures});
 						},
 						A2($author$project$Playground$Internal$requestTexture, missing, textures));
 				}
 			case 2:
-				var viewport = msg.a.cl;
+				var viewport = msg.a.c2;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									bC: A2($author$project$Playground$Internal$toScreen, viewport.aZ, viewport.aI)
+									bU: A2($author$project$Playground$Internal$toScreen, viewport.a7, viewport.aW)
 								})
 						}),
 					$elm$core$Platform$Cmd$none);
@@ -8335,9 +7776,9 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
-								{bC: newScreen})
+								{bU: newScreen})
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 0:
@@ -8347,26 +7788,26 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									bZ: A3($author$project$Playground$Internal$updateKeyboard, isDown, key, computer.bZ)
+									bq: A3($author$project$Playground$Internal$updateKeyboard, isDown, key, computer.bq)
 								})
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 5:
 				var pageX = msg.a;
 				var pageY = msg.b;
-				var y = computer.bC.ch - pageY;
-				var x = computer.bC.aL + pageX;
+				var y = computer.bU.b$ - pageY;
+				var x = computer.bU.aY + pageX;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									b3: A3($author$project$Playground$Internal$mouseMove, x, y, computer.b3)
+									cI: A3($author$project$Playground$Internal$mouseMove, x, y, computer.cI)
 								})
 						}),
 					$elm$core$Platform$Cmd$none);
@@ -8375,10 +7816,10 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									b3: A2($author$project$Playground$Internal$mouseClick, true, computer.b3)
+									cI: A2($author$project$Playground$Internal$mouseClick, true, computer.cI)
 								})
 						}),
 					$elm$core$Platform$Cmd$none);
@@ -8388,10 +7829,10 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									b3: A2($author$project$Playground$Internal$mouseDown, isDown, computer.b3)
+									cI: A2($author$project$Playground$Internal$mouseDown, isDown, computer.cI)
 								})
 						}),
 					$elm$core$Platform$Cmd$none);
@@ -8401,13 +7842,13 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							bP: _Utils_update(
+							co: _Utils_update(
 								computer,
 								{
-									bZ: $author$project$Playground$Internal$emptyKeyboard,
-									b3: A4($author$project$Playground$Internal$Mouse, computer.b3.a, computer.b3.b, false, false)
+									bq: $author$project$Playground$Internal$emptyKeyboard,
+									cI: A4($author$project$Playground$Internal$Mouse, computer.cI.f, computer.cI.g, false, false)
 								}),
-							aE: vis
+							az: vis
 						}),
 					$elm$core$Platform$Cmd$none);
 			default:
@@ -8416,45 +7857,570 @@ var $author$project$Playground$Internal$gameUpdate = F4(
 					_Utils_update(
 						model,
 						{
-							cf: A2($author$project$Playground$Internal$gotTextures, r, model.cf)
+							ac: A2($author$project$Playground$Internal$gotTextures, r, model.ac)
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
 var $elm$browser$Browser$Dom$getViewport = _Browser_withWindow(_Browser_getViewport);
+var $elm$time$Time$Posix = $elm$core$Basics$identity;
+var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $author$project$Playground$Internal$initialComputer = {
-	bZ: $author$project$Playground$Internal$emptyKeyboard,
-	b3: A4($author$project$Playground$Internal$Mouse, 0, 0, false, false),
-	bC: A2($author$project$Playground$Internal$toScreen, 600, 600),
-	cg: $elm$time$Time$millisToPosix(0)
+	bq: $author$project$Playground$Internal$emptyKeyboard,
+	cI: A4($author$project$Playground$Internal$Mouse, 0, 0, false, false),
+	bU: A2($author$project$Playground$Internal$toScreen, 600, 600),
+	cU: $elm$time$Time$millisToPosix(0)
 };
-var $author$project$Playground$Internal$embed = F3(
-	function (viewMemory, updateMemory, initialMemory) {
-		var view = function (_v3) {
-			var entities = _v3.bT;
+var $elm$browser$Browser$Events$Document = 0;
+var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 0, a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {bL: pids, bW: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (!node) {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === -2) {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {bg: event, bp: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (!node) {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.bL,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (!_v0.$) {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.bp;
+		var event = _v0.bg;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.bW);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$Hidden = 1;
+var $elm$browser$Browser$Events$withHidden = F2(
+	function (func, isHidden) {
+		return func(
+			isHidden ? 1 : 0);
+	});
+var $elm$browser$Browser$Events$onVisibilityChange = function (func) {
+	var info = _Browser_visibilityInfo(0);
+	return A3(
+		$elm$browser$Browser$Events$on,
+		0,
+		info.cl,
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$browser$Browser$Events$withHidden(func),
+			A2(
+				$elm$json$Json$Decode$field,
+				'target',
+				A2($elm$json$Json$Decode$field, info.cA, $elm$json$Json$Decode$bool))));
+};
+var $author$project$Playground$Internal$embed = F4(
+	function (subs, viewMemory, updateMemory, initialMemory) {
+		var view = function (_v2) {
+			var entities = _v2.cs;
 			return entities;
 		};
-		var subscriptions = function (_v2) {
-			var visibility = _v2.aE;
-			var computer = _v2.bP;
+		var subscriptions = function (_v1) {
+			var visibility = _v1.az;
+			var computer = _v1.co;
 			if (visibility === 1) {
 				return $elm$browser$Browser$Events$onVisibilityChange($author$project$Playground$Internal$VisibilityChanged);
 			} else {
-				return $author$project$Playground$Internal$gameSubscriptions(computer);
+				return subs(computer);
 			}
 		};
-		var init = function (_v0) {
-			return _Utils_Tuple2(
-				{bP: $author$project$Playground$Internal$initialComputer, bT: _List_Nil, b1: initialMemory, cf: $elm$core$Dict$empty, aE: 0},
-				A2($elm$core$Task$perform, $author$project$Playground$Internal$GotViewport, $elm$browser$Browser$Dom$getViewport));
-		};
+		var init = _Utils_Tuple2(
+			{co: $author$project$Playground$Internal$initialComputer, cs: _List_Nil, at: initialMemory, ac: $elm$core$Dict$empty, az: 0},
+			A2($elm$core$Task$perform, $author$project$Playground$Internal$GotViewport, $elm$browser$Browser$Dom$getViewport));
 		return {
-			ax: init,
-			az: subscriptions,
-			aC: A2($author$project$Playground$Internal$gameUpdate, viewMemory, updateMemory),
-			aX: view
+			bn: init,
+			bX: subscriptions,
+			cg: A2($author$project$Playground$Internal$gameUpdate, viewMemory, updateMemory),
+			ch: view
 		};
 	});
+var $author$project$Playground$Internal$KeyChanged = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $author$project$Playground$Internal$MouseButton = function (a) {
+	return {$: 7, a: a};
+};
+var $author$project$Playground$Internal$MouseClick = {$: 6};
+var $author$project$Playground$Internal$MouseMove = F2(
+	function (a, b) {
+		return {$: 5, a: a, b: b};
+	});
+var $author$project$Playground$Internal$Tick = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$float = _Json_decodeFloat;
+var $elm$browser$Browser$AnimationManager$Time = function (a) {
+	return {$: 0, a: a};
+};
+var $elm$browser$Browser$AnimationManager$State = F3(
+	function (subs, request, oldTime) {
+		return {a$: oldTime, bT: request, bW: subs};
+	});
+var $elm$browser$Browser$AnimationManager$init = $elm$core$Task$succeed(
+	A3($elm$browser$Browser$AnimationManager$State, _List_Nil, $elm$core$Maybe$Nothing, 0));
+var $elm$browser$Browser$AnimationManager$now = _Browser_now(0);
+var $elm$browser$Browser$AnimationManager$rAF = _Browser_rAF(0);
+var $elm$core$Process$spawn = _Scheduler_spawn;
+var $elm$browser$Browser$AnimationManager$onEffects = F3(
+	function (router, subs, _v0) {
+		var request = _v0.bT;
+		var oldTime = _v0.a$;
+		var _v1 = _Utils_Tuple2(request, subs);
+		if (_v1.a.$ === 1) {
+			if (!_v1.b.b) {
+				var _v2 = _v1.a;
+				return $elm$browser$Browser$AnimationManager$init;
+			} else {
+				var _v4 = _v1.a;
+				return A2(
+					$elm$core$Task$andThen,
+					function (pid) {
+						return A2(
+							$elm$core$Task$andThen,
+							function (time) {
+								return $elm$core$Task$succeed(
+									A3(
+										$elm$browser$Browser$AnimationManager$State,
+										subs,
+										$elm$core$Maybe$Just(pid),
+										time));
+							},
+							$elm$browser$Browser$AnimationManager$now);
+					},
+					$elm$core$Process$spawn(
+						A2(
+							$elm$core$Task$andThen,
+							$elm$core$Platform$sendToSelf(router),
+							$elm$browser$Browser$AnimationManager$rAF)));
+			}
+		} else {
+			if (!_v1.b.b) {
+				var pid = _v1.a.a;
+				return A2(
+					$elm$core$Task$andThen,
+					function (_v3) {
+						return $elm$browser$Browser$AnimationManager$init;
+					},
+					$elm$core$Process$kill(pid));
+			} else {
+				return $elm$core$Task$succeed(
+					A3($elm$browser$Browser$AnimationManager$State, subs, request, oldTime));
+			}
+		}
+	});
+var $elm$browser$Browser$AnimationManager$onSelfMsg = F3(
+	function (router, newTime, _v0) {
+		var subs = _v0.bW;
+		var oldTime = _v0.a$;
+		var send = function (sub) {
+			if (!sub.$) {
+				var tagger = sub.a;
+				return A2(
+					$elm$core$Platform$sendToApp,
+					router,
+					tagger(
+						$elm$time$Time$millisToPosix(newTime)));
+			} else {
+				var tagger = sub.a;
+				return A2(
+					$elm$core$Platform$sendToApp,
+					router,
+					tagger(newTime - oldTime));
+			}
+		};
+		return A2(
+			$elm$core$Task$andThen,
+			function (pid) {
+				return A2(
+					$elm$core$Task$andThen,
+					function (_v1) {
+						return $elm$core$Task$succeed(
+							A3(
+								$elm$browser$Browser$AnimationManager$State,
+								subs,
+								$elm$core$Maybe$Just(pid),
+								newTime));
+					},
+					$elm$core$Task$sequence(
+						A2($elm$core$List$map, send, subs)));
+			},
+			$elm$core$Process$spawn(
+				A2(
+					$elm$core$Task$andThen,
+					$elm$core$Platform$sendToSelf(router),
+					$elm$browser$Browser$AnimationManager$rAF)));
+	});
+var $elm$browser$Browser$AnimationManager$Delta = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$browser$Browser$AnimationManager$subMap = F2(
+	function (func, sub) {
+		if (!sub.$) {
+			var tagger = sub.a;
+			return $elm$browser$Browser$AnimationManager$Time(
+				A2($elm$core$Basics$composeL, func, tagger));
+		} else {
+			var tagger = sub.a;
+			return $elm$browser$Browser$AnimationManager$Delta(
+				A2($elm$core$Basics$composeL, func, tagger));
+		}
+	});
+_Platform_effectManagers['Browser.AnimationManager'] = _Platform_createManager($elm$browser$Browser$AnimationManager$init, $elm$browser$Browser$AnimationManager$onEffects, $elm$browser$Browser$AnimationManager$onSelfMsg, 0, $elm$browser$Browser$AnimationManager$subMap);
+var $elm$browser$Browser$AnimationManager$subscription = _Platform_leaf('Browser.AnimationManager');
+var $elm$browser$Browser$AnimationManager$onAnimationFrame = function (tagger) {
+	return $elm$browser$Browser$AnimationManager$subscription(
+		$elm$browser$Browser$AnimationManager$Time(tagger));
+};
+var $elm$browser$Browser$Events$onAnimationFrame = $elm$browser$Browser$AnimationManager$onAnimationFrame;
+var $elm$browser$Browser$Events$onClick = A2($elm$browser$Browser$Events$on, 0, 'click');
+var $elm$browser$Browser$Events$onKeyDown = A2($elm$browser$Browser$Events$on, 0, 'keydown');
+var $elm$browser$Browser$Events$onKeyUp = A2($elm$browser$Browser$Events$on, 0, 'keyup');
+var $elm$browser$Browser$Events$onMouseDown = A2($elm$browser$Browser$Events$on, 0, 'mousedown');
+var $elm$browser$Browser$Events$onMouseMove = A2($elm$browser$Browser$Events$on, 0, 'mousemove');
+var $elm$browser$Browser$Events$onMouseUp = A2($elm$browser$Browser$Events$on, 0, 'mouseup');
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Playground$Internal$allSubscriptions = function (computer) {
+	return _List_fromArray(
+		[
+			$elm$browser$Browser$Events$onKeyUp(
+			A2(
+				$elm$json$Json$Decode$map,
+				$author$project$Playground$Internal$KeyChanged(false),
+				A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string))),
+			$elm$browser$Browser$Events$onKeyDown(
+			A2(
+				$elm$json$Json$Decode$andThen,
+				function (k) {
+					return A2($elm$core$Set$member, k, computer.bq.cE) ? $elm$json$Json$Decode$fail('') : $elm$json$Json$Decode$succeed(
+						A2($author$project$Playground$Internal$KeyChanged, true, k));
+				},
+				A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string))),
+			$elm$browser$Browser$Events$onAnimationFrame($author$project$Playground$Internal$Tick),
+			$elm$browser$Browser$Events$onVisibilityChange($author$project$Playground$Internal$VisibilityChanged),
+			$elm$browser$Browser$Events$onClick(
+			$elm$json$Json$Decode$succeed($author$project$Playground$Internal$MouseClick)),
+			$elm$browser$Browser$Events$onMouseDown(
+			$elm$json$Json$Decode$succeed(
+				$author$project$Playground$Internal$MouseButton(true))),
+			$elm$browser$Browser$Events$onMouseUp(
+			$elm$json$Json$Decode$succeed(
+				$author$project$Playground$Internal$MouseButton(false))),
+			$elm$browser$Browser$Events$onMouseMove(
+			A3(
+				$elm$json$Json$Decode$map2,
+				$author$project$Playground$Internal$MouseMove,
+				A2($elm$json$Json$Decode$field, 'pageX', $elm$json$Json$Decode$float),
+				A2($elm$json$Json$Decode$field, 'pageY', $elm$json$Json$Decode$float)))
+		]);
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$browser$Browser$Events$Window = 1;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$browser$Browser$Events$onResize = function (func) {
+	return A3(
+		$elm$browser$Browser$Events$on,
+		1,
+		'resize',
+		A2(
+			$elm$json$Json$Decode$field,
+			'target',
+			A3(
+				$elm$json$Json$Decode$map2,
+				func,
+				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
+				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
+};
+var $author$project$Playground$Internal$Resized = function (a) {
+	return {$: 3, a: a};
+};
+var $author$project$Playground$Internal$resize = F2(
+	function (w, h) {
+		return $author$project$Playground$Internal$Resized(
+			A2($author$project$Playground$Internal$toScreen, w, h));
+	});
+var $author$project$Playground$Internal$gameSubscriptions = function (computer) {
+	return $elm$core$Platform$Sub$batch(
+		A2(
+			$elm$core$List$cons,
+			$elm$browser$Browser$Events$onResize($author$project$Playground$Internal$resize),
+			$author$project$Playground$Internal$allSubscriptions(computer)));
+};
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
 		_VirtualDom_noScript(tag));
@@ -8580,66 +8546,466 @@ var $author$project$Playground$Internal$viewWrap = F2(
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$width(
-						$elm$core$Basics$round(screen.aZ)),
+						$elm$core$Basics$round(screen.a7)),
 						$elm$html$Html$Attributes$height(
-						$elm$core$Basics$round(screen.aI))
+						$elm$core$Basics$round(screen.aW))
 					]),
 				entities)
 			]);
 	});
-var $author$project$Playground$game = F3(
+var $author$project$Playground$Internal$game = F3(
 	function (viewMemory, updateMemory, initialMemory) {
-		var view = function (_v1) {
-			var memory = _v1.b1;
-			var textures = _v1.cf;
-			var computer = _v1.bP;
-			var entities = _v1.bT;
+		var view = function (_v2) {
+			var computer = _v2.co;
+			var entities = _v2.cs;
 			return {
-				aG: A2($author$project$Playground$Internal$viewWrap, computer.bC, entities),
-				aV: 'Playground'
+				ba: A2($author$project$Playground$Internal$viewWrap, computer.bU, entities),
+				b_: 'Playground'
 			};
 		};
-		var _v0 = A3($author$project$Playground$Internal$embed, viewMemory, updateMemory, initialMemory);
-		var init = _v0.ax;
-		var update = _v0.aC;
-		var subscriptions = _v0.az;
+		var _v0 = A4($author$project$Playground$Internal$embed, $author$project$Playground$Internal$gameSubscriptions, viewMemory, updateMemory, initialMemory);
+		var init = _v0.bn;
+		var update = _v0.cg;
+		var subscriptions = _v0.bX;
 		return $elm$browser$Browser$document(
-			{ax: init, az: subscriptions, aC: update, aX: view});
+			{
+				bn: function (_v1) {
+					return init;
+				},
+				bX: subscriptions,
+				cg: update,
+				ch: view
+			});
 	});
-var $author$project$Shmup$Intro = function (a) {
+var $author$project$Playground$game = $author$project$Playground$Internal$game;
+var $author$project$Extra$Jump$Play = function (a) {
 	return {$: 1, a: a};
 };
-var $author$project$Shmup$Play = function (a) {
-	return {$: 2, a: a};
+var $author$project$Extra$Jump$Direction$Neither = 8;
+var $author$project$Extra$Jump$Direction$East = 2;
+var $author$project$Extra$Jump$Direction$North = 0;
+var $author$project$Extra$Jump$Direction$NorthEast = 1;
+var $author$project$Extra$Jump$Direction$NorthWest = 7;
+var $author$project$Extra$Jump$Direction$South = 4;
+var $author$project$Extra$Jump$Direction$SouthEast = 3;
+var $author$project$Extra$Jump$Direction$SouthWest = 5;
+var $author$project$Extra$Jump$Direction$West = 6;
+var $author$project$Extra$Jump$Direction$fromRecord = function (_v0) {
+	var x = _v0.f;
+	var y = _v0.g;
+	return (x > 0) ? ((y > 0) ? 1 : ((y < 0) ? 3 : 2)) : ((x < 0) ? ((y > 0) ? 7 : ((y < 0) ? 5 : 6)) : ((y > 0) ? 0 : ((y < 0) ? 4 : 8)));
 };
-var $elm$random$Random$Seed = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $elm$core$Basics$sqrt = _Basics_sqrt;
+var $author$project$Playground$squareRootOfTwo = $elm$core$Basics$sqrt(2);
+var $author$project$Playground$toX = function (keyboard) {
+	return (keyboard.a2 ? 1 : 0) - (keyboard.aY ? 1 : 0);
+};
+var $author$project$Playground$toY = function (keyboard) {
+	return (keyboard.cf ? 1 : 0) - (keyboard.aD ? 1 : 0);
+};
+var $author$project$Playground$toXY = function (keyboard) {
+	var y = $author$project$Playground$toY(keyboard);
+	var x = $author$project$Playground$toX(keyboard);
+	return ((!(!x)) && (!(!y))) ? _Utils_Tuple2(x / $author$project$Playground$squareRootOfTwo, y / $author$project$Playground$squareRootOfTwo) : _Utils_Tuple2(x, y);
+};
+var $author$project$Extra$Jump$animatePlayer = F2(
+	function (computer, memory) {
+		var player = memory.n;
+		var _v0 = $author$project$Playground$toXY(computer.bq);
+		var x = _v0.a;
+		var y = _v0.b;
+		var dir = $author$project$Extra$Jump$Direction$fromRecord(
+			{f: x, g: y});
+		return ((dir !== 8) && (!_Utils_eq(dir, player.T))) ? _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{T: dir, P: 0})
+			}) : _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{P: player.P + 1})
+			});
 	});
-var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
-var $elm$random$Random$next = function (_v0) {
-	var state0 = _v0.a;
-	var incr = _v0.b;
-	return A2($elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+var $author$project$AltMath$Vector2$Vec2 = F2(
+	function (x, y) {
+		return {f: x, g: y};
+	});
+var $author$project$AltMath$Vector2$vec2 = $author$project$AltMath$Vector2$Vec2;
+var $author$project$Extra$Jump$config = {
+	N: 0.5,
+	bi: -0.125,
+	bj: A2($author$project$AltMath$Vector2$vec2, 0, -0.5),
+	bo: 9,
+	y: 3
 };
-var $elm$random$Random$initialSeed = function (x) {
-	var _v0 = $elm$random$Random$next(
-		A2($elm$random$Random$Seed, 0, 1013904223));
-	var state1 = _v0.a;
-	var incr = _v0.b;
-	var state2 = (state1 + x) >>> 0;
-	return $elm$random$Random$next(
-		A2($elm$random$Random$Seed, state2, incr));
+var $author$project$AltMath$Vector2$setX = F2(
+	function (x, _v0) {
+		var y = _v0.g;
+		return {f: x, g: y};
+	});
+var $author$project$AltMath$Vector2$setY = F2(
+	function (y, _v0) {
+		var x = _v0.f;
+		return {f: x, g: y};
+	});
+var $author$project$Extra$Jump$crossScreen = F2(
+	function (_v0, memory) {
+		var screen = _v0.bU;
+		var player = memory.n;
+		return (_Utils_cmp(player.i.f * $author$project$Extra$Jump$config.y, screen.a2) > 0) ? _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{
+						i: A2($author$project$AltMath$Vector2$setX, screen.aY / $author$project$Extra$Jump$config.y, player.i)
+					})
+			}) : ((_Utils_cmp(player.i.f * $author$project$Extra$Jump$config.y, screen.aY) < 0) ? _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{
+						i: A2($author$project$AltMath$Vector2$setX, screen.a2 / $author$project$Extra$Jump$config.y, player.i)
+					})
+			}) : ((_Utils_cmp(player.i.g * $author$project$Extra$Jump$config.y, screen.bb) < 0) ? _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{
+						i: A2($author$project$AltMath$Vector2$setY, screen.b$ / $author$project$Extra$Jump$config.y, player.i)
+					})
+			}) : ((_Utils_cmp(player.i.g * $author$project$Extra$Jump$config.y, screen.b$) > 0) ? _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{
+						i: A2($author$project$AltMath$Vector2$setY, screen.bb / $author$project$Extra$Jump$config.y, player.i)
+					})
+			}) : memory)));
+	});
+var $author$project$Extra$Jump$zero = A2($author$project$AltMath$Vector2$vec2, 0, 0);
+var $author$project$Extra$Jump$initPlayer = F2(
+	function (x, y) {
+		return {
+			N: {f: 0, g: 0},
+			al: {f: 0, g: 0},
+			aC: _List_fromArray(
+				[
+					{q: $author$project$Extra$Jump$zero, r: $author$project$Extra$Jump$zero}
+				]),
+			T: 2,
+			P: 0,
+			i: A2($author$project$AltMath$Vector2$vec2, x, y),
+			bR: 9,
+			o: $author$project$Extra$Jump$zero
+		};
+	});
+var $author$project$Extra$Jump$initGame = function (_v0) {
+	var screen = _v0.bU;
+	return {
+		n: A2($author$project$Extra$Jump$initPlayer, -10, 90),
+		a5: _List_fromArray(
+			[
+				{
+				q: {f: 98, g: -40},
+				r: {f: 91, g: 140}
+			},
+				{
+				q: {f: 50, g: -40},
+				r: {f: 50, g: 140}
+			},
+				{
+				q: {f: -50, g: -10},
+				r: {f: -120, g: -10}
+			},
+				{
+				q: {f: -120, g: 10},
+				r: {f: -90, g: 10}
+			},
+				{
+				q: {f: 120, g: -40},
+				r: {f: -300, g: -40}
+			},
+				{
+				q: {f: 15, g: 10},
+				r: {f: -90, g: 10}
+			},
+				{
+				q: {f: 25, g: 10},
+				r: {f: -20, g: -40}
+			},
+				{
+				q: {f: 120, g: 10},
+				r: {f: 20, g: 10}
+			},
+				{
+				q: {f: 204, g: 52},
+				r: {f: 100, g: 10}
+			},
+				{
+				q: {f: 160, g: -80},
+				r: {f: 120, g: -80}
+			}
+			])
+	};
 };
+var $author$project$AltMath$Vector2$add = F2(
+	function (a, b) {
+		return A2($author$project$AltMath$Vector2$Vec2, a.f + b.f, a.g + b.g);
+	});
+var $author$project$Extra$Jump$applyIf = F3(
+	function (bool, f, world) {
+		return bool ? f(world) : world;
+	});
+var $elm$core$Basics$ge = _Utils_ge;
+var $author$project$Extra$Jump$Collision$intersection = F8(
+	function (x1, y1, x2, y2, x3, y3, x4, y4) {
+		var den = ((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4));
+		if (!den) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var u = (-(((x1 - x2) * (y1 - y3)) - ((y1 - y2) * (x1 - x3)))) / den;
+			var t = (((x1 - x3) * (y3 - y4)) - ((y1 - y3) * (x3 - x4))) / den;
+			return ((t >= 0) && ((t <= 1) && ((u >= 0) && (u <= 1)))) ? $elm$core$Maybe$Just(
+				_Utils_Tuple2(t, u)) : $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Extra$Jump$Collision$intersectionVec2 = F4(
+	function (p1, p2, p3, p4) {
+		return A8($author$project$Extra$Jump$Collision$intersection, p1.f, p1.g, p2.f, p2.g, p3.f, p3.g, p4.f, p4.g);
+	});
+var $author$project$Extra$Jump$Collision$isLeft = F3(
+	function (a, b, c) {
+		return _Utils_cmp((b.f - a.f) * (c.g - a.g), (b.g - a.g) * (c.f - a.f)) < 0;
+	});
+var $author$project$AltMath$Vector2$length = function (_v0) {
+	var x = _v0.f;
+	var y = _v0.g;
+	return $elm$core$Basics$sqrt((x * x) + (y * y));
+};
+var $author$project$AltMath$Vector2$normalize = function (v2) {
+	var len = $author$project$AltMath$Vector2$length(v2);
+	return A2($author$project$AltMath$Vector2$Vec2, v2.f / len, v2.g / len);
+};
+var $author$project$Extra$Jump$Collision$leftNormal = function (vec) {
+	var _v0 = $author$project$AltMath$Vector2$normalize(vec);
+	var x = _v0.f;
+	var y = _v0.g;
+	return A2($author$project$AltMath$Vector2$vec2, -y, x);
+};
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$AltMath$Vector2$lengthSquared = function (_v0) {
+	var x = _v0.f;
+	var y = _v0.g;
+	return (x * x) + (y * y);
+};
+var $author$project$AltMath$Vector2$max = F2(
+	function (a, b) {
+		return (_Utils_cmp(
+			$author$project$AltMath$Vector2$lengthSquared(a),
+			$author$project$AltMath$Vector2$lengthSquared(b)) > 0) ? a : b;
+	});
+var $author$project$AltMath$Vector2$dot = F2(
+	function (a, b) {
+		return (a.f * b.f) + (a.g * b.g);
+	});
+var $author$project$AltMath$Vector2$scale = F2(
+	function (s, v2) {
+		return A2($author$project$AltMath$Vector2$Vec2, s * v2.f, s * v2.g);
+	});
+var $author$project$AltMath$Vector2$scalarProjection = F2(
+	function (a, b) {
+		return A2(
+			$author$project$AltMath$Vector2$scale,
+			A2($author$project$AltMath$Vector2$dot, a, b) / $author$project$AltMath$Vector2$lengthSquared(b),
+			b);
+	});
+var $author$project$Extra$Jump$Collision$slopeFix = 1 / 32;
+var $author$project$AltMath$Vector2$sub = F2(
+	function (a, b) {
+		return A2($author$project$AltMath$Vector2$Vec2, a.f - b.f, a.g - b.g);
+	});
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Extra$Jump$Collision$lineCircle = F2(
+	function (wall, player) {
+		var zeroedWall = A2($author$project$AltMath$Vector2$sub, wall.r, wall.q);
+		var normal = $author$project$Extra$Jump$Collision$leftNormal(zeroedWall);
+		var point = A2(
+			$author$project$AltMath$Vector2$add,
+			player.i,
+			A2($author$project$AltMath$Vector2$scale, player.bR + $author$project$Extra$Jump$Collision$slopeFix, normal));
+		return A3($author$project$Extra$Jump$Collision$isLeft, wall.q, wall.r, point) ? A2(
+			$elm$core$Maybe$withDefault,
+			player,
+			A2(
+				$elm$core$Maybe$map,
+				function (_v0) {
+					var t = _v0.a;
+					var u = _v0.b;
+					var restV = A2($author$project$AltMath$Vector2$scale, 1 - t, player.o);
+					var calcRest = A2($author$project$AltMath$Vector2$scalarProjection, restV, zeroedWall);
+					return _Utils_update(
+						player,
+						{
+							al: A2($author$project$AltMath$Vector2$max, normal, player.al),
+							o: A2(
+								$author$project$AltMath$Vector2$add,
+								A2($author$project$AltMath$Vector2$scale, -$author$project$Extra$Jump$Collision$slopeFix, normal),
+								A2(
+									$author$project$AltMath$Vector2$add,
+									calcRest,
+									A2($author$project$AltMath$Vector2$scale, t, player.o)))
+						});
+				},
+				A4(
+					$author$project$Extra$Jump$Collision$intersectionVec2,
+					point,
+					A2($author$project$AltMath$Vector2$add, point, player.o),
+					wall.q,
+					wall.r))) : (A3($author$project$Extra$Jump$Collision$isLeft, wall.q, wall.r, player.i) ? A2(
+			$elm$core$Maybe$withDefault,
+			player,
+			A2(
+				$elm$core$Maybe$map,
+				function (_v1) {
+					var t = _v1.a;
+					var u = _v1.b;
+					return _Utils_update(
+						player,
+						{
+							al: A2($author$project$AltMath$Vector2$max, normal, player.al),
+							o: A2(
+								$author$project$AltMath$Vector2$add,
+								A2(
+									$author$project$AltMath$Vector2$add,
+									A2($author$project$AltMath$Vector2$scale, -player.bR, normal),
+									A2(
+										$author$project$AltMath$Vector2$scale,
+										t,
+										A2($author$project$AltMath$Vector2$scale, player.bR, normal))),
+								A2($author$project$AltMath$Vector2$scale, 0.4, player.o))
+						});
+				},
+				A4($author$project$Extra$Jump$Collision$intersectionVec2, player.i, point, wall.q, wall.r))) : player);
+	});
+var $author$project$Extra$Jump$precision = 1.0e10;
+var $author$project$Extra$Jump$roundVec = function (_v0) {
+	var x = _v0.f;
+	var y = _v0.g;
+	return {
+		f: $elm$core$Basics$round(x * $author$project$Extra$Jump$precision) / $author$project$Extra$Jump$precision,
+		g: $elm$core$Basics$round(y * $author$project$Extra$Jump$precision) / $author$project$Extra$Jump$precision
+	};
+};
+var $author$project$Extra$Jump$simulate = F2(
+	function (computer, memory) {
+		var player = memory.n;
+		var acc = $author$project$Extra$Jump$roundVec(
+			A2(
+				$author$project$AltMath$Vector2$add,
+				$author$project$Extra$Jump$config.bj,
+				A2(
+					$author$project$AltMath$Vector2$add,
+					A2($author$project$AltMath$Vector2$scale, $author$project$Extra$Jump$config.bi, player.o),
+					player.N)));
+		var forceApplied = _Utils_update(
+			player,
+			{
+				al: $author$project$Extra$Jump$zero,
+				o: A2(
+					$author$project$AltMath$Vector2$add,
+					A2($author$project$AltMath$Vector2$scale, 1.5, acc),
+					player.o)
+			});
+		var newPlayer = A3($elm$core$List$foldl, $author$project$Extra$Jump$Collision$lineCircle, forceApplied, memory.a5);
+		return _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					newPlayer,
+					{
+						i: A2($author$project$AltMath$Vector2$add, newPlayer.i, newPlayer.o),
+						o: $author$project$Extra$Jump$roundVec(
+							A3(
+								$author$project$Extra$Jump$applyIf,
+								_Utils_eq(newPlayer.o, forceApplied.o),
+								$author$project$AltMath$Vector2$add(
+									A2($author$project$AltMath$Vector2$scale, -0.5, acc)),
+								newPlayer.o))
+					})
+			});
+	});
+var $author$project$Extra$Jump$updateMovement = F2(
+	function (_v0, memory) {
+		var keyboard = _v0.bq;
+		var player = memory.n;
+		var x = keyboard.aY ? (-$author$project$Extra$Jump$config.N) : (keyboard.a2 ? $author$project$Extra$Jump$config.N : 0);
+		var _v1 = (keyboard.cS && (_Utils_cmp(player.al.g, -0.5) < 0)) ? _Utils_Tuple2(
+			A2($author$project$AltMath$Vector2$vec2, x, $author$project$Extra$Jump$config.bo),
+			A2($author$project$AltMath$Vector2$setY, 0, player.o)) : _Utils_Tuple2(
+			A2($author$project$AltMath$Vector2$vec2, x, 0),
+			player.o);
+		var acc = _v1.a;
+		var v = _v1.b;
+		return _Utils_update(
+			memory,
+			{
+				n: _Utils_update(
+					player,
+					{N: acc, o: v})
+			});
+	});
+var $author$project$Extra$Jump$update = F2(
+	function (computer, memory) {
+		if (memory.$ === 1) {
+			var m = memory.a;
+			return $author$project$Extra$Jump$Play(
+				A2(
+					$author$project$Extra$Jump$animatePlayer,
+					computer,
+					A2(
+						$author$project$Extra$Jump$crossScreen,
+						computer,
+						A2(
+							$author$project$Extra$Jump$simulate,
+							computer,
+							A2($author$project$Extra$Jump$updateMovement, computer, m)))));
+		} else {
+			return $author$project$Extra$Jump$Play(
+				$author$project$Extra$Jump$initGame(computer));
+		}
+	});
+var $elm$core$Basics$atan2 = _Basics_atan2;
 var $author$project$Playground$Internal$Form = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
 	});
 var $author$project$Playground$Internal$Shape = $elm$core$Basics$identity;
-var $author$project$Playground$Internal$Textured = F2(
-	function (a, b) {
-		return {$: 1, a: a, b: b};
-	});
 var $elm_explorations$webgl$WebGL$Internal$Blend = function (a) {
 	return function (b) {
 		return function (c) {
@@ -8662,12 +9028,12 @@ var $elm_explorations$webgl$WebGL$Internal$Blend = function (a) {
 	};
 };
 var $elm_explorations$webgl$WebGL$Settings$Blend$custom = function (_v0) {
-	var r = _v0.i;
-	var g = _v0.av;
-	var b = _v0.at;
-	var a = _v0.d;
-	var color = _v0.ae;
-	var alpha = _v0.as;
+	var r = _v0.bR;
+	var g = _v0.ar;
+	var b = _v0.ak;
+	var a = _v0.b;
+	var color = _v0.cn;
+	var alpha = _v0.aj;
 	var expand = F2(
 		function (_v1, _v2) {
 			var eq1 = _v1.a;
@@ -8694,12 +9060,12 @@ var $elm_explorations$webgl$WebGL$Settings$Blend$add = F2(
 	function (factor1, factor2) {
 		return $elm_explorations$webgl$WebGL$Settings$Blend$custom(
 			{
-				d: 0,
-				as: A2($elm_explorations$webgl$WebGL$Settings$Blend$customAdd, factor1, factor2),
-				at: 0,
-				ae: A2($elm_explorations$webgl$WebGL$Settings$Blend$customAdd, factor1, factor2),
-				av: 0,
-				i: 0
+				b: 0,
+				aj: A2($elm_explorations$webgl$WebGL$Settings$Blend$customAdd, factor1, factor2),
+				ak: 0,
+				cn: A2($elm_explorations$webgl$WebGL$Settings$Blend$customAdd, factor1, factor2),
+				ar: 0,
+				bR: 0
 			});
 	});
 var $elm_explorations$webgl$WebGL$Internal$ColorMask = F4(
@@ -8716,316 +9082,45 @@ var $author$project$Playground$Render$defaultEntitySettings = _List_fromArray(
 		A4($elm_explorations$webgl$WebGL$Settings$colorMask, true, true, true, false)
 	]);
 var $elm_explorations$webgl$WebGL$entityWith = _WebGL_entity;
-var $author$project$Playground$Shader$fragImage = {
-	src: '\n               varying vec2 uv;\n        uniform vec2 uImgSize;\n        uniform sampler2D uImg;\n        uniform float uA;\n        void main () {\n            vec2 pixel = (floor(uv * uImgSize) + 0.5) / uImgSize;\n            gl_FragColor = texture2D(uImg, pixel);\n            gl_FragColor.a *= uA;\n        }\n    ',
+var $author$project$Playground$Shader$fragCircle = {
+	src: '\n        precision mediump float;\n        uniform vec4 color;\n        varying vec2 uv;\n        void main () {\n            gl_FragColor = color;\n            gl_FragColor.a *= smoothstep(0.01,0.04,1.-length(uv));\n        }\n    ',
 	attributes: {},
-	uniforms: {uA: 'aW', uImg: 'aA', uImgSize: 'aB'}
+	uniforms: {color: 'cn'}
 };
 var $elm_explorations$webgl$WebGL$Mesh1 = F2(
 	function (a, b) {
 		return {$: 0, a: a, b: b};
 	});
 var $elm_explorations$webgl$WebGL$triangleStrip = $elm_explorations$webgl$WebGL$Mesh1(
-	{a2: 1, a8: 0, bq: 5});
+	{be: 1, bm: 0, bH: 5});
 var $author$project$Playground$Shader$mesh = $elm_explorations$webgl$WebGL$triangleStrip(
 	_List_fromArray(
 		[
 			{
-			ar: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, -1, -1)
+			ai: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, -1, -1)
 		},
 			{
-			ar: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, -1, 1)
+			ai: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, -1, 1)
 		},
 			{
-			ar: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, 1, -1)
+			ai: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, 1, -1)
 		},
 			{
-			ar: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, 1, 1)
+			ai: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, 1, 1)
 		}
 		]));
-var $author$project$Playground$Shader$vertImage = {
-	src: '\n                       attribute vec2 aP;\n            uniform vec4 uT;\n            uniform vec2 uP;\n            varying vec2 uv;\n            void main () {\n                uv = aP * .5 + 0.5;\n                gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n            }\n        ',
-	attributes: {aP: 'ar'},
-	uniforms: {uP: 'S', uT: 'T'}
-};
-var $author$project$Playground$Render$image = F5(
-	function (image_, imageSize, uP, uT, opacity) {
-		return A5(
-			$elm_explorations$webgl$WebGL$entityWith,
-			$author$project$Playground$Render$defaultEntitySettings,
-			$author$project$Playground$Shader$vertImage,
-			$author$project$Playground$Shader$fragImage,
-			$author$project$Playground$Shader$mesh,
-			{aW: opacity, aA: image_, aB: imageSize, S: uP, T: uT});
-	});
-var $author$project$Playground$image = F3(
-	function (width, height, src) {
-		return {
-			d: 0,
-			g: A2(
-				$author$project$Playground$Internal$Textured,
-				src,
-				function (t) {
-					return {
-						d: 0,
-						g: A3(
-							$author$project$Playground$Internal$Form,
-							width,
-							height,
-							A2(
-								$author$project$Playground$Render$image,
-								t,
-								function (_v0) {
-									var w = _v0.a;
-									var h = _v0.b;
-									return A2($elm_explorations$linear_algebra$Math$Vector2$vec2, w, h);
-								}(
-									$elm_explorations$webgl$WebGL$Texture$size(t)))),
-						c: 1,
-						e: 1,
-						f: 1,
-						a: 0,
-						b: 0
-					};
-				}),
-			c: 1,
-			e: 1,
-			f: 1,
-			a: 0,
-			b: 0
-		};
-	});
-var $author$project$Shmup$laserBlue = A3($author$project$Playground$image, 13, 37, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAlCAYAAACZFGMnAAACQUlEQVR42oXVv2sTYRjA8Rf8B5wEBycHEYltmpyKCE5OnRx0kE4u4iAOijo5OSgqOiioFCyiIlpsxTZ3F5SCDhZSzFCwllqitNIfscnd+16SXt67PL5v4bGP0YcGPoG7+76548lxJwT55Dx1Pu+rkbwfTmxSI05BHRX/+zhFWXKKkebkPHn7rwXm1x46nmxuyQ0HNhb0euGpfFEGaHA+bk3VtEZ2mx7vcWtHRM6Ppsy1r1pnS1Fdpx3odqncDLBx/GhIHPCiRTS5qtdbSQe62f1/Ol+9EuargpTuAId2Iu8Fs6ged4BDOzu5aVRd7wCHduZM8jNaaqXAoZ1wfDWJFhopcGhnLi/4gCpRChza2TO9R3MqBQ7tzJ8rXTQTpsChnRmEeoOmgwQ4tLMjH0blegIc2pnbSD1HpbUEOLQT9gZEn34lwKGdGYR6hD5WE+DQzi66jyZWNHBoZwYh76B3yxo4tDMjj24gb0kDh3Z25NfQ2E8NHNoJx1NX0eiiBg7t7G10BQ0vtIFDO/OAjC6gFz/awKGdHfk59PR7Gzi0E1lXnkFDlTZwaCeyvjyNBufbwKGdcNxoAD34FgOHdqLPUyfRvbkYOLQzz/JGv1OQx62bX5ord2dj6Gb3Y2OJg4XwUM4L+63L5cazW19j6Gb3Y9M3FuTEXq+60zxhjqGL5caT6zMxILtNj9t+43WTMavt224r+97Wezbfaidebtvvyj2OLw+zRtd22e6fV+ju18s7MuO1THY8yCO73fu4sp12vwEgZVqjmZ+rQQAAAC10RVh0U29mdHdhcmUAYnkuYmxvb2RkeS5jcnlwdG8uaW1hZ2UuUE5HMjRFbmNvZGVyqAZ/7gAAAABJRU5ErkJggg==');
-var $author$project$Shmup$laserGreen = A3($author$project$Playground$image, 13, 37, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAlCAYAAACZFGMnAAACR0lEQVR42oXVz2sTQRTA8QH/AU+CB08eRCS2dncTEcGTp5486EF68qCmJrsBoXry5KVgEcEeWgwUURFarUVRA/VHms1m1WjBKm0qJdW09kdo0xhNWlN5zlNefUYfDXwOs/sdMptMMkqxl+1ZjuObg0469GyDHkc965D63yvmWa9imWBdYqfNrr8mOJ7Vo29UNxNJW22/l5Qyjsd8a4UkCvHaZPl1neCY37dTTQeV4wezTsZaRFfftZfWf9ShUTzXsUJNLGP1Kf22MyS35K+urdegEV6nxvaC/cpJB/OkWq+AhHf4MedI5XsJJLxTep1jpLxWBAnvcNIbsrw6BxLe4SSfFGsFkPBO7wRzhMxX8yDhHe6GJ2T22weQ8A6X94gUvo6DhHf6ewoNkenKGEh4h8sbIFNfRkHCO9x7t8hkOQsS3incgGRixQcJ7/TyQr3kfckFCe9wUjd5u/wcJLxTdsa8TEaXhkHCO5zUSbLFxyDhHU66SF4uPgAJ7/CZLpDMwj2Q8E7ZvnGeuPMDIOGd3nvGWZKcuw0S3ulnMqLk6ecbIOGdinrmKTI82wcS3ulJoRMkMXMNJLzD31MbeVjoAQnv9DO1HCP3P3WDhHcq+qK5Vf+XHUF3pi4tDH28Ao3wOjVIhd3Q/mjaaEXxiXM37053QSO8Tk041WKokyO7t59xzcOkd7zjen++EwiO+X3sfx034VTAwNNuM5HUnqY/p9pRtSXs7t2l13tA0p60dmD3zxF6OrFzWyQZCETcfeYGPY4NNm/l3U9zlssVW/PVxwAAAC10RVh0U29mdHdhcmUAYnkuYmxvb2RkeS5jcnlwdG8uaW1hZ2UuUE5HMjRFbmNvZGVyqAZ/7gAAAABJRU5ErkJggg==');
-var $author$project$Shmup$bottomShoot = {
-	O: _List_Nil,
-	w: _List_Nil,
-	P: 60,
-	ah: 3,
-	x: _List_Nil,
-	H: {d: 0, i: 30, A: 20, L: 0, a: 0, b: 0},
-	z: 0,
-	k: $elm$random$Random$initialSeed(42),
-	o: 0,
-	aY: _List_fromArray(
-		[
-			{
-			J: {
-				d: 0,
-				i: 10,
-				aa: function (_v0) {
-					return $author$project$Shmup$laserBlue;
-				},
-				A: 0,
-				L: 12,
-				a: -30,
-				b: 0
-			},
-			V: 5,
-			aK: 10
-		},
-			{
-			J: {
-				d: 0,
-				i: 10,
-				aa: function (_v1) {
-					return $author$project$Shmup$laserGreen;
-				},
-				A: 0,
-				L: 12,
-				a: 30,
-				b: 0
-			},
-			V: 0,
-			aK: 10
-		}
-		])
-};
-var $author$project$Shmup$Object = F6(
-	function (x, y, r, a, speedX, speedY) {
-		return {d: a, i: r, A: speedX, L: speedY, a: x, b: y};
-	});
-var $elm$random$Random$Generator = $elm$core$Basics$identity;
-var $elm$random$Random$constant = function (value) {
-	return function (seed) {
-		return _Utils_Tuple2(value, seed);
-	};
-};
-var $elm$random$Random$map = F2(
-	function (func, _v0) {
-		var genA = _v0;
-		return function (seed0) {
-			var _v1 = genA(seed0);
-			var a = _v1.a;
-			var seed1 = _v1.b;
-			return _Utils_Tuple2(
-				func(a),
-				seed1);
-		};
-	});
-var $elm$core$Basics$e = _Basics_e;
-var $elm$core$Basics$abs = function (n) {
-	return (n < 0) ? (-n) : n;
-};
-var $elm$core$Bitwise$and = _Bitwise_and;
-var $elm$core$Bitwise$xor = _Bitwise_xor;
-var $elm$random$Random$peel = function (_v0) {
-	var state = _v0.a;
-	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
-	return ((word >>> 22) ^ word) >>> 0;
-};
-var $elm$random$Random$float = F2(
-	function (a, b) {
-		return function (seed0) {
-			var seed1 = $elm$random$Random$next(seed0);
-			var range = $elm$core$Basics$abs(b - a);
-			var n1 = $elm$random$Random$peel(seed1);
-			var n0 = $elm$random$Random$peel(seed0);
-			var lo = (134217727 & n1) * 1.0;
-			var hi = (67108863 & n0) * 1.0;
-			var val = ((hi * 134217728.0) + lo) / 9007199254740992.0;
-			var scaled = (val * range) + a;
-			return _Utils_Tuple2(
-				scaled,
-				$elm$random$Random$next(seed1));
-		};
-	});
-var $elm$random$Random$map2 = F3(
-	function (func, _v0, _v1) {
-		var genA = _v0;
-		var genB = _v1;
-		return function (seed0) {
-			var _v2 = genA(seed0);
-			var a = _v2.a;
-			var seed1 = _v2.b;
-			var _v3 = genB(seed1);
-			var b = _v3.a;
-			var seed2 = _v3.b;
-			return _Utils_Tuple2(
-				A2(func, a, b),
-				seed2);
-		};
-	});
-var $elm$core$Basics$pi = _Basics_pi;
-var $elm$core$Basics$sqrt = _Basics_sqrt;
-var $author$project$Shmup$standardNormal = A3(
-	$elm$random$Random$map2,
-	F2(
-		function (u, theta) {
-			return $elm$core$Basics$sqrt(
-				(-2) * A2(
-					$elm$core$Basics$logBase,
-					$elm$core$Basics$e,
-					1 - A2($elm$core$Basics$max, 0, u))) * $elm$core$Basics$cos(theta);
-		}),
-	A2($elm$random$Random$float, 0, 1),
-	A2($elm$random$Random$float, 0, 2 * $elm$core$Basics$pi));
-var $author$project$Shmup$normal = F2(
-	function (mean, stdDev) {
-		return A2(
-			$elm$random$Random$map,
-			function (u) {
-				return (u * stdDev) + mean;
-			},
-			$author$project$Shmup$standardNormal);
-	});
-var $author$project$Shmup$randomAndMap = $elm$random$Random$map2($elm$core$Basics$apR);
-var $author$project$Shmup$generatorMob = function (computer) {
-	return A2(
-		$author$project$Shmup$randomAndMap,
-		A2($author$project$Shmup$normal, -6, 1.5),
-		A2(
-			$author$project$Shmup$randomAndMap,
-			A2($author$project$Shmup$normal, 0, 3),
-			A2(
-				$author$project$Shmup$randomAndMap,
-				$elm$random$Random$constant(0),
-				A2(
-					$author$project$Shmup$randomAndMap,
-					A2($author$project$Shmup$normal, 40, 10),
-					A2(
-						$author$project$Shmup$randomAndMap,
-						$elm$random$Random$constant(computer.bC.ch),
-						A2(
-							$elm$random$Random$map,
-							$author$project$Shmup$Object,
-							A2($author$project$Shmup$normal, 0, computer.bC.aR)))))));
-};
-var $elm$random$Random$listHelp = F4(
-	function (revList, n, gen, seed) {
-		listHelp:
-		while (true) {
-			if (n < 1) {
-				return _Utils_Tuple2(revList, seed);
-			} else {
-				var _v0 = gen(seed);
-				var value = _v0.a;
-				var newSeed = _v0.b;
-				var $temp$revList = A2($elm$core$List$cons, value, revList),
-					$temp$n = n - 1,
-					$temp$gen = gen,
-					$temp$seed = newSeed;
-				revList = $temp$revList;
-				n = $temp$n;
-				gen = $temp$gen;
-				seed = $temp$seed;
-				continue listHelp;
-			}
-		}
-	});
-var $elm$random$Random$list = F2(
-	function (n, _v0) {
-		var gen = _v0;
-		return function (seed) {
-			return A4($elm$random$Random$listHelp, _List_Nil, n, gen, seed);
-		};
-	});
-var $elm$random$Random$step = F2(
-	function (_v0, seed) {
-		var generator = _v0;
-		return generator(seed);
-	});
-var $author$project$Shmup$breedMobs = F2(
-	function (computer, seed) {
-		return A2(
-			$elm$random$Random$step,
-			A2(
-				$elm$random$Random$list,
-				8,
-				$author$project$Shmup$generatorMob(computer)),
-			seed);
-	});
-var $author$project$Shmup$lengthSquared = function (_v0) {
-	var x = _v0.a;
-	var y = _v0.b;
-	return (x * x) + (y * y);
-};
-var $author$project$Shmup$sub = F2(
-	function (a, b) {
-		return {a: a.a - b.a, b: a.b - b.b};
-	});
-var $author$project$Shmup$distanceSquared = F2(
-	function (a, b) {
-		return $author$project$Shmup$lengthSquared(
-			A2($author$project$Shmup$sub, a, b));
-	});
-var $author$project$Playground$Shader$fragCircle = {
-	src: '\n               uniform vec4 color;\n        varying vec2 uv;\n        void main () {\n            gl_FragColor = color;\n            gl_FragColor.a *= smoothstep(0.01,0.04,1.-length(uv));\n        }\n    ',
-	attributes: {},
-	uniforms: {color: 'ae'}
-};
 var $elm_explorations$linear_algebra$Math$Vector3$toRecord = _MJS_v3toRecord;
 var $elm_explorations$linear_algebra$Math$Vector4$vec4 = _MJS_v4;
 var $author$project$Playground$Render$setAlpha = function (c) {
 	return function (c1) {
-		return A3($elm_explorations$linear_algebra$Math$Vector4$vec4, c1.a, c1.b, c1.cn);
+		return A3($elm_explorations$linear_algebra$Math$Vector4$vec4, c1.f, c1.g, c1.c4);
 	}(
 		$elm_explorations$linear_algebra$Math$Vector3$toRecord(c));
 };
 var $author$project$Playground$Shader$vertRect = {
-	src: '\n                       attribute vec2 aP;\n            uniform vec4 uT;\n            uniform vec2 uP;\n            varying vec2 uv;\n            void main () {\n                uv = aP;\n                gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n            }\n        ',
-	attributes: {aP: 'ar'},
-	uniforms: {uP: 'S', uT: 'T'}
+	src: '\n            precision mediump float;\n            attribute vec2 aP;\n            uniform vec4 uT;\n            uniform vec2 uP;\n            varying vec2 uv;\n            void main () {\n                uv = aP;\n                gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n            }\n        ',
+	attributes: {aP: 'ai'},
+	uniforms: {uP: 'cc', uT: 'cd'}
 };
 var $author$project$Playground$Render$circle = F4(
 	function (color, uP, uT, opacity) {
@@ -9036,31 +9131,295 @@ var $author$project$Playground$Render$circle = F4(
 			$author$project$Playground$Shader$fragCircle,
 			$author$project$Playground$Shader$mesh,
 			{
-				ae: A2($author$project$Playground$Render$setAlpha, color, opacity),
-				S: uP,
-				T: uT
+				cn: A2($author$project$Playground$Render$setAlpha, color, opacity),
+				cc: uP,
+				cd: uT
 			});
 	});
 var $author$project$Playground$circle = F2(
 	function (color, radius) {
 		return {
-			d: 0,
-			g: A3(
+			b: 0,
+			e: A3(
 				$author$project$Playground$Internal$Form,
 				radius * 2,
 				radius * 2,
 				$author$project$Playground$Render$circle(color)),
+			a: 1,
 			c: 1,
-			e: 1,
-			f: 1,
-			a: 0,
-			b: 0
+			d: 1,
+			f: 0,
+			g: 0
 		};
 	});
-var $author$project$Shmup$explosion03 = A3($author$project$Playground$image, 96, 96, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGOfPtRkwAAAwBQTFRFAAAAYy8dd00ir2sm0YAj/5UZ//Qj////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeNRfPAAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAALlSURBVGiB7ZjbjqshCIXnQuj7P/HeLSoCgmLbSeZCM5Me8nd9sMTjz79fbj8XcAEXcAEXcAF/EFCo/RqgcPs+ALgdIraApxbgqwFoyHcAL/mq/yK8/pARXwCQPDyo1RwIhA3xMYDceXBDzuQkiSWgRz8Qz38YXZIhLAAq/EaoeVRYLokFAHAGdHn6kCLEAEd/xJ/PIQJQ8c8AckmmsCUEgFICfQXIpOADSpiAAeCW4AKe+lpKipoMdoQA4AY/sd4F1ATSgDXBAZQNoA80njTOAXUI+OPgMSYlBNzPezOAFwA3+mEP6e/npBCwcIc7YABiQgRY2U/vyJtEHXkAiADNOKxjTC0NeUBdJJcJ4GgAu044Aqg+lpW68MgFaIfEJxQ5GEBESAHQvJUe9Sn1BKAHQZd6mCq1gIDgAqaZVEBag2mHcQiYCLozyKyqT1/GhKAPxt5Bl48isHxD5AGAoy0AKEckQhLQ9ougCM7InnoFIQ2ow7NXuiii7wFqBr0rrV/dM1vOLsFbcFr4Kn5UA25koQAewQcgC4jgZcByxuBns4BReyaNqarMwDgHTGkgr3XYHRKzE3gED2DDFPpc+XNiNO6OAP1FjgoH8HgHIIqwhs2SqsAYzJuwNED7whlJ0SopknkD0GYc7QqIQxoou9IAUIAxoykA7VnQAuYJz5kqQHsEYxtGbhMQ275lfH0A0ARoglxXYMniUWdNCCY71ZGCp/VUpujvj7YZ8DBwAuZ3/bkkoPQfYDO9b0O72aq3xT2Mty4HK5r4eT3qcaAyAVFP4f4uOOEo69kk6xyM5w4BNQfT0Zootu/cw96y7x8CqZBmPes5CHi0MwoAxdUTwYJp4eYxOCcLQjsCjNu0qjbre0qLu4qhwEmIY2uRjOUtZHjb0jpCGaTkVYvkF/dFsw2xfiy/upAqHuJUfn1nVwxjSGaU9wB5V52P+AjgEs70t3fXH8qnbt8/UM8BPmsXcAEXcAF/AfAfIBbtTUiE0+IAAAAASUVORK5CYII=');
-var $author$project$Shmup$explosion04 = A3($author$project$Playground$image, 96, 96, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGOfPtRkwAAAwBQTFRFAAAAYy8dd00ir2sm0YAj/5UZ//Qj////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeNRfPAAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAU4SURBVGiB7ZnrcuMgDIULCPv9nzhrJB1JYHDY7PTPTpjpJcY9H7qC3Z/XL4+fL+AL+AI2AIVHzr8EuLSJiBHjVM7C/hdAEf1KE6Xs7I8BrMCjMmMyV6/xiHgGqAIDqPPSpX9du+aOgxEfAS79epxnkyBxRha/8w9ibpv/GHCJXn9/Adoi22opm9slNuA/EB4AZoADqK27ckBI/HPI9OcAFbA48LVG4J88KYAVYQ3IvEgQNJtK88r1mRQkcDZpUYlLgMSxVl0iiYsUWTW9eAh+RVgAtEpNRbzlvI5gSfYXAA4iAywC8ov7hKzQxF8NsQsomiSkAChVu9rUCIHR265rmwDNcpeFR8g11YHaRjgycxMmgFyC6QJwC9Q1Fh4Alj66Azg9tUCRO0ieWlHG1boELG3fJpk0BxzaIGSt1hOMoPq8jNBx9wClhAI2bxhADGrZyoDLCN0yuKXfN74ZoNTTG0RbMXqOAwx5nrX6tjHZW+cAiLXk44+nAqTY2PmHUa23ck8a3HQDtBLWetI+RsEA/hLfh6viRsbWkTADdF2gdj21Wo8OFnDZYWvYAEjLP+4ANeu0T6HV+iIGwgyAPJHM8yJQI4I93sqrJ8EzIAvA6tbCF0bQR1rJIrR1dwX9c9N3yQA46jiOCDjC/COg6fvfS16Dd/hEN7C5+cc14NJ3+5t+bqN0LjpGAo1JV5aAnGOSg8BVcYpskKIRgAa8BrC+HoSsgDLXWbuIYLo+6QmmrcE3n7WLmn/Ow/QP7FuVW86h+0KpkFbR1n68G/GVeZqKg0KZmh/i0YXbWQkAPkiCUB4A6uzYdJA2wWMix/ciYzhS7DxteotW0QyI/SUmZGgCevyVIof7YVHRp6E5gOox9IRhIGnd1W6JRv6ub4DLyqrlPuY5flFf4yDDyB5Q2cTXG8CtkKTQZMHWlSFowYaRr9czYOIZhE76CJIAc6JfNwFz1xeLbvWurEu3RzWClUtAmetrQ9Km1AcJR7yMsLdvixikoae5AsWm1+WYTHpq6YF2nkUpzUzAmU0ioCtwQAUAp325e1oHKaWJCZZ/xPvCkGGh+8mT5zMgp9veGLtnuc3yVmZJ26oarShNAGLCsHW8A9j5FJ1EHnKXgD7ORNGECOv1+QBpBM7oBeCa0Lox/xCsIKIbguLuZIXX9KeAVwOkeKbodxHyeoUBLm6J1WKdVoA2dOuoeA4Iz2GlN6GdVbrVi5fyYEDcMgVgVVPsiCTOuh3Bgj72D7p5qDtVgIBXWdlrpyWf2UbUEaLbWgp1+v25yGxoyqVYddrWjufPzogu80p5ArzUAshne6DFOyJ5zQILahfig482ownD2ZQJCc/AWLQeJQDoTUBzkrMNlfQIkFzSp2BuZMVecRV30b3suNh2AGKEPYjbZmCZq0HQE9iYUW9d1EbWY468ztSQWwg9KhOAHGffWSAA0neZfgxSi8xXZQTIEnYAxfqQqNu7F62GlmX5ZoLp7wHQHxRA2B8FIJa5fCyDHQAULXPQT4t5KA8m4Ci/AUjZA/kMiK/c9P6c8lMlCyCZiikiNQsI2lHiboHN4B2AN09tRt6CzGf2ctkIDr/vBitAbBE5djlI5zRMrPSn7+ySIbK0V9jTvony0NhtLWOI1wBRwG9wGevLHAg5yE/05681AUgR0C0zADD03lFr8WI22ZDuV8Z1+u7nn2f663fXfr/FoUhsg5zr64+7zs7/0XyxnV2Bs1z/NiB1+sHEbsz+eOs/gQuNDfndfzUuRd6obwNUafPejwAfjy/gC/gC/gfAH9oEDV7SNcjaAAAAAElFTkSuQmCC');
-var $author$project$Shmup$explosion05 = A3($author$project$Playground$image, 96, 96, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGOfPtRkwAAAwBQTFRFAAAAYy8dd00ir2sm0YAj/5UZ//Qj////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeNRfPAAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAATlSURBVGiB7ZnbcuQqDEVHAv//J3vaIG1tYcBOzknVPISHVLpttHQXdv85f3j9+QX8AuRaPwcQXz8EENFrbQjP9B3gI78UECay3hi4BWittVwQkZksCQu/BRApDaAfgE4ILn9PeAYU8xFrayw1F+p3AZ/912pi1ZeEa7Rf3ZqwB6g6QCGs0z7Gqf5nQCc0+d1bnw/Xx0v+YQTVsk3kXRbBKR9APY5G6K5pvFqU7lghlgBzSg/xpfFhJrRVioVfizttQVgAPhuSyKax+aiY86/6MP1Vlm6aAqTLJ0LpMagZEFFfV/QNID26Tf7hWkNgBIEJlsZTwsyC6+6jAzqjq4wga68DJ3gez+ttArjUKS7fCQxwhxSLSW9WXwGoZQ0BTOH2PxqFuvfw3XlD3AFeqG01+Uj4Vl5FAmApG1a9scCamBGs3xVFsjqtVTdq7X0WOSAyH9WG8vLaOJxQ1IbTA0AAoLykyNqnYpRq1hXqrG9joK2oClqcJSLlTeRVKagMvROmgDDBvYSGHTblYvZgPwFEMAoHAOKC9pT8Zwl1r4U5QBQiumo9wtE9uJJbeDSq/MlFVsrIcKR7PaI/sXx0Ds/XNaBfCpHRzGAAGqDnMRWbJ9vWgksZ35g0dPmHx6GmTsidewcw8dU7nOJEQQY0ADWqq+KW/SK7qHUDqGnKe11UauA17CkxP+XBgpYKQygFZxbvfmaENfPDu8kLC1h+NNEou6Z8l2l9dg44U89mADxrrogQdP1tRLThHN0cvWPesgMgkYkMUJo/Hv7I0hijq5EAwNUrSX71IBAgWkWpJJ+U3wLYAOjmndK+qIefjfo3B7QgAzJjBjDvplZs8g/nttT0gRCAJmlqgWTAgRB4K+55lBtRDLj1ySsDahgA6zVNBxxJi42kCPCslyYATfqSAqhM6AbQPEC1WLS3AAimhqS9eSd50W47kgbCqg7GSW85UnEsRM/0KaTWwq977ECwB+BYwozqp0IXXA5kKlncL28HTpznoKb7yPzbAfykk8Me9bwCyABASFXUj1ueqcjVtGE70cQSlTYPIe1jhxqQJero0DUgnosTgDkFBNxkzcmnzwagRtDYHZ6mTBoAId8I8yyy1wM6aKw2hAYCTsCm0CvA6af+7JnP39Y9hkKhk0pY0E3bA/wcrv7E5EWN8+1ooBmFA41uhr6ZIP6u4BKFniF0/OGkir7iwVkCzgBgeGl0vUE+xkTN03QHSC+C/MHez9fJN3GTDU/uv8JDjWMwRhouR7y9xynfBNGo5gWArEDC8D+UuEX4cd8DEYCdi05/2zhUsqiWEZD7u3vyEeAFnROSXqp95AsPunEa7QANQkVG8gPgR5SUsBYwHUfO7CEwi46wDvLxXJZq+gEgeJ+sqVyROCE+iBkgryzIyzZCdDaBMHcDlg/iY1h7UGVY5EYP8XIeMEDYE4Pj5wQA1hMtE+6OGCSfE0LIl0cAZUq2x+WTHrH80oMFJ0uauybuovSlaw+A8yYwnr5IxIy8PvySdGy+yXjSw2+RfQzWIrA3uynfcJ6rp8xHApSLN9V792wArsx8f3oVvpO+BMSGqX5biV8EpJ+ysuv7Zd70HnDe9M1yBwMS/R1gDl255ruAYcNDNL/mItuS/nkCzNf3XHQv6v8DwEF+v+lLv4h/3UH/wE/uv4BfwD8A+AsOxlyTeMJMMAAAAABJRU5ErkJggg==');
-var $author$project$Shmup$explosion06 = A3($author$project$Playground$image, 96, 96, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAABGdBTUEAALGOfPtRkwAAAwBQTFRFAAAAYy8dd00ir2sm0YAj/5UZ//Qj////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeNRfPAAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAKGSURBVGiB7ZnbloMgDEWN///PTpeCCclJCEhn5sE8tMolm9wQ2+34smwv4J8D6COmaSGAyBAsEixiKQCMeQQwLloOGB2TCTJPB4qeATLyJMjn/Fg5vh4BxHThPccQDOjHNj0FAmjfBwhUCbDXAUyY4IgFUJWmDQyZBBAAmLt9ZxtH0xQbwLd06b8I1HenAzCN15fQ/yGcmTBcyXVCtd9071WugeNbhfZHY4XQv5OQEYAPO84KYf3nx8O9yORnq/8kxAJcFPLYPfUqWA8GOKqLAk5RAEDeSu+md8rU8D4FoM2hqCViH9EiFzXrLoDS1jkqSYCfcOwYavO/FEcKwCsSTRagJTRcAjg/gEVQde6hwYA7w7OAlAE3QJbQwZ6RLCoRbfXjjasDsCIX3C6f49QuzgK4RqGpssN654wJXNzWjNjNzJwEMdn0CF+/CPgwoKmfuHCknvsqWNxW+oX+YMMmBpA8nwWmb9zfDHKtEMNEWHXKYkCrxii2ADPLs+BAaecATH0DpRZQFJJZhq+hVnVHf+cdLag8cxyYAHRqewLAzh0GlHmdZzKnx/UpD7k59foco12kU/V+juX1a0IQA1LSB5QdfwbQf2kjwoe9MIscgKn6HIDMXMdHKpSlhzgGgQXqpHBrzgLsycdkkTGfjGU6GfUzIcoimC66wcmpIUB8ZAYtktBOV1kEDeg+po+yCaChidM10k+qx69ED0Bqhb01MCGMgVaZ3UcFQJuy5pffrwMOkT4dF9kRaQLuaF6h1PcS9uibPhgRU4d/fQcj0m+ZA4DmGPYA4Dp9GaArXwYkjo/L/8PRuAUACu7+7F+omc1iCICpU9j/BJiTF/ACXsALeAEv4FcAP71+VufWkVIFAAAAAElFTkSuQmCC');
+var $author$project$Playground$Internal$Group = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Playground$group = function (shapes) {
+	return {
+		b: 0,
+		e: $author$project$Playground$Internal$Group(shapes),
+		a: 1,
+		c: 1,
+		d: 1,
+		f: 0,
+		g: 0
+	};
+};
+var $author$project$Playground$move = F3(
+	function (dx, dy, _v0) {
+		var shape = _v0;
+		var x = shape.f;
+		var y = shape.g;
+		var a = shape.b;
+		var sx = shape.c;
+		var sy = shape.d;
+		var o = shape.a;
+		var form = shape.e;
+		return _Utils_update(
+			shape,
+			{f: x + dx, g: y + dy});
+	});
+var $elm$core$Basics$pi = _Basics_pi;
+var $author$project$Playground$Shader$fragFill = {
+	src: '\n        precision mediump float;\n        uniform vec4 color;\n\n        void main () {\n            gl_FragColor = color;\n\n        }\n    ',
+	attributes: {},
+	uniforms: {color: 'cn'}
+};
+var $author$project$Playground$Shader$vertNone = {
+	src: '\n        precision mediump float;\n        attribute vec2 aP;\n        uniform vec4 uT;\n        uniform vec2 uP;\n        void main () {\n            gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n        }\n    ',
+	attributes: {aP: 'ai'},
+	uniforms: {uP: 'cc', uT: 'cd'}
+};
+var $author$project$Playground$Render$rect = F4(
+	function (color, uP, uT, opacity) {
+		return A5(
+			$elm_explorations$webgl$WebGL$entityWith,
+			$author$project$Playground$Render$defaultEntitySettings,
+			$author$project$Playground$Shader$vertNone,
+			$author$project$Playground$Shader$fragFill,
+			$author$project$Playground$Shader$mesh,
+			{
+				cn: A2($author$project$Playground$Render$setAlpha, color, opacity),
+				cc: uP,
+				cd: uT
+			});
+	});
+var $author$project$Playground$rectangle = F3(
+	function (color, width, height) {
+		return {
+			b: 0,
+			e: A3(
+				$author$project$Playground$Internal$Form,
+				width,
+				height,
+				$author$project$Playground$Render$rect(color)),
+			a: 1,
+			c: 1,
+			d: 1,
+			f: 0,
+			g: 0
+		};
+	});
+var $elm$core$Basics$degrees = function (angleInDegrees) {
+	return (angleInDegrees * $elm$core$Basics$pi) / 180;
+};
+var $author$project$Playground$rotate = F2(
+	function (da, _v0) {
+		var shape = _v0;
+		var x = shape.f;
+		var y = shape.g;
+		var a = shape.b;
+		var sx = shape.c;
+		var sy = shape.d;
+		var o = shape.a;
+		var form = shape.e;
+		return _Utils_update(
+			shape,
+			{
+				b: a + $elm$core$Basics$degrees(da)
+			});
+	});
+var $author$project$Playground$Shader$fragNgon = {
+	src: '\n        precision mediump float;\n        uniform vec4 color;\n        uniform float n;\n        varying vec2 uv;\n        void main () {\n            float angle = 3.1415926535897932384626433832795;\n            float a = atan(uv.x,uv.y) + angle;\n            float b = 6.28319 / n;\n            float f = smoothstep(0.5,.5,cos(floor(.5 + a/b)*b-a)*length(uv));\n            gl_FragColor = color;\n            gl_FragColor.a -= f;\n        }\n    ',
+	attributes: {},
+	uniforms: {color: 'cn', n: 'cJ'}
+};
+var $author$project$Playground$Render$ngon = F5(
+	function (n, color, uP, uT, opacity) {
+		return A5(
+			$elm_explorations$webgl$WebGL$entityWith,
+			$author$project$Playground$Render$defaultEntitySettings,
+			$author$project$Playground$Shader$vertRect,
+			$author$project$Playground$Shader$fragNgon,
+			$author$project$Playground$Shader$mesh,
+			{
+				cn: A2($author$project$Playground$Render$setAlpha, color, opacity),
+				cJ: n,
+				cc: uP,
+				cd: uT
+			});
+	});
+var $author$project$Playground$triangle = F2(
+	function (color, radius) {
+		return {
+			b: 0,
+			e: A3(
+				$author$project$Playground$Internal$Form,
+				radius * 2,
+				radius * 2,
+				A2($author$project$Playground$Render$ngon, 3, color)),
+			a: 1,
+			c: 1,
+			d: 1,
+			f: 0,
+			g: 0
+		};
+	});
+var $author$project$Extra$Jump$drawSegment_ = F6(
+	function (start_, end_, _v0, c1, c2, c3) {
+		var p1 = _v0.q;
+		var p2 = _v0.r;
+		var w = $author$project$AltMath$Vector2$length(
+			A2($author$project$AltMath$Vector2$sub, p1, p2));
+		var start = start_ ? _List_fromArray(
+			[
+				A3(
+				$author$project$Playground$move,
+				p1.f,
+				p1.g,
+				A2($author$project$Playground$circle, c1, 2))
+			]) : _List_Nil;
+		var a = (A2($elm$core$Basics$atan2, p2.g - p1.g, p2.f - p1.f) / $elm$core$Basics$pi) * 180;
+		var addon = end_ ? _List_fromArray(
+			[
+				A2(
+				$author$project$Playground$rotate,
+				-90,
+				A2(
+					$author$project$Playground$rotate,
+					a,
+					A3(
+						$author$project$Playground$move,
+						p2.f,
+						p2.g,
+						A2($author$project$Playground$triangle, c2, 3))))
+			]) : _List_Nil;
+		return $author$project$Playground$group(
+			_Utils_ap(
+				_List_fromArray(
+					[
+						A2(
+						$author$project$Playground$rotate,
+						a,
+						A3(
+							$author$project$Playground$move,
+							(p1.f + p2.f) / 2,
+							(p1.g + p2.g) / 2,
+							A3($author$project$Playground$rectangle, c3, w, 1)))
+					]),
+				_Utils_ap(start, addon)));
+	});
+var $author$project$Extra$Jump$drawSegment = A2($author$project$Extra$Jump$drawSegment_, true, true);
+var $author$project$Playground$fade = F2(
+	function (o, _v0) {
+		var shape = _v0;
+		return _Utils_update(
+			shape,
+			{a: o});
+	});
+var $author$project$Playground$moveX = F2(
+	function (dx, _v0) {
+		var shape = _v0;
+		var x = shape.f;
+		var y = shape.g;
+		var a = shape.b;
+		var sx = shape.c;
+		var sy = shape.d;
+		var o = shape.a;
+		var form = shape.e;
+		return _Utils_update(
+			shape,
+			{f: x + dx});
+	});
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$core$Basics$clamp = F3(
+	function (low, high, number) {
+		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
+	});
+var $author$project$Playground$colorClamp = function (number) {
+	return A3(
+		$elm$core$Basics$clamp,
+		0,
+		255,
+		$elm$core$Basics$round(number));
+};
+var $elm_explorations$linear_algebra$Math$Vector3$vec3 = _MJS_v3;
+var $author$project$Playground$rgb = F3(
+	function (r, g, b) {
+		return A3(
+			$elm_explorations$linear_algebra$Math$Vector3$vec3,
+			$author$project$Playground$colorClamp(r) / 255,
+			$author$project$Playground$colorClamp(g) / 255,
+			$author$project$Playground$colorClamp(b) / 255);
+	});
+var $author$project$Extra$Jump$randomColor = function (i) {
+	var getAt = F2(
+		function (idx, xs) {
+			return (idx < 0) ? $elm$core$Maybe$Nothing : $elm$core$List$head(
+				A2($elm$core$List$drop, idx, xs));
+		});
+	return A2(
+		$elm$core$Maybe$withDefault,
+		A3($author$project$Playground$rgb, 196, 223, 15),
+		A2(
+			getAt,
+			A2($elm$core$Basics$modBy, 11, i),
+			_List_fromArray(
+				[
+					A3($author$project$Playground$rgb, 130, 178, 182),
+					A3($author$project$Playground$rgb, 226, 23, 49),
+					A3($author$project$Playground$rgb, 57, 54, 134),
+					A3($author$project$Playground$rgb, 204, 2, 181),
+					A3($author$project$Playground$rgb, 18, 187, 231),
+					A3($author$project$Playground$rgb, 8, 144, 133),
+					A3($author$project$Playground$rgb, 129, 8, 16),
+					A3($author$project$Playground$rgb, 156, 230, 146),
+					A3($author$project$Playground$rgb, 5, 77, 37),
+					A3($author$project$Playground$rgb, 72, 116, 216),
+					A3($author$project$Playground$rgb, 196, 223, 15)
+				])));
+};
 var $author$project$Playground$intFromHexChar = function (s) {
 	switch (s) {
 		case '0':
@@ -9138,7 +9497,6 @@ var $elm$core$String$foldr = _String_foldr;
 var $elm$core$String$toList = function (string) {
 	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
 };
-var $elm_explorations$linear_algebra$Math$Vector3$vec3 = _MJS_v3;
 var $author$project$Playground$hexColor2Vec3 = function (str) {
 	var withoutHash = A2($elm$core$String$startsWith, '#', str) ? A2($elm$core$String$dropLeft, 1, str) : str;
 	var _v0 = $elm$core$String$toList(withoutHash);
@@ -9170,1024 +9528,586 @@ var $author$project$Playground$hexColor2Vec3 = function (str) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (!maybe.$) {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
-var $author$project$Playground$white = A2(
+var $author$project$Playground$yellow = A2(
 	$elm$core$Maybe$withDefault,
 	A3($elm_explorations$linear_algebra$Math$Vector3$vec3, 0, 0, 0),
-	$author$project$Playground$hexColor2Vec3('#ffffff'));
-var $author$project$Shmup$explosion = {
-	af: A2($author$project$Playground$circle, $author$project$Playground$white, 8),
-	ay: _List_fromArray(
-		[
-			A2($author$project$Playground$circle, $author$project$Playground$white, 16),
-			A2($author$project$Playground$circle, $author$project$Playground$white, 24),
-			$author$project$Shmup$explosion03,
-			$author$project$Shmup$explosion04,
-			$author$project$Shmup$explosion05,
-			$author$project$Shmup$explosion06
-		]),
-	a: 0,
-	b: 0
-};
-var $author$project$Shmup$foldFilter2 = F3(
-	function (fn, _v0, l) {
-		foldFilter2:
-		while (true) {
-			var item = _v0.a;
-			var acc = _v0.b;
-			var acc3 = _v0.c;
-			if (!l.b) {
-				return _Utils_Tuple3(
-					$elm$core$Maybe$Just(item),
-					$elm$core$List$reverse(acc),
-					acc3);
-			} else {
-				var x = l.a;
-				var rest = l.b;
-				var _v2 = A3(fn, item, x, acc3);
-				if (!_v2.a.$) {
-					if (!_v2.b.$) {
-						var a = _v2.a.a;
-						var b = _v2.b.a;
-						var acc3_ = _v2.c;
-						var $temp$fn = fn,
-							$temp$_v0 = _Utils_Tuple3(
-							a,
-							A2($elm$core$List$cons, b, acc),
-							acc3_),
-							$temp$l = rest;
-						fn = $temp$fn;
-						_v0 = $temp$_v0;
-						l = $temp$l;
-						continue foldFilter2;
-					} else {
-						var a = _v2.a.a;
-						var _v3 = _v2.b;
-						var acc3_ = _v2.c;
-						var $temp$fn = fn,
-							$temp$_v0 = _Utils_Tuple3(a, acc, acc3_),
-							$temp$l = rest;
-						fn = $temp$fn;
-						_v0 = $temp$_v0;
-						l = $temp$l;
-						continue foldFilter2;
-					}
-				} else {
-					if (!_v2.b.$) {
-						var _v4 = _v2.a;
-						var b = _v2.b.a;
-						var acc3_ = _v2.c;
-						return _Utils_Tuple3(
-							$elm$core$Maybe$Nothing,
-							_Utils_ap(
-								$elm$core$List$reverse(
-									A2($elm$core$List$cons, b, acc)),
-								rest),
-							acc3_);
-					} else {
-						var _v5 = _v2.a;
-						var _v6 = _v2.b;
-						var acc3_ = _v2.c;
-						return _Utils_Tuple3(
-							$elm$core$Maybe$Nothing,
-							_Utils_ap(
-								$elm$core$List$reverse(acc),
-								rest),
-							acc3_);
-					}
-				}
-			}
-		}
-	});
-var $author$project$Shmup$foldFilter1 = F3(
-	function (fn, _v0, l) {
-		foldFilter1:
-		while (true) {
-			var acc1 = _v0.a;
-			var acc2 = _v0.b;
-			var acc3 = _v0.c;
-			if (!l.b) {
-				return _Utils_Tuple3(acc1, acc2, acc3);
-			} else {
-				var x = l.a;
-				var rest = l.b;
-				var _v2 = A3(
-					$author$project$Shmup$foldFilter2,
-					fn,
-					_Utils_Tuple3(x, _List_Nil, acc3),
-					acc2);
-				if (!_v2.a.$) {
-					var a = _v2.a.a;
-					var ll2 = _v2.b;
-					var acc3_ = _v2.c;
-					var $temp$fn = fn,
-						$temp$_v0 = _Utils_Tuple3(
-						A2($elm$core$List$cons, a, acc1),
-						ll2,
-						acc3_),
-						$temp$l = rest;
-					fn = $temp$fn;
-					_v0 = $temp$_v0;
-					l = $temp$l;
-					continue foldFilter1;
-				} else {
-					var _v3 = _v2.a;
-					var ll2 = _v2.b;
-					var acc3_ = _v2.c;
-					var $temp$fn = fn,
-						$temp$_v0 = _Utils_Tuple3(acc1, ll2, acc3_),
-						$temp$l = rest;
-					fn = $temp$fn;
-					_v0 = $temp$_v0;
-					l = $temp$l;
-					continue foldFilter1;
-				}
-			}
-		}
-	});
-var $author$project$Shmup$foldFilter = F4(
-	function (fn, acc, l1, l2) {
-		return A3(
-			$author$project$Shmup$foldFilter1,
-			fn,
-			_Utils_Tuple3(_List_Nil, l2, acc),
-			l1);
-	});
-var $author$project$Shmup$collideBulletEnemy = F2(
-	function (computer, state) {
-		var isColliding_ = F3(
-			function (a, b, acc) {
-				if (_Utils_cmp(
-					A2($author$project$Shmup$distanceSquared, a, b),
-					(a.i * a.i) + (b.i * b.i)) < 0) {
-					var _v3 = A2(
-						$elm$random$Random$step,
-						$author$project$Shmup$generatorMob(computer),
-						acc.k);
-					var nMob = _v3.a;
-					var nSeed = _v3.b;
-					return _Utils_Tuple3(
-						$elm$core$Maybe$Nothing,
-						$elm$core$Maybe$Just(nMob),
-						_Utils_update(
-							acc,
-							{
-								w: A2(
-									$elm$core$List$cons,
-									_Utils_update(
-										$author$project$Shmup$explosion,
-										{a: b.a, b: b.b}),
-									acc.w),
-								z: acc.z + $elm$core$Basics$round(b.i),
-								k: nSeed,
-								o: (acc.o < 3) ? 15 : acc.o
-							}));
-				} else {
-					return _Utils_Tuple3(
-						$elm$core$Maybe$Just(a),
-						$elm$core$Maybe$Just(b),
-						acc);
-				}
-			});
-		var _v0 = A4($author$project$Shmup$foldFilter, isColliding_, state, state.O, state.x);
-		var bullets = _v0.a;
-		var mobs = _v0.b;
-		var newState = _v0.c;
-		var _v1 = function () {
-			if (_Utils_cmp((newState.z / 500) | 0, (state.z / 500) | 0) > 0) {
-				var _v2 = A2(
-					$elm$random$Random$step,
-					$author$project$Shmup$generatorMob(computer),
-					newState.k);
-				var nMob = _v2.a;
-				var nSeed = _v2.b;
-				return _Utils_Tuple2(
-					A2($elm$core$List$cons, nMob, mobs),
-					nSeed);
-			} else {
-				return _Utils_Tuple2(mobs, newState.k);
-			}
-		}();
-		var mobs_ = _v1.a;
-		var seed_ = _v1.b;
-		return _Utils_update(
-			newState,
-			{O: bullets, x: mobs_, k: seed_});
-	});
-var $author$project$Shmup$collidePlayerEnemy = F2(
-	function (computer, state) {
-		var isColliding_ = F3(
-			function (a, b, acc) {
-				return (_Utils_cmp(
-					A2($author$project$Shmup$distanceSquared, a, b),
-					(a.i * a.i) + (b.i * b.i)) < 0) ? _Utils_Tuple3(
-					$elm$core$Maybe$Just(a),
-					$elm$core$Maybe$Just(b),
-					_Utils_update(
-						acc,
-						{
-							w: A2(
-								$elm$core$List$cons,
-								_Utils_update(
-									$author$project$Shmup$explosion,
-									{a: a.a, b: a.b}),
-								acc.w),
-							P: 80,
-							ah: acc.ah - 1
-						})) : _Utils_Tuple3(
-					$elm$core$Maybe$Just(a),
-					$elm$core$Maybe$Just(b),
-					acc);
-			});
-		var _v0 = A4(
-			$author$project$Shmup$foldFilter,
-			isColliding_,
-			state,
-			_List_fromArray(
-				[state.H]),
-			state.x);
-		var newState = _v0.c;
-		return (newState.ah > 0) ? $author$project$Shmup$Play(newState) : $author$project$Shmup$Intro(
-			{w: newState.w, x: newState.x, z: newState.z, k: newState.k, al: 100});
-	});
-var $elm$core$Basics$clamp = F3(
-	function (low, high, number) {
-		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
-	});
-var $author$project$Playground$toX = function (keyboard) {
-	return (keyboard.aR ? 1 : 0) - (keyboard.aL ? 1 : 0);
-};
-var $author$project$Shmup$moveShip = F2(
-	function (computer, state) {
-		var player = state.H;
-		return _Utils_update(
-			state,
-			{
-				H: _Utils_update(
-					player,
-					{
-						a: A3(
-							$elm$core$Basics$clamp,
-							computer.bC.aL,
-							computer.bC.aR,
-							A3(
-								$elm$core$Basics$clamp,
-								computer.bC.aL,
-								computer.bC.aR,
-								player.a + ($author$project$Playground$toX(computer.bZ) * player.A)))
-					})
-			});
-	});
-var $author$project$Shmup$startWave = F2(
-	function (computer, data) {
-		var player = $author$project$Shmup$bottomShoot.H;
-		var _v0 = A2($author$project$Shmup$breedMobs, computer, data.k);
-		var mobs = _v0.a;
-		var seed = _v0.b;
-		return _Utils_update(
-			data,
-			{
-				x: mobs,
-				H: _Utils_update(
-					player,
-					{b: (computer.bC.bM + player.i) + 20}),
-				z: 0,
-				k: seed
-			});
-	});
-var $author$project$Shmup$updateBullet = F2(
-	function (computer, state) {
-		return function (_v1) {
-			var bullets = _v1.a;
-			var seed = _v1.b;
-			return _Utils_update(
-				state,
-				{O: bullets, k: seed});
-		}(
+	$author$project$Playground$hexColor2Vec3('#edd400'));
+var $author$project$Extra$Jump$debug = F2(
+	function (computer, memory) {
+		var player = memory.n;
+		var _static = memory.a5;
+		return $author$project$Playground$group(
 			A3(
 				$elm$core$List$foldl,
 				F2(
-					function (mob, _v0) {
-						var bullets = _v0.a;
-						var seed = _v0.b;
-						var y = mob.b + mob.L;
-						var x = mob.a + mob.A;
-						return (_Utils_cmp(y, computer.bC.ch) > 0) ? _Utils_Tuple2(bullets, seed) : _Utils_Tuple2(
+					function (_v0, acc) {
+						var p1 = _v0.q;
+						var p2 = _v0.r;
+						var w = $author$project$AltMath$Vector2$length(
+							A2($author$project$AltMath$Vector2$sub, p1, p2));
+						var a = (A2($elm$core$Basics$atan2, p2.g - p1.g, p2.f - p1.f) / $elm$core$Basics$pi) * 180;
+						return A2(
+							$elm$core$List$cons,
 							A2(
-								$elm$core$List$cons,
-								_Utils_update(
-									mob,
-									{a: x, b: y}),
-								bullets),
-							seed);
+								$author$project$Playground$fade,
+								0.5,
+								A2(
+									$author$project$Playground$rotate,
+									a,
+									A3(
+										$author$project$Playground$move,
+										(p1.f + p2.f) / 2,
+										(p1.g + p2.g) / 2,
+										$author$project$Playground$group(
+											_List_fromArray(
+												[
+													A3($author$project$Playground$rectangle, $author$project$Playground$yellow, w, 2),
+													A2(
+													$author$project$Playground$rotate,
+													180,
+													A2($author$project$Playground$triangle, $author$project$Playground$yellow, 5)),
+													A2(
+													$author$project$Playground$moveX,
+													w / (-2),
+													A2($author$project$Playground$circle, $author$project$Playground$yellow, 3))
+												]))))),
+							acc);
 					}),
-				_Utils_Tuple2(_List_Nil, state.k),
-				state.O));
-	});
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$time$Time$posixToMillis = function (_v0) {
-	var millis = _v0;
-	return millis;
-};
-var $author$project$Playground$toFrac = F2(
-	function (period, _v0) {
-		var posix = _v0;
-		var p = period * 1000;
-		var ms = $elm$time$Time$posixToMillis(posix);
-		return A2(
-			$elm$core$Basics$modBy,
-			$elm$core$Basics$round(p),
-			ms) / p;
-	});
-var $author$project$Playground$spin = F2(
-	function (period, time) {
-		return 360 * A2($author$project$Playground$toFrac, period, time);
-	});
-var $author$project$Shmup$updateExplosions = F2(
-	function (computer, state) {
-		return (A2($author$project$Playground$spin, 0.01, computer.cg) < 125) ? _Utils_update(
-			state,
-			{
-				w: A3(
-					$elm$core$List$foldr,
+				A2(
+					$elm$core$List$indexedMap,
 					F2(
-						function (e, acc) {
-							var _v0 = e.ay;
-							if (_v0.b) {
-								var shape = _v0.a;
-								var next = _v0.b;
-								return A2(
-									$elm$core$List$cons,
-									_Utils_update(
-										e,
-										{af: shape, ay: next}),
-									acc);
-							} else {
-								return acc;
-							}
+						function (i, a) {
+							return A4(
+								$author$project$Extra$Jump$drawSegment,
+								a,
+								$author$project$Extra$Jump$randomColor(i),
+								$author$project$Extra$Jump$randomColor(i),
+								$author$project$Extra$Jump$randomColor(i));
 						}),
-					_List_Nil,
-					state.w)
-			}) : state;
+					player.aC),
+				_static));
 	});
-var $author$project$Shmup$updateMob = F2(
-	function (computer, state) {
-		return function (_v2) {
-			var mobs = _v2.a;
-			var seed = _v2.b;
-			return _Utils_update(
-				state,
-				{x: mobs, k: seed});
-		}(
-			A3(
-				$elm$core$List$foldr,
-				F2(
-					function (mob, _v0) {
-						var mobs = _v0.a;
-						var seed = _v0.b;
-						var y = mob.b + mob.L;
-						var x = mob.a + mob.A;
-						if ((_Utils_cmp(y, computer.bC.bM) < 0) || ((_Utils_cmp(x, computer.bC.aL) < 0) || (_Utils_cmp(x, computer.bC.aR) > 0))) {
-							var _v1 = A2(
-								$elm$random$Random$step,
-								$author$project$Shmup$generatorMob(computer),
-								seed);
-							var nMob = _v1.a;
-							var nSeed = _v1.b;
-							return _Utils_Tuple2(
-								A2($elm$core$List$cons, nMob, mobs),
-								nSeed);
-						} else {
-							return _Utils_Tuple2(
-								A2(
-									$elm$core$List$cons,
-									_Utils_update(
-										mob,
-										{
-											d: A2($author$project$Playground$spin, 3 / (-mob.A), computer.cg),
-											a: x,
-											b: y
-										}),
-									mobs),
-								seed);
-						}
-					}),
-				_Utils_Tuple2(_List_Nil, state.k),
-				state.x));
+var $author$project$Playground$Advanced$custom = F3(
+	function (width, height, render) {
+		return {
+			b: 0,
+			e: A3($author$project$Playground$Internal$Form, width, height, render),
+			a: 1,
+			c: 1,
+			d: 1,
+			f: 0,
+			g: 0
+		};
 	});
-var $author$project$Shmup$shoot = F2(
-	function (weapon, state) {
-		var bullet = {d: weapon.J.d, i: weapon.J.i, aa: weapon.J.aa, A: weapon.J.A, L: weapon.J.L, a: state.H.a + weapon.J.a, b: state.H.b + weapon.J.b};
-		return _Utils_update(
-			state,
-			{
-				O: A2($elm$core$List$cons, bullet, state.O)
-			});
+var $author$project$Extra$Jump$TileMap$vertFullscreen = {
+	src: '\n            precision mediump float;\n            attribute vec2 aP;\n\n            void main () {\n\n                gl_Position = vec4(aP, 0., 1.0);\n            }\n        ',
+	attributes: {aP: 'ai'},
+	uniforms: {}
+};
+var $author$project$Extra$Jump$TileMap$fullscreen = A3(
+	$author$project$Playground$Advanced$custom,
+	1,
+	1,
+	F3(
+		function (translate, scaleRotateSkew, opacity) {
+			return A5(
+				$elm_explorations$webgl$WebGL$entityWith,
+				$author$project$Playground$Render$defaultEntitySettings,
+				$author$project$Extra$Jump$TileMap$vertFullscreen,
+				$author$project$Playground$Shader$fragFill,
+				$author$project$Playground$Shader$mesh,
+				{
+					cn: A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 14 / 255, 21 / 255, 28 / 255, 1),
+					cb: opacity,
+					cc: translate,
+					cd: scaleRotateSkew
+				});
+		}));
+var $author$project$Extra$Jump$Sprite$getAt = F2(
+	function (idx, xs) {
+		return (idx < 0) ? $elm$core$Maybe$Nothing : $elm$core$List$head(
+			A2($elm$core$List$drop, idx, xs));
 	});
-var $author$project$Shmup$updateShoot = F2(
-	function (computer, state) {
-		return computer.bZ.cd ? function (_v1) {
-			var a = _v1.a;
-			var b = _v1.b;
-			return _Utils_update(
-				b,
-				{aY: a});
-		}(
-			A3(
-				$elm$core$List$foldl,
-				F2(
-					function (weapon, _v0) {
-						var acc = _v0.a;
-						var model = _v0.b;
-						return (computer.bZ.cd && (weapon.V <= 0)) ? _Utils_Tuple2(
-							A2(
-								$elm$core$List$cons,
-								_Utils_update(
-									weapon,
-									{V: weapon.aK}),
-								acc),
-							A2($author$project$Shmup$shoot, weapon, model)) : ((weapon.V > 0) ? _Utils_Tuple2(
-							A2(
-								$elm$core$List$cons,
-								_Utils_update(
-									weapon,
-									{V: weapon.V - 1}),
-								acc),
-							model) : _Utils_Tuple2(acc, model));
-					}),
-				_Utils_Tuple2(_List_Nil, state),
-				state.aY)) : state;
-	});
-var $author$project$Shmup$update = F2(
-	function (computer, phase) {
-		switch (phase.$) {
-			case 2:
-				var state = phase.a;
-				return ((state.o > 12) && (state.o < 15)) ? $author$project$Shmup$Play(
-					_Utils_update(
-						state,
-						{o: state.o - 1})) : function (s) {
-					return (s.P <= 0) ? A2($author$project$Shmup$collidePlayerEnemy, computer, s) : $author$project$Shmup$Play(
-						_Utils_update(
-							s,
-							{P: s.P - 1}));
-				}(
-					function (s) {
-						return (s.o > 0) ? _Utils_update(
-							s,
-							{o: s.o - 1}) : s;
-					}(
-						A2(
-							$author$project$Shmup$collideBulletEnemy,
-							computer,
-							A2(
-								$author$project$Shmup$updateShoot,
-								computer,
-								A2(
-									$author$project$Shmup$updateBullet,
-									computer,
-									A2(
-										$author$project$Shmup$updateExplosions,
-										computer,
-										A2(
-											$author$project$Shmup$updateMob,
-											computer,
-											A2($author$project$Shmup$moveShip, computer, state))))))));
-			case 1:
-				var state = phase.a;
-				return (state.al > 0) ? $author$project$Shmup$Intro(
-					A2(
-						$author$project$Shmup$updateExplosions,
-						computer,
-						A2(
-							$author$project$Shmup$updateMob,
-							computer,
-							_Utils_update(
-								state,
-								{al: state.al - 1})))) : (computer.bZ.cd ? $author$project$Shmup$Play(
-					A2(
-						$author$project$Shmup$startWave,
-						computer,
-						_Utils_update(
-							$author$project$Shmup$bottomShoot,
-							{k: state.k}))) : $author$project$Shmup$Intro(
-					A2($author$project$Shmup$updateMob, computer, state)));
-			default:
-				var _v1 = A2($author$project$Shmup$breedMobs, computer, $author$project$Shmup$bottomShoot.k);
-				var mobs = _v1.a;
-				var seed = _v1.b;
-				return $author$project$Shmup$Intro(
-					{w: _List_Nil, x: mobs, z: 0, k: seed, al: 0});
-		}
-	});
-var $author$project$Shmup$andFold = F3(
-	function (l, fn, acc) {
-		return A3($elm$core$List$foldr, fn, acc, l);
-	});
-var $author$project$Shmup$applyIf = F3(
-	function (bool, f, world) {
-		return bool ? f(world) : world;
-	});
-var $author$project$Playground$fade = F2(
-	function (o, _v0) {
+var $author$project$Playground$Extra$scaleX = F2(
+	function (sx, _v0) {
 		var shape = _v0;
 		return _Utils_update(
 			shape,
-			{c: o});
+			{c: shape.c * sx});
 	});
-var $author$project$Shmup$background = A3($author$project$Playground$image, 256, 256, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2MjE5OUU4OTg4RDAxMUUzOEEyRkNDM0VCNzYzOTA1NCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2MjE5OUU4QTg4RDAxMUUzOEEyRkNDM0VCNzYzOTA1NCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjYyMTk5RTg3ODhEMDExRTM4QTJGQ0MzRUI3NjM5MDU0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjYyMTk5RTg4ODhEMDExRTM4QTJGQ0MzRUI3NjM5MDU0Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+yeMMlwAAB7VJREFUeNrs3f+S0zYC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');
-var $author$project$Playground$move = F3(
-	function (dx, dy, _v0) {
-		var shape = _v0;
-		var x = shape.a;
-		var y = shape.b;
-		var a = shape.d;
-		var sx = shape.e;
-		var sy = shape.f;
-		var o = shape.c;
-		var form = shape.g;
-		return _Utils_update(
-			shape,
-			{a: x + dx, b: y + dy});
-	});
-var $author$project$Shmup$fillBackground = F2(
-	function (_v0, acc) {
-		var screen = _v0.bC;
-		return A3(
-			$elm$core$List$foldl,
-			F2(
-				function (b, acc2) {
-					return A3(
-						$elm$core$List$foldl,
-						F2(
-							function (a, acc_) {
-								return A2(
-									$elm$core$List$cons,
-									A3($author$project$Playground$move, a * 256, b * 256, $author$project$Shmup$background),
-									acc_);
-							}),
-						acc2,
-						A2(
-							$elm$core$List$range,
-							$elm$core$Basics$floor(screen.aL / 256),
-							$elm$core$Basics$ceiling(screen.aR / 256)));
-				}),
-			acc,
-			A2(
-				$elm$core$List$range,
-				$elm$core$Basics$floor(screen.bM / 256),
-				$elm$core$Basics$ceiling(screen.ch / 256)));
-	});
-var $author$project$Playground$Internal$Group = function (a) {
-	return {$: 2, a: a};
-};
-var $author$project$Playground$group = function (shapes) {
-	return {
-		d: 0,
-		g: $author$project$Playground$Internal$Group(shapes),
-		c: 1,
-		e: 1,
-		f: 1,
-		a: 0,
-		b: 0
-	};
-};
-var $author$project$Shmup$lifeIcon = A3($author$project$Playground$image, 32, 26, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAaCAYAAADWm14/AAACcElEQVR42r2Wz2sTQRTH8x/4J/gPCN4EQRAvHrz0UPQiouilB6UHtRehRVRQECyUFgRpQGpBEeupFyFSJD2Ixouw1aRbYyWiSIxijCE/xv088obtpiY7a5KBLwwz732/b96+N7OpVMLRbrdXAnwHrVbreb1e358a1QgEZ0xkEMRIxMvl8h5OjWihUBDoaDQah0d2+kqlYjzPEzDvZCE9stMXi0UbgO/7Ngu1Wm3v0AJoNptvEKlWqyI8PXVDwJw1BjbDSn0agT++Z/JPl0z2xbo5dui4gPlWNmOav34M51MEhJNyukBg+9qEnPju3KINgDlrX5Zmw10xOai0n1bS0vQZ8+7BgohdOHvZBsCcNfa+Ld60QeD7X+JcLlp0X+eumM2TB0Qo9zpnxRWssYfNz8yKBIBv4guKalZxCP3xfeb9/FURuX9vuSsA1tjDBtvfb1/aIJw7g3bTiocIQjl97pWIPFp+YmZvLewAa9KWgQ22H04dlILVzoDT6Z7XioeIAPLXz9u+7wds8fk4cdR2BpxO7Ybjp4vjQgS89bXYAWCrfnDEbs9oxSuJy+mjWQAUcN/OCDbG1AgHdQYbmVXnAPAJc0Tac+yf7aYVryhcOuEsrsA3zLVre3Yqfitc8TtOv/o4cQD4Rvm0PdGUztCiC3rVVrxi89yRxOIKOMKcaKBli1JTz5MaTZlcPrenEovrpRT9pPp8o53SwuB9/5x9ZsoP57uwnd9wFsdnNy400NJhM9BvlEql2OLYxhmSAVqCW4qfStCZz4RwxyWIsDi+Ea50WKerHeNcUPz59MLAnuJeQfQbAxcPv5L8eveC6/v/F7hzp+GkEvouAAAALXRFWHRTb2Z0d2FyZQBieS5ibG9vZGR5LmNyeXB0by5pbWFnZS5QTkcyNEVuY29kZXKoBn/uAAAAAElFTkSuQmCC');
-var $author$project$Shmup$meteor_big = A3($author$project$Playground$image, 96, 96, 'data:image/png;base64,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');
+var $author$project$Extra$Jump$Sprite$image = 'data:image/png;base64,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';
 var $author$project$Playground$moveY = F2(
 	function (dy, _v0) {
 		var shape = _v0;
-		var x = shape.a;
-		var y = shape.b;
-		var a = shape.d;
-		var sx = shape.e;
-		var sy = shape.f;
-		var o = shape.c;
-		var form = shape.g;
+		var x = shape.f;
+		var y = shape.g;
+		var a = shape.b;
+		var sx = shape.c;
+		var sy = shape.d;
+		var o = shape.a;
+		var form = shape.e;
 		return _Utils_update(
 			shape,
-			{b: y + dy});
+			{g: y + dy});
 	});
-var $elm$core$List$repeatHelp = F3(
-	function (result, n, value) {
-		repeatHelp:
-		while (true) {
-			if (n <= 0) {
-				return result;
-			} else {
-				var $temp$result = A2($elm$core$List$cons, value, result),
-					$temp$n = n - 1,
-					$temp$value = value;
-				result = $temp$result;
-				n = $temp$n;
-				value = $temp$value;
-				continue repeatHelp;
-			}
-		}
-	});
-var $elm$core$List$repeat = F2(
-	function (n, value) {
-		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
-	});
-var $elm$core$Basics$degrees = function (angleInDegrees) {
-	return (angleInDegrees * $elm$core$Basics$pi) / 180;
+var $author$project$Playground$Extra$size = function (t) {
+	return function (_v0) {
+		var w = _v0.a;
+		var h = _v0.b;
+		return A2($elm_explorations$linear_algebra$Math$Vector2$vec2, w, h);
+	}(
+		$elm_explorations$webgl$WebGL$Texture$size(t));
 };
-var $author$project$Playground$rotate = F2(
-	function (da, _v0) {
-		var shape = _v0;
-		var x = shape.a;
-		var y = shape.b;
-		var a = shape.d;
-		var sx = shape.e;
-		var sy = shape.f;
-		var o = shape.c;
-		var form = shape.g;
-		return _Utils_update(
-			shape,
-			{
-				d: a + $elm$core$Basics$degrees(da)
-			});
-	});
-var $author$project$Playground$scale = F2(
-	function (ns, _v0) {
-		var shape = _v0;
-		var x = shape.a;
-		var y = shape.b;
-		var a = shape.d;
-		var sx = shape.e;
-		var sy = shape.f;
-		var o = shape.c;
-		var form = shape.g;
-		return _Utils_update(
-			shape,
-			{e: sx * ns, f: sy * ns});
-	});
-var $author$project$Shmup$ship = A3($author$project$Playground$image, 98, 75, 'data:image/png;base64,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');
-var $elm$core$List$singleton = function (value) {
-	return _List_fromArray(
-		[value]);
-};
-var $elm$core$Basics$turns = function (angleInTurns) {
-	return (2 * $elm$core$Basics$pi) * angleInTurns;
-};
-var $author$project$Playground$wave = F4(
-	function (lo, hi, period, time) {
-		return lo + (((hi - lo) * (1 + $elm$core$Basics$cos(
-			$elm$core$Basics$turns(
-				A2($author$project$Playground$toFrac, period, time))))) / 2);
-	});
-var $author$project$Playground$Shader$fragImageColor = {
-	src: '\n               varying vec2 uv;\n        uniform vec2 uImgSize;\n        uniform sampler2D uImg;\n        uniform vec4 color;\n        void main () {\n            vec2 pixel = (floor(uv * uImgSize) + 0.5) / uImgSize;\n            gl_FragColor = texture2D(uImg, pixel) * color;\n        }\n    ',
+var $author$project$Playground$Shader$fragImage = {
+	src: '\n        precision mediump float;\n        varying vec2 uv;\n        uniform vec2 uImgSize;\n        uniform sampler2D uImg;\n        uniform float uA;\n        void main () {\n            vec2 pixel = (floor(uv * uImgSize) + 0.5) / uImgSize;\n            gl_FragColor = texture2D(uImg, pixel);\n            gl_FragColor.a *= uA;\n        }\n    ',
 	attributes: {},
-	uniforms: {color: 'ae', uImg: 'aA', uImgSize: 'aB'}
+	uniforms: {uA: 'cb', uImg: 'aw', uImgSize: 'ax'}
 };
 var $author$project$Playground$Shader$vertSprite = {
-	src: '\n                       attribute vec2 aP;\n            uniform vec4 uT;\n            uniform vec2 uP;\n            varying vec2 uv;\n            uniform vec4 uUV;\n            void main () {\n                vec2 aP_ = aP * .5 + 0.5;\n                uv = uUV.xy + (aP_ * uUV.zw);\n                gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n            }\n        ',
-	attributes: {aP: 'ar'},
-	uniforms: {uP: 'S', uT: 'T', uUV: 'bH'}
+	src: 'precision mediump float;attribute vec2 aP;uniform vec2 uP;varying vec2 uv;uniform vec4 uT,uUV;void main(){vec2 aP_=aP*.5+.5;uv=uUV.xy+aP_*uUV.zw,gl_Position=vec4(aP*mat2(uT)+uP,0.,1.);}',
+	attributes: {aP: 'ai'},
+	uniforms: {uP: 'cc', uT: 'cd', uUV: 'ce'}
 };
-var $author$project$Playground$Render$spriteWithColor = F7(
-	function (t, imgSize, color, uv, translate, scaleRotateSkew, opacity) {
+var $author$project$Playground$Render$sprite = F6(
+	function (image_, imageSize, uv, translate, scaleRotateSkew, opacity) {
 		return A5(
 			$elm_explorations$webgl$WebGL$entityWith,
 			$author$project$Playground$Render$defaultEntitySettings,
 			$author$project$Playground$Shader$vertSprite,
-			$author$project$Playground$Shader$fragImageColor,
+			$author$project$Playground$Shader$fragImage,
 			$author$project$Playground$Shader$mesh,
-			{
-				ae: A2($author$project$Playground$Render$setAlpha, color, opacity),
-				aA: t,
-				aB: imgSize,
-				S: translate,
-				T: scaleRotateSkew,
-				bH: uv
-			});
+			{cb: opacity, aw: image_, ax: imageSize, cc: translate, cd: scaleRotateSkew, ce: uv});
 	});
-var $author$project$Playground$char = F7(
-	function (color, t, imgSize, _v0, x, y, uv) {
-		var w = _v0.aF;
-		var h = _v0.a6;
+var $author$project$Playground$Internal$Textured = F2(
+	function (a, b) {
+		return {$: 1, a: a, b: b};
+	});
+var $author$project$Playground$Advanced$useTexture = F2(
+	function (url, fn) {
 		return {
-			d: 0,
-			g: A3(
-				$author$project$Playground$Internal$Form,
-				w,
-				h,
-				A4($author$project$Playground$Render$spriteWithColor, t, imgSize, color, uv)),
+			b: 0,
+			e: A2($author$project$Playground$Internal$Textured, url, fn),
+			a: 1,
 			c: 1,
-			e: 1,
-			f: 1,
-			a: x,
-			b: y
+			d: 1,
+			f: 0,
+			g: 0
 		};
 	});
-var $author$project$Playground$Font$GoodNeighbors$image = 'data:image/png;base64,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';
-var $author$project$Playground$Font$GoodNeighbors$letters = function (c) {
-	return A2(
-		$elm$core$Maybe$withDefault,
-		{a6: 12, c: 0, aF: 6, a: 102, b: (115 - 16) - 12},
+var $author$project$Playground$Extra$sprite = F4(
+	function (tileW, tileH, atlas, uv) {
+		return A2(
+			$author$project$Playground$Advanced$useTexture,
+			atlas,
+			function (t) {
+				return A3(
+					$author$project$Playground$Advanced$custom,
+					tileW,
+					tileH,
+					A3(
+						$author$project$Playground$Render$sprite,
+						t,
+						$author$project$Playground$Extra$size(t),
+						uv));
+			});
+	});
+var $author$project$Extra$Jump$Sprite$sheet = {
+	aB: A4(
+		$author$project$Playground$Extra$sprite,
+		12,
+		18,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.07391304347826087, 0, 0.05217391304347826, 0.23684210526315788)),
+	aE: A2(
+		$author$project$Playground$moveY,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.004347826086956522, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367))),
+	aF: A2(
+		$author$project$Playground$moveY,
+		1.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			15,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.06956521739130435, 0.2894736842105262, 0.05652173913043478, 0.19736842105263158))),
+	am: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.6565217391304348, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367)),
+	cu: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.7217391304347827, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367)),
+	cv: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.7869565217391304, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367)),
+	aG: A2(
+		$author$project$Playground$moveY,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			17,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.8521739130434782, 0.26315789473684204, 0.05652173913043478, 0.2236842105263158))),
+	aH: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.13478260869565217, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367)),
+	aI: A2(
+		$author$project$Playground$moveX,
+		0.5,
 		A2(
-			$elm$core$Dict$get,
-			c,
-			$elm$core$Dict$fromList(
-				_List_fromArray(
-					[
-						_Utils_Tuple2(
-						'!',
-						{a6: 12, c: 0, aF: 6, a: 102, b: 87}),
-						_Utils_Tuple2(
-						'\"',
-						{a6: 7, c: 2.5, aF: 7, a: 85, b: 108}),
-						_Utils_Tuple2(
-						'#',
-						{a6: 10, c: 0, aF: 10, a: 0, b: 51}),
-						_Utils_Tuple2(
-						'$',
-						{a6: 14, c: 0, aF: 10, a: 0, b: 63}),
-						_Utils_Tuple2(
-						'%',
-						{a6: 12, c: 0, aF: 11, a: 0, b: 79}),
-						_Utils_Tuple2(
-						'&',
-						{a6: 12, c: 0, aF: 11, a: 0, b: 93}),
-						_Utils_Tuple2(
-						'\'',
-						{a6: 7, c: 2.5, aF: 4, a: 94, b: 46}),
-						_Utils_Tuple2(
-						'(',
-						{a6: 14, c: 0, aF: 6, a: 94, b: 101}),
-						_Utils_Tuple2(
-						')',
-						{a6: 14, c: 0, aF: 6, a: 102, b: 101}),
-						_Utils_Tuple2(
-						'*',
-						{a6: 11, c: 1.5, aF: 10, a: 0, b: 2}),
-						_Utils_Tuple2(
-						'+',
-						{a6: 9, c: -0.5, aF: 8, a: 34, b: 46}),
-						_Utils_Tuple2(
-						',',
-						{a6: 7, c: -4.5, aF: 4, a: 93, b: 6}),
-						_Utils_Tuple2(
-						'-',
-						{a6: 5, c: -0.5, aF: 9, a: 12, b: 2}),
-						_Utils_Tuple2(
-						'.',
-						{a6: 5, c: -3.5, aF: 4, a: 74, b: 2}),
-						_Utils_Tuple2(
-						'/',
-						{a6: 14, c: 0, aF: 8, a: 24, b: 69}),
-						_Utils_Tuple2(
-						'0',
-						{a6: 12, c: 0, aF: 8, a: 54, b: 22}),
-						_Utils_Tuple2(
-						'1',
-						{a6: 12, c: 0, aF: 6, a: 102, b: 73}),
-						_Utils_Tuple2(
-						'2',
-						{a6: 12, c: 0, aF: 8, a: 24, b: 55}),
-						_Utils_Tuple2(
-						'3',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 61}),
-						_Utils_Tuple2(
-						'4',
-						{a6: 12, c: 0, aF: 9, a: 23, b: 23}),
-						_Utils_Tuple2(
-						'5',
-						{a6: 12, c: 0, aF: 8, a: 45, b: 103}),
-						_Utils_Tuple2(
-						'6',
-						{a6: 12, c: 0, aF: 8, a: 34, b: 71}),
-						_Utils_Tuple2(
-						'7',
-						{a6: 12, c: 0, aF: 8, a: 34, b: 57}),
-						_Utils_Tuple2(
-						'8',
-						{a6: 12, c: 0, aF: 8, a: 34, b: 32}),
-						_Utils_Tuple2(
-						'9',
-						{a6: 12, c: 0, aF: 8, a: 34, b: 4}),
-						_Utils_Tuple2(
-						':',
-						{a6: 8, c: -1, aF: 4, a: 99, b: 2}),
-						_Utils_Tuple2(
-						';',
-						{a6: 10, c: -3, aF: 4, a: 102, b: 31}),
-						_Utils_Tuple2(
-						'<',
-						{a6: 14, c: 0, aF: 9, a: 24, b: 101}),
-						_Utils_Tuple2(
-						'=',
-						{a6: 8, c: -1, aF: 7, a: 84, b: 35}),
-						_Utils_Tuple2(
-						'>',
-						{a6: 14, c: 0, aF: 9, a: 24, b: 85}),
-						_Utils_Tuple2(
-						'?',
-						{a6: 12, c: 0, aF: 8, a: 34, b: 18}),
-						_Utils_Tuple2(
-						'@',
-						{a6: 12, c: 0, aF: 10, a: 0, b: 37}),
-						_Utils_Tuple2(
-						'A',
-						{a6: 12, c: 0, aF: 8, a: 35, b: 103}),
-						_Utils_Tuple2(
-						'B',
-						{a6: 12, c: 0, aF: 8, a: 35, b: 89}),
-						_Utils_Tuple2(
-						'C',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 75}),
-						_Utils_Tuple2(
-						'D',
-						{a6: 12, c: 0, aF: 9, a: 23, b: 37}),
-						_Utils_Tuple2(
-						'E',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 47}),
-						_Utils_Tuple2(
-						'F',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 33}),
-						_Utils_Tuple2(
-						'G',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 19}),
-						_Utils_Tuple2(
-						'H',
-						{a6: 12, c: 0, aF: 8, a: 44, b: 5}),
-						_Utils_Tuple2(
-						'I',
-						{a6: 12, c: 0, aF: 6, a: 94, b: 87}),
-						_Utils_Tuple2(
-						'J',
-						{a6: 12, c: 0, aF: 9, a: 23, b: 9}),
-						_Utils_Tuple2(
-						'K',
-						{a6: 12, c: 0, aF: 8, a: 54, b: 75}),
-						_Utils_Tuple2(
-						'L',
-						{a6: 12, c: 0, aF: 8, a: 54, b: 61}),
-						_Utils_Tuple2(
-						'M',
-						{a6: 12, c: 0, aF: 10, a: 12, b: 65}),
-						_Utils_Tuple2(
-						'N',
-						{a6: 12, c: 0, aF: 9, a: 13, b: 88}),
-						_Utils_Tuple2(
-						'O',
-						{a6: 12, c: 0, aF: 8, a: 54, b: 22}),
-						_Utils_Tuple2(
-						'P',
-						{a6: 12, c: 0, aF: 8, a: 45, b: 89}),
-						_Utils_Tuple2(
-						'Q',
-						{a6: 13, c: -0.5, aF: 9, a: 13, b: 102}),
-						_Utils_Tuple2(
-						'R',
-						{a6: 12, c: 0, aF: 9, a: 12, b: 9}),
-						_Utils_Tuple2(
-						'S',
-						{a6: 12, c: 0, aF: 8, a: 64, b: 81}),
-						_Utils_Tuple2(
-						'T',
-						{a6: 12, c: 0, aF: 8, a: 64, b: 67}),
-						_Utils_Tuple2(
-						'U',
-						{a6: 12, c: 0, aF: 8, a: 64, b: 53}),
-						_Utils_Tuple2(
-						'V',
-						{a6: 12, c: 0, aF: 8, a: 64, b: 39}),
-						_Utils_Tuple2(
-						'W',
-						{a6: 12, c: 0, aF: 10, a: 12, b: 51}),
-						_Utils_Tuple2(
-						'X',
-						{a6: 12, c: 0, aF: 9, a: 12, b: 37}),
-						_Utils_Tuple2(
-						'Y',
-						{a6: 12, c: 0, aF: 8, a: 65, b: 103}),
-						_Utils_Tuple2(
-						'Z',
-						{a6: 12, c: 0, aF: 8, a: 74, b: 89}),
-						_Utils_Tuple2(
-						'[',
-						{a6: 14, c: 0, aF: 6, a: 94, b: 55}),
-						_Utils_Tuple2(
-						'a',
-						{a6: 9, c: -1.5, aF: 8, a: 74, b: 23}),
-						_Utils_Tuple2(
-						'b',
-						{a6: 12, c: 0, aF: 8, a: 74, b: 9}),
-						_Utils_Tuple2(
-						'c',
-						{a6: 9, c: -1.5, aF: 8, a: 75, b: 106}),
-						_Utils_Tuple2(
-						'd',
-						{a6: 12, c: 0, aF: 8, a: 54, b: 47}),
-						_Utils_Tuple2(
-						'e',
-						{a6: 9, c: -1.5, aF: 8, a: 84, b: 84}),
-						_Utils_Tuple2(
-						'f',
-						{a6: 12, c: 0, aF: 7, a: 84, b: 21}),
-						_Utils_Tuple2(
-						'g',
-						{a6: 12, c: -3, aF: 8, a: 84, b: 59}),
-						_Utils_Tuple2(
-						'h',
-						{a6: 12, c: 0, aF: 8, a: 84, b: 45}),
-						_Utils_Tuple2(
-						'i',
-						{a6: 12, c: 0, aF: 6, a: 93, b: 15}),
-						_Utils_Tuple2(
-						'j',
-						{a6: 15, c: -1.5, aF: 6, a: 101, b: 12}),
-						_Utils_Tuple2(
-						'k',
-						{a6: 12, c: 0, aF: 8, a: 74, b: 75}),
-						_Utils_Tuple2(
-						'l',
-						{a6: 12, c: 0, aF: 5, a: 102, b: 59}),
-						_Utils_Tuple2(
-						'm',
-						{a6: 9, c: -1.5, aF: 10, a: 0, b: 26}),
-						_Utils_Tuple2(
-						'n',
-						{a6: 9, c: -1.5, aF: 8, a: 84, b: 95}),
-						_Utils_Tuple2(
-						'o',
-						{a6: 9, c: -1.5, aF: 8, a: 74, b: 34}),
-						_Utils_Tuple2(
-						'p',
-						{a6: 12, c: -3, aF: 8, a: 74, b: 45}),
-						_Utils_Tuple2(
-						'q',
-						{a6: 12, c: -3, aF: 9, a: 12, b: 23}),
-						_Utils_Tuple2(
-						'r',
-						{a6: 9, c: -1.5, aF: 8, a: 64, b: 4}),
-						_Utils_Tuple2(
-						's',
-						{a6: 9, c: -1.5, aF: 8, a: 84, b: 73}),
-						_Utils_Tuple2(
-						't',
-						{a6: 11, c: -0.5, aF: 8, a: 64, b: 15}),
-						_Utils_Tuple2(
-						'u',
-						{a6: 9, c: -1.5, aF: 8, a: 64, b: 28}),
-						_Utils_Tuple2(
-						'v',
-						{a6: 9, c: -1.5, aF: 8, a: 55, b: 95}),
-						_Utils_Tuple2(
-						'w',
-						{a6: 9, c: -1.5, aF: 10, a: 0, b: 15}),
-						_Utils_Tuple2(
-						'x',
-						{a6: 9, c: -1.5, aF: 8, a: 55, b: 106}),
-						_Utils_Tuple2(
-						'y',
-						{a6: 12, c: -3, aF: 8, a: 54, b: 8}),
-						_Utils_Tuple2(
-						'z',
-						{a6: 9, c: -1.5, aF: 8, a: 54, b: 36}),
-						_Utils_Tuple2(
-						'{',
-						{a6: 14, c: 0, aF: 7, a: 93, b: 29}),
-						_Utils_Tuple2(
-						'|',
-						{a6: 14, c: 0, aF: 4, a: 102, b: 43}),
-						_Utils_Tuple2(
-						'}',
-						{a6: 14, c: 0, aF: 7, a: 84, b: 5}),
-						_Utils_Tuple2(
-						'~',
-						{a6: 6, c: 3, aF: 9, a: 13, b: 80}),
-						_Utils_Tuple2(
-						']',
-						{a6: 14, c: 0, aF: 6, a: 94, b: 71}),
-						_Utils_Tuple2(
-						'\\',
-						{a6: 14, c: 0, aF: 8, a: 74, b: 59}),
-						_Utils_Tuple2(
-						'^',
-						{a6: 8, c: 3, aF: 11, a: 0, b: 107}),
-						_Utils_Tuple2(
-						'_',
-						{a6: 5, c: -4.5, aF: 8, a: 23, b: 2}),
-						_Utils_Tuple2(
-						'`',
-						{a6: 6, c: 3, aF: 6, a: 65, b: 95}),
-						_Utils_Tuple2(
-						' ',
-						{a6: 0, c: 0, aF: 6, a: 0, b: 0})
-					]))));
+			$author$project$Playground$moveY,
+			-0.5,
+			A4(
+				$author$project$Playground$Extra$sprite,
+				12,
+				15,
+				$author$project$Extra$Jump$Sprite$image,
+				A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.2, 0.2894736842105262, 0.05217391304347826, 0.19736842105263158)))),
+	aJ: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.2608695652173913, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367))),
+	aK: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.32608695652173914, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367))),
+	aL: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.391304347826087, 0.2763157894736842, 0.05652173913043478, 0.21052631578947367))),
+	an: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			14,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.45652173913043476, 0.2763157894736842, 0.06086956521739131, 0.21052631578947367))),
+	cw: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		17,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.5260869565217391, 0.26315789473684204, 0.05652173913043478, 0.2236842105263158)),
+	aM: A2(
+		$author$project$Playground$moveY,
+		-0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			13,
+			17,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.5913, 0.2632, 0.05652, 0.2237))),
+	Z: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.004347826086956522, 0.02631578947368418, 0.06086956521739131, 0.21052631578947367)),
+	ap: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.004347826086956522, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367)),
+	aN: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.07391304347826087, 0.5394736842105263, 0.06086956521739131, 0.19736842105263158)),
+	aq: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			14,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.7043478260869566, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367))),
+	cx: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			14,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.7739130434782608, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367))),
+	cy: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			14,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.8434782608695652, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367))),
+	aO: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A2(
+			$author$project$Playground$moveY,
+			0.5,
+			A4(
+				$author$project$Playground$Extra$sprite,
+				14,
+				17,
+				$author$project$Extra$Jump$Sprite$image,
+				A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.9130434782608695, 0.513157894736842, 0.06086956521739131, 0.2236842105263158)))),
+	aP: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.14347826086956522, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367)),
+	aQ: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.21304347826086956, 0.5394736842105263, 0.06086956521739131, 0.19736842105263158)),
+	aR: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.2826086956521739, 0.5394736842105263, 0.06086956521739131, 0.19736842105263158)),
+	aS: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.3521739130434783, 0.5394736842105263, 0.06086956521739131, 0.19736842105263158)),
+	aT: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.4217391304347826, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367)),
+	aU: A4(
+		$author$project$Playground$Extra$sprite,
+		15,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.49130434782608695, 0.5263157894736843, 0.06521739130434782, 0.21052631578947367)),
+	cz: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.5652173913043478, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367)),
+	aV: A2(
+		$author$project$Playground$moveX,
+		0.5,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			14,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.6347826086956522, 0.5263157894736843, 0.06086956521739131, 0.21052631578947367))),
+	b0: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.004347826086956522, 0.7763157894736842, 0.06086956521739131, 0.21052631578947367)),
+	au: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.07391304347826087, 0.7894736842105262, 0.06086956521739131, 0.19736842105263158)),
+	av: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			15,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.7086956521739131, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367))),
+	b1: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			15,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.782608695652174, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367))),
+	b2: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			15,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.8565217391304348, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367))),
+	b3: A2(
+		$author$project$Playground$moveX,
+		1,
+		A2(
+			$author$project$Playground$moveY,
+			0.5,
+			A4(
+				$author$project$Playground$Extra$sprite,
+				15,
+				17,
+				$author$project$Extra$Jump$Sprite$image,
+				A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.9304347826086956, 0.763157894736842, 0.06521739130434782, 0.2236842105263158)))),
+	b4: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.14347826086956522, 0.7763157894736842, 0.06086956521739131, 0.21052631578947367)),
+	b5: A4(
+		$author$project$Playground$Extra$sprite,
+		13,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.21304347826086956, 0.7894736842105262, 0.05652173913043478, 0.19736842105263158)),
+	b6: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.2782608695652174, 0.7894736842105262, 0.06086956521739131, 0.19736842105263158)),
+	b7: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		15,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.34782608695652173, 0.7894736842105262, 0.06086956521739131, 0.19736842105263158)),
+	b8: A4(
+		$author$project$Playground$Extra$sprite,
+		14,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.41739130434782606, 0.7763157894736842, 0.06086956521739131, 0.21052631578947367)),
+	b9: A4(
+		$author$project$Playground$Extra$sprite,
+		15,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.48695652173913045, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367)),
+	cV: A4(
+		$author$project$Playground$Extra$sprite,
+		15,
+		16,
+		$author$project$Extra$Jump$Sprite$image,
+		A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.5608695652173913, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367)),
+	ca: A2(
+		$author$project$Playground$moveX,
+		1,
+		A4(
+			$author$project$Playground$Extra$sprite,
+			15,
+			16,
+			$author$project$Extra$Jump$Sprite$image,
+			A4($elm_explorations$linear_algebra$Math$Vector4$vec4, 0.6347826086956522, 0.7763157894736842, 0.06521739130434782, 0.21052631578947367)))
 };
-var $author$project$Playground$Font$GoodNeighbors$config = {bW: $author$project$Playground$Font$GoodNeighbors$image, b$: $author$project$Playground$Font$GoodNeighbors$letters, cc: 14, bD: 0.5};
+var $author$project$Extra$Jump$Sprite$idle = F2(
+	function (dir, frame_) {
+		var get = $author$project$Extra$Jump$Sprite$getAt(
+			A2(
+				$elm$core$Basics$modBy,
+				20,
+				$elm$core$Basics$round(frame_ / 5)));
+		switch (dir) {
+			case 0:
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.av,
+					get(
+						_List_fromArray(
+							[$author$project$Extra$Jump$Sprite$sheet.ca, $author$project$Extra$Jump$Sprite$sheet.av, $author$project$Extra$Jump$Sprite$sheet.b1, $author$project$Extra$Jump$Sprite$sheet.b2, $author$project$Extra$Jump$Sprite$sheet.b3])));
+			case 1:
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.aV,
+					get(
+						_List_fromArray(
+							[$author$project$Extra$Jump$Sprite$sheet.aq, $author$project$Extra$Jump$Sprite$sheet.aO])));
+			case 2:
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.aM,
+					get(
+						_List_fromArray(
+							[$author$project$Extra$Jump$Sprite$sheet.am, $author$project$Extra$Jump$Sprite$sheet.aG])));
+			case 3:
+				return $author$project$Extra$Jump$Sprite$sheet.Z;
+			case 4:
+				return $author$project$Extra$Jump$Sprite$sheet.aB;
+			case 5:
+				return A2($author$project$Playground$Extra$scaleX, -1, $author$project$Extra$Jump$Sprite$sheet.Z);
+			case 6:
+				return A2(
+					$author$project$Playground$Extra$scaleX,
+					-1,
+					A2(
+						$elm$core$Maybe$withDefault,
+						$author$project$Extra$Jump$Sprite$sheet.aM,
+						get(
+							_List_fromArray(
+								[$author$project$Extra$Jump$Sprite$sheet.am, $author$project$Extra$Jump$Sprite$sheet.aG]))));
+			case 7:
+				return A2(
+					$author$project$Playground$Extra$scaleX,
+					-1,
+					A2(
+						$elm$core$Maybe$withDefault,
+						$author$project$Extra$Jump$Sprite$sheet.aV,
+						get(
+							_List_fromArray(
+								[$author$project$Extra$Jump$Sprite$sheet.aq, $author$project$Extra$Jump$Sprite$sheet.aO]))));
+			default:
+				return $author$project$Extra$Jump$Sprite$sheet.au;
+		}
+	});
+var $author$project$Extra$Jump$TileMap$lut1 = 'data:image/png;base64,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';
+var $author$project$Extra$Jump$TileMap$fragTileMap = {
+	src: '\nprecision mediump float;\nvarying vec2 uv;\nuniform sampler2D uAtlas;\nuniform sampler2D uLut;\nuniform vec2 uAtlasSize;\nuniform vec2 uLutSize;\nuniform vec2 uTileSize;\nuniform float uA;\nfloat color2float(vec4 color) {\n    return\n    color.a * 255.0\n    + color.b * 256.0 * 255.0\n    + color.g * 256.0 * 256.0 * 255.0\n    + color.r * 256.0 * 256.0 * 256.0 * 255.0;\n    }\nfloat modI(float a, float b) {\n   float m = a - floor((a + 0.5) / b) * b;\n   return floor(m + 0.5);\n}\n\nvoid main () {\n   vec2 point = uv * uLutSize;\n   vec2 look = floor(point);\n   //(2i + 1)/(2N) Pixel center\n   vec2 coordinate = (look + 0.5) / uLutSize;\n   float uIndex = color2float(texture2D(uLut, coordinate));\n   vec2 grid = uAtlasSize / uTileSize;\n   // tile indexes in uAtlas starts from zero, but in lut zero is used for\n   // \"none\" placeholder\n   vec2 tile = vec2(modI((uIndex - 1.), grid.x), int(uIndex - 1.) / int(grid.x));\n   // inverting reading botom to top\n   tile.y = grid.y - tile.y - 1.;\n   vec2 fragmentOffsetPx = floor((point - look) * uTileSize);\n   //(2i + 1)/(2N) Pixel center\n   vec2 pixel = (floor(tile * uTileSize + fragmentOffsetPx) + 0.5) / uAtlasSize;\n   gl_FragColor = texture2D(uAtlas, pixel);\n   gl_FragColor.a *= float(uIndex > 0.);\n   gl_FragColor.rgb *= gl_FragColor.a;\n\n}\n    ',
+	attributes: {},
+	uniforms: {uA: 'cb', uAtlas: 'cW', uAtlasSize: 'cX', uLut: 'cY', uLutSize: 'cZ', uTileSize: 'c_'}
+};
 var $elm$core$Tuple$mapBoth = F3(
 	function (funcA, funcB, _v0) {
 		var x = _v0.a;
@@ -10196,226 +10116,176 @@ var $elm$core$Tuple$mapBoth = F3(
 			funcA(x),
 			funcB(y));
 	});
-var $author$project$Playground$words = F2(
-	function (color, string) {
-		var config = $author$project$Playground$Font$GoodNeighbors$config;
-		return {
-			d: 0,
-			g: A2(
-				$author$project$Playground$Internal$Textured,
-				config.bW,
-				function (t) {
-					var _v0 = A3(
-						$elm$core$Tuple$mapBoth,
-						$elm$core$Basics$toFloat,
-						$elm$core$Basics$toFloat,
-						$elm_explorations$webgl$WebGL$Texture$size(t));
-					var imgW = _v0.a;
-					var imgH = _v0.b;
-					var imgSize = A2($elm_explorations$linear_algebra$Math$Vector2$vec2, imgW, imgH);
-					var _v1 = A3(
-						$elm$core$List$foldl,
-						F2(
-							function (a, _v2) {
-								var l = _v2.a;
-								var w = _v2.b;
-								var c = config.b$(a);
-								var uv = A4($elm_explorations$linear_algebra$Math$Vector4$vec4, c.a / imgW, c.b / imgH, c.aF / imgW, c.a6 / imgH);
-								return _Utils_Tuple2(
-									A2(
-										$elm$core$List$cons,
-										A7($author$project$Playground$char, color, t, imgSize, c, w + (0.5 * c.aF), c.c, uv),
-										l),
-									(w + c.aF) + config.bD);
-							}),
-						_Utils_Tuple2(_List_Nil, 0),
-						$elm$core$String$toList(string));
-					var chars = _v1.a;
-					var width = _v1.b;
-					return {
-						d: 0,
-						g: $author$project$Playground$Internal$Group(chars),
-						c: 1,
-						e: 1,
-						f: 1,
-						a: (width - config.bD) * (-0.5),
-						b: 0
-					};
-				}),
-			c: 1,
-			e: 1,
-			f: 1,
-			a: 0,
-			b: 0
-		};
+var $author$project$Playground$Shader$vertImage = {
+	src: '\n            precision mediump float;\n            attribute vec2 aP;\n            uniform vec4 uT;\n            uniform vec2 uP;\n            varying vec2 uv;\n            void main () {\n                uv = aP * .5 + 0.5;\n                gl_Position = vec4(aP * mat2(uT) + uP, 0., 1.0);\n            }\n        ',
+	attributes: {aP: 'ai'},
+	uniforms: {uP: 'cc', uT: 'cd'}
+};
+var $author$project$Extra$Jump$TileMap$tileMap = F4(
+	function (tileW, tileH, tileset, lut) {
+		return A2(
+			$author$project$Playground$Advanced$useTexture,
+			tileset,
+			function (tileset_) {
+				return A2(
+					$author$project$Playground$Advanced$useTexture,
+					lut,
+					function (lut_) {
+						var _v0 = A3(
+							$elm$core$Tuple$mapBoth,
+							$elm$core$Basics$toFloat,
+							$elm$core$Basics$toFloat,
+							$elm_explorations$webgl$WebGL$Texture$size(lut_));
+						var w2 = _v0.a;
+						var h2 = _v0.b;
+						var _v1 = A3(
+							$elm$core$Tuple$mapBoth,
+							$elm$core$Basics$toFloat,
+							$elm$core$Basics$toFloat,
+							$elm_explorations$webgl$WebGL$Texture$size(tileset_));
+						var w1 = _v1.a;
+						var h1 = _v1.b;
+						return A3(
+							$author$project$Playground$Advanced$custom,
+							w2 * tileW,
+							h2 * tileH,
+							F3(
+								function (translate, scaleRotateSkew, opacity) {
+									return A5(
+										$elm_explorations$webgl$WebGL$entityWith,
+										$author$project$Playground$Render$defaultEntitySettings,
+										$author$project$Playground$Shader$vertImage,
+										$author$project$Extra$Jump$TileMap$fragTileMap,
+										$author$project$Playground$Shader$mesh,
+										{
+											cb: opacity,
+											cW: tileset_,
+											cX: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, w1, h1),
+											cY: lut_,
+											cZ: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, w2, h2),
+											cc: translate,
+											cd: scaleRotateSkew,
+											c_: A2($elm_explorations$linear_algebra$Math$Vector2$vec2, tileW, tileH)
+										});
+								}));
+					});
+			});
 	});
-var $author$project$Playground$zigzag = F4(
-	function (lo, hi, period, time) {
-		return lo + ((hi - lo) * $elm$core$Basics$abs(
-			(2 * A2($author$project$Playground$toFrac, period, time)) - 1));
-	});
-var $author$project$Shmup$view = F2(
-	function (computer, phase) {
-		switch (phase.$) {
-			case 2:
-				var state = phase.a;
-				return function (v) {
-					return (state.o > 0) ? $elm$core$List$singleton(
-						A3(
-							$author$project$Playground$move,
-							$elm$core$Basics$sin(
-								A4($author$project$Playground$zigzag, 0, 3, 0.125, computer.cg)) * state.o,
-							$elm$core$Basics$cos(
-								A4($author$project$Playground$zigzag, 0, 5, 0.125, computer.cg)) * state.o,
-							$author$project$Playground$group(v))) : v;
-				}(
-					A3(
-						$author$project$Shmup$andFold,
+var $author$project$Extra$Jump$TileMap$tileset1 = 'data:image/png;base64,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';
+var $author$project$Extra$Jump$TileMap$level1 = A4($author$project$Extra$Jump$TileMap$tileMap, 8, 8, $author$project$Extra$Jump$TileMap$tileset1, $author$project$Extra$Jump$TileMap$lut1);
+var $author$project$Extra$Jump$pxSnap = A2($elm$core$Basics$composeR, $elm$core$Basics$round, $elm$core$Basics$toFloat);
+var $author$project$Extra$Jump$Sprite$run = F2(
+	function (dir, frame_) {
+		var frame = $elm$core$Basics$round(frame_ / 5);
+		switch (dir) {
+			case 0:
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.av,
+					A2(
+						$author$project$Extra$Jump$Sprite$getAt,
+						A2($elm$core$Basics$modBy, 8, frame),
 						_List_fromArray(
-							['']),
-						function (_v2) {
-							return $author$project$Shmup$fillBackground(computer);
-						},
-						A3(
-							$author$project$Shmup$andFold,
-							state.O,
-							function (bullet) {
-								return $elm$core$List$cons(
-									A3(
-										$author$project$Playground$move,
-										bullet.a,
-										bullet.b,
-										bullet.aa(computer.cg)));
-							},
-							A3(
-								$author$project$Shmup$andFold,
-								state.x,
-								function (mob) {
-									return $elm$core$List$cons(
-										A3(
-											$author$project$Playground$move,
-											mob.a,
-											mob.b,
-											A2(
-												$author$project$Playground$scale,
-												(mob.i * 2) / 96,
-												A2($author$project$Playground$rotate, mob.d, $author$project$Shmup$meteor_big))));
-								},
-								A3(
-									$author$project$Shmup$andFold,
-									state.w,
-									function (_v1) {
-										var current = _v1.af;
-										var x = _v1.a;
-										var y = _v1.b;
-										return $elm$core$List$cons(
-											A2(
-												$author$project$Playground$scale,
-												2,
-												A3($author$project$Playground$move, x, y, current)));
-									},
-									_Utils_ap(
-										A2(
-											$elm$core$List$indexedMap,
-											F2(
-												function (i, icon) {
-													return A3($author$project$Playground$move, (computer.bC.aR - (35 * i)) - 25, computer.bC.ch - 25, icon);
-												}),
-											A2($elm$core$List$repeat, state.ah, $author$project$Shmup$lifeIcon)),
-										_List_fromArray(
-											[
-												A2(
-												$author$project$Playground$scale,
-												3,
-												A2(
-													$author$project$Playground$moveY,
-													computer.bC.ch - 25,
-													A2(
-														$author$project$Playground$words,
-														$author$project$Playground$white,
-														$elm$core$String$fromInt(state.z)))),
-												A3(
-												$author$project$Shmup$applyIf,
-												state.P > 60,
-												$author$project$Playground$fade(0),
-												A3(
-													$author$project$Shmup$applyIf,
-													state.P > 0,
-													A2(
-														$elm$core$Basics$composeR,
-														$author$project$Playground$fade(
-															A4($author$project$Playground$zigzag, 0, 1, 0.25, computer.cg)),
-														$author$project$Playground$moveY(0.5 * state.P)),
-													A3($author$project$Playground$move, state.H.a, state.H.b, $author$project$Shmup$ship)))
-											])))))));
+							[$author$project$Extra$Jump$Sprite$sheet.b0, $author$project$Extra$Jump$Sprite$sheet.au, $author$project$Extra$Jump$Sprite$sheet.b4, $author$project$Extra$Jump$Sprite$sheet.b5, $author$project$Extra$Jump$Sprite$sheet.b6, $author$project$Extra$Jump$Sprite$sheet.b7, $author$project$Extra$Jump$Sprite$sheet.b8, $author$project$Extra$Jump$Sprite$sheet.b9])));
 			case 1:
-				var state = phase.a;
-				return A3(
-					$author$project$Shmup$andFold,
-					_List_fromArray(
-						['']),
-					function (_v4) {
-						return $author$project$Shmup$fillBackground(computer);
-					},
-					A3(
-						$author$project$Shmup$andFold,
-						state.w,
-						function (_v3) {
-							var current = _v3.af;
-							var x = _v3.a;
-							var y = _v3.b;
-							return $elm$core$List$cons(
-								A2(
-									$author$project$Playground$scale,
-									2,
-									A3($author$project$Playground$move, x, y, current)));
-						},
-						A3(
-							$author$project$Shmup$andFold,
-							state.x,
-							function (mob) {
-								return $elm$core$List$cons(
-									A3(
-										$author$project$Playground$move,
-										mob.a,
-										mob.b,
-										A2(
-											$author$project$Playground$scale,
-											(mob.i * 2) / 96,
-											A2($author$project$Playground$rotate, mob.d, $author$project$Shmup$meteor_big))));
-							},
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.ap,
+					A2(
+						$author$project$Extra$Jump$Sprite$getAt,
+						A2($elm$core$Basics$modBy, 8, frame),
+						_List_fromArray(
+							[$author$project$Extra$Jump$Sprite$sheet.ap, $author$project$Extra$Jump$Sprite$sheet.aN, $author$project$Extra$Jump$Sprite$sheet.aP, $author$project$Extra$Jump$Sprite$sheet.aQ, $author$project$Extra$Jump$Sprite$sheet.aR, $author$project$Extra$Jump$Sprite$sheet.aS, $author$project$Extra$Jump$Sprite$sheet.aT, $author$project$Extra$Jump$Sprite$sheet.aU])));
+			case 2:
+				return A2(
+					$elm$core$Maybe$withDefault,
+					$author$project$Extra$Jump$Sprite$sheet.an,
+					A2(
+						$author$project$Extra$Jump$Sprite$getAt,
+						A2($elm$core$Basics$modBy, 8, frame),
+						_List_fromArray(
+							[$author$project$Extra$Jump$Sprite$sheet.aE, $author$project$Extra$Jump$Sprite$sheet.aF, $author$project$Extra$Jump$Sprite$sheet.aH, $author$project$Extra$Jump$Sprite$sheet.aI, $author$project$Extra$Jump$Sprite$sheet.aJ, $author$project$Extra$Jump$Sprite$sheet.aK, $author$project$Extra$Jump$Sprite$sheet.aL, $author$project$Extra$Jump$Sprite$sheet.an])));
+			case 3:
+				return $author$project$Extra$Jump$Sprite$sheet.Z;
+			case 4:
+				return $author$project$Extra$Jump$Sprite$sheet.aB;
+			case 5:
+				return A2($author$project$Playground$Extra$scaleX, -1, $author$project$Extra$Jump$Sprite$sheet.Z);
+			case 6:
+				return A2(
+					$author$project$Playground$Extra$scaleX,
+					-1,
+					A2(
+						$elm$core$Maybe$withDefault,
+						$author$project$Extra$Jump$Sprite$sheet.am,
+						A2(
+							$author$project$Extra$Jump$Sprite$getAt,
+							A2($elm$core$Basics$modBy, 8, frame),
 							_List_fromArray(
-								[
-									A2(
-									$author$project$Playground$scale,
-									5,
-									$author$project$Playground$group(
-										_List_fromArray(
-											[
-												A2(
-												$author$project$Playground$moveY,
-												A4($author$project$Playground$wave, 3, 7, 3, computer.cg),
-												A2(
-													$author$project$Playground$scale,
-													2,
-													A2($author$project$Playground$words, $author$project$Playground$white, 'SHUMP'))),
-												A2(
-												$author$project$Playground$moveY,
-												-20,
-												A2($author$project$Playground$words, $author$project$Playground$white, '> Press SPACE <')),
-												A2(
-												$author$project$Playground$moveY,
-												-40,
-												A2(
-													$author$project$Playground$words,
-													$author$project$Playground$white,
-													'Highscore ' + $elm$core$String$fromInt(state.z)))
-											])))
-								]))));
+								[$author$project$Extra$Jump$Sprite$sheet.aE, $author$project$Extra$Jump$Sprite$sheet.aF, $author$project$Extra$Jump$Sprite$sheet.aH, $author$project$Extra$Jump$Sprite$sheet.aI, $author$project$Extra$Jump$Sprite$sheet.aJ, $author$project$Extra$Jump$Sprite$sheet.aK, $author$project$Extra$Jump$Sprite$sheet.aL, $author$project$Extra$Jump$Sprite$sheet.an]))));
+			case 7:
+				return A2(
+					$author$project$Playground$Extra$scaleX,
+					-1,
+					A2(
+						$elm$core$Maybe$withDefault,
+						$author$project$Extra$Jump$Sprite$sheet.aq,
+						A2(
+							$author$project$Extra$Jump$Sprite$getAt,
+							A2($elm$core$Basics$modBy, 8, frame),
+							_List_fromArray(
+								[$author$project$Extra$Jump$Sprite$sheet.ap, $author$project$Extra$Jump$Sprite$sheet.aN, $author$project$Extra$Jump$Sprite$sheet.aP, $author$project$Extra$Jump$Sprite$sheet.aQ, $author$project$Extra$Jump$Sprite$sheet.aR, $author$project$Extra$Jump$Sprite$sheet.aS, $author$project$Extra$Jump$Sprite$sheet.aT, $author$project$Extra$Jump$Sprite$sheet.aU]))));
 			default:
-				return _List_Nil;
+				return $author$project$Extra$Jump$Sprite$sheet.au;
 		}
 	});
-var $author$project$Shmup$main = A3($author$project$Playground$game, $author$project$Shmup$view, $author$project$Shmup$update, $author$project$Shmup$Init);
-_Platform_export({'Shmup':{'init':$author$project$Shmup$main(
-	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
+var $author$project$Playground$scale = F2(
+	function (ns, _v0) {
+		var shape = _v0;
+		var x = shape.f;
+		var y = shape.g;
+		var a = shape.b;
+		var sx = shape.c;
+		var sy = shape.d;
+		var o = shape.a;
+		var form = shape.e;
+		return _Utils_update(
+			shape,
+			{c: sx * ns, d: sy * ns});
+	});
+var $elm$core$List$singleton = function (value) {
+	return _List_fromArray(
+		[value]);
+};
+var $author$project$Extra$Jump$view = F2(
+	function (computer, m) {
+		if (m.$ === 1) {
+			var memory = m.a;
+			var player = memory.n;
+			return $elm$core$List$singleton(
+				A2(
+					$author$project$Playground$scale,
+					$author$project$Extra$Jump$config.y,
+					A3(
+						$author$project$Playground$move,
+						(-player.i.f) * $author$project$Extra$Jump$config.y,
+						(-16) * $author$project$Extra$Jump$config.y,
+						$author$project$Playground$group(
+							_List_fromArray(
+								[
+									$author$project$Extra$Jump$TileMap$fullscreen,
+									$author$project$Extra$Jump$TileMap$level1,
+									A3(
+									$author$project$Playground$move,
+									$author$project$Extra$Jump$pxSnap(player.i.f),
+									$author$project$Extra$Jump$pxSnap(player.i.g),
+									((player.o.f > 0.5) || (_Utils_cmp(player.o.f, -0.5) < 0)) ? A2($author$project$Extra$Jump$Sprite$run, player.T, player.P) : A2($author$project$Extra$Jump$Sprite$idle, player.T, player.P)),
+									A2($author$project$Extra$Jump$debug, computer, memory)
+								])))));
+		} else {
+			return _List_Nil;
+		}
+	});
+var $author$project$Extra$Jump$main = A3($author$project$Playground$game, $author$project$Extra$Jump$view, $author$project$Extra$Jump$update, $author$project$Extra$Jump$Init);
+_Platform_export({'Extra':{'Jump':{'init':$author$project$Extra$Jump$main(
+	$elm$json$Json$Decode$succeed(0))(0)}}});}(this));

@@ -2,6 +2,7 @@ const webgl = require('webgl-raub');
 const glfw = require('glfw-raub');
 const { Window } = glfw;
 
+//Build iOS https://github.com/phoboslab/Ejecta
 class Body {
     constructor(window = {}) {
         // this.window = window;
@@ -33,7 +34,8 @@ class Canvas {
     tagName = "canvas";
     childNodes = [];
 
-    getContext() {
+    getContext(what, how) {
+        console.log("Canvas::getContext", how);
         return this.webgl;
     }
 
@@ -48,6 +50,12 @@ class Document {
     constructor(opts = {}) {
 
         const window = new Window(opts);
+        console.log("joystickPresent(0)", glfw.joystickPresent(0));
+        // console.log("joystickPresent(1)", glfw.joystickPresent(1));
+        // console.log("getJoystickName(0)",glfw.getJoystickName(0));
+        // console.log("getJoystickName(1)", glfw.getJoystickName(1));
+        // console.log("UpdateGamepadMappings", glfw.updateGamepadMappings);
+
 
         window.pageXOffset = 0;
         window.pageYOffset = 0;
@@ -64,10 +72,6 @@ class Document {
         window.removeEventListener = (sub, cb) => {
             window.off(sub, cb.wrap);
         };
-        window.on('resize', evt => {
-            webgl.drawingBufferWidth = window.framebufferSize.width;
-            webgl.drawingBufferHeight = window.framebufferSize.height;
-        });
 
         window.on('quit', evt => {
             // Close OpenGL window and terminate GLFW
@@ -96,9 +100,6 @@ class Document {
         this.documentElement.scrollHeight = body.scrollHeight;
         this.documentElement.offsetHeight = body.offsetHeight;
         this.documentElement.clientHeight = body.clientHeight;
-
-        webgl.drawingBufferWidth = window.framebufferSize.width;
-        webgl.drawingBufferHeight = window.framebufferSize.height;
 
 
         // this.canvas = new (proxy(new Canvas(webgl)));
@@ -162,17 +163,19 @@ class Document {
                 break;
             case "keydown":
             case "keyup":
-                cb.wrap = (evn) => {
-                    evn.key = codeToKey[evn.keyCode] || evn.key;
-                    cb(evn);
-                };
+                cb.wrap = cb;
                 this.window.on(sub, cb.wrap);
                 break;
             case "mouseup":
             case "mousemove":
             case "mousedown":
             case "click":
-                cb.wrap = cb;
+                cb.wrap = (env) => {
+                    ["movementX", "movementY", "clientX", "clientY", "pageX", "pageY", "x", "y"]
+                        .forEach((k) => env[k] *= window.devicePixelRatio);
+
+                    cb(env)
+                };
                 this.window.on(sub, cb.wrap);
                 break;
             default:
@@ -194,61 +197,9 @@ class Document {
     }
 }
 
-const codeToKey =
-    {
-        38: "ArrowUp",
-        39: "ArrowRight",
-        40: "ArrowDown",
-        37: "ArrowLeft",
-        18: "Alt",
-        91: "Meta",
-        17: "Control",
-        16: "Shift",
-        20: "CapsLock",
-        9: "Tab",
-        27: "Escape"
-    };
 
 
-// function proxy(target) {
-//     return class {
-//         constructor() {
-//             return new Proxy(target, this);
-//         }
-//
-//         get(target, prop, receiver) {
-//             const targetValue = Reflect.get(target, prop, receiver);
-//             if (typeof targetValue === 'function') {
-//                 return function (...args) {
-//                     const args___ = args.map((aaa) => {
-//                             let output = aaa instanceof Canvas ? "__CANVAS__" : aaa;
-//                             output = output instanceof Body ? "__Body__" : output;
-//                             output = output instanceof Document ? "__Document__" : output;
-//                             return prop === "webgl" ? "__webglContext__" : output;
-//                         }
-//                     );
-//                     console.log(`CALL ${target.constructor.name}.${prop}`, args___);
-//                     return targetValue.apply(this, args);
-//                 }
-//             } else {
-//                 let output = targetValue instanceof Canvas ? "__CANVAS__" : targetValue;
-//                 output = output instanceof Body ? "__Body__" : output;
-//                 output = output instanceof Document ? "__Document__" : output;
-//                 output = prop === "webgl" ? "__webgl__" : output;
-//                 if (prop !== "window")
-//                     console.log(`GET ${target.constructor.name}`, prop, output);
-//                 return targetValue;
-//             }
-//         }
-//
-//         set(target, prop, value) {
-//             console.log(`SET ${target.constructor.name}.${prop}`, value);
-//             return target[prop] = value;
-//         }
-//     }
-// }
-
-
+/// ---------------------requestAnimationFrame Start ---------------------
 const FRAME_RATE_INTERVAL = 1000 / 60;
 
 let allCallbacks = [];
@@ -299,5 +250,6 @@ const cancelAnimationFrame = function (callback) {
     shouldCheckCancelRaf = true;
 };
 
+/// ---------------------requestAnimationFrame End ---------------------
 // module.exports = { Document: proxy(new Document()) };
 module.exports = { Document, requestAnimationFrame, cancelAnimationFrame };

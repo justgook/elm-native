@@ -1,0 +1,12 @@
+.cproject
+.idea
+.lock-wscript
+.DS_Store
+.project
+.vscode
+node_modules/
+bin-*/
+*.log
+doc/jest/
+src/build/
+src/FreeImage/

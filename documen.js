@@ -1,5 +1,5 @@
-const webgl = require('webgl-raub');
-const glfw = require('glfw-raub');
+const webgl = require('./desktop/webgl');
+const glfw = require('./desktop/window');
 const { Window } = glfw;
 
 //Build iOS https://github.com/phoboslab/Ejecta

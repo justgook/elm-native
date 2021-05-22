@@ -3,9 +3,33 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "pkg ./"
+  },
+  "workspaces": [
+    "desktop",
+    "mobile"
+  ],
   "dependencies": {
-    "glfw-raub": "4.2.1",
-    "image-raub": "3.1.1",
-    "webgl-raub": "2.0.4"
+  },
+  "bin": "index.js",
+  "pkg": {
+    "scripts": [
+      "desktop/*.js"
+    ],
+    "assets": [
+      "desktop/build/segfault.node",
+      "desktop/build/webgl.node",
+      "desktop/build/glfw.node",
+      "desktop/build/image.node",
+      "desktop/build/freeimage.dylib",
+      "desktop/build/glew.dylib",
+      "desktop/build/glfw.dylib"
+    ],
+    "targets": [
+      "node14-macos-x64"
+    ],
+    "outputPath": "dist"
   }
 }

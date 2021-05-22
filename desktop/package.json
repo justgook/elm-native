@@ -1,0 +1,16 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "scripts": {
+    "build:deps-opengl-raub::glew": "cd deps-opengl-raub && sh src/osx-glew.sh && cd ..",
+    "build:deps-opengl-raub::glfw": "cd deps-opengl-raub && sh src/osx-glfw.sh && cd ..",
+    "build:deps-freeimage-raub": "cd deps-freeimage-raub && sh src/osx.sh && cd ..",
+    "build:segfault-raub": "cd segfault-raub/src && node-gyp rebuild && cd ../..",
+    "build:image-raub": "cd image-raub/src && node-gyp rebuild && cd ../..",
+    "build:webgl-raub": "cd webgl-raub/src && node-gyp rebuild && cd ../..",
+    "build:glfw-raub": "cd glfw-raub/src && node-gyp rebuild && cd ../.."
+  },
+  "dependencies": {
+    "node-addon-api": "^3.1.0"
+  }
+}

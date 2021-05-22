@@ -1,0 +1,13 @@
+.cproject
+.idea
+.lock-wscript
+.DS_Store
+.project
+.vscode
+node_modules/
+doc/jest/
+src/build/
+src/glew*/
+src/glfw*/
+bin-*/
+*.log
